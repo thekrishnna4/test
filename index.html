@@ -7,7 +7,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
     
     <style>
-        :root {
+   /* 1. Register your custom fonts */
+    @font-face {
+        font-family: 'Harmond';
+        src: url('Harmond Bold.otf') format('opentype');
+        font-weight: bold;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Absans';
+        src: url('Absans Regular.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    /* 2. Update your variables to use them */
+    :root {
+        --birthday-pink: #FF6B9D; 
+        --text-black: #1a1a1a;
+        --font-heading: 'Harmond', serif; /* Now using your file */
+        --font-body: 'Absans', sans-serif; /* Now using your file */
+    }
+    
+    /* ... rest of your CSS remains the same ... */    
+     :root {
             --birthday-pink: #FF6B9D; 
             --text-black: #1a1a1a;
             --font-heading: 'Playfair Display', serif; /* Harmond Alternative */
@@ -155,3 +179,4 @@
 
 </body>
 </html>
+
