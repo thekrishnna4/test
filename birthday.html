@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Growing Love</title>
+    <style>
+        @font-face {
+            font-family: 'Harmond';
+            src: url('Harmond Bold.otf') format('opentype');
+            font-weight: bold;
+        }
+
+        @font-face {
+            font-family: 'Absans';
+            src: url('Absans Regular.otf') format('opentype');
+            font-weight: normal;
+        }
+
+        :root {
+            --birthday-pink: #FF6B9D;
+            --soft-pink: #ffafbd;
+            --dark-pink: #e91e63;
+            --text-black: #1a1a1a;
+            --font-heading: 'Harmond', serif;
+            --font-body: 'Absans', sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #ffffff;
+            font-family: var(--font-body);
+            color: var(--text-black);
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        /* Full screen sections for smooth scrolling */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* 1. THE TREE ANIMATION */
+        .tree-container {
+            position: relative;
+            width: 300px;
+            height: 400px;
+        }
+
+        .stem {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawStem 3s ease-out forwards;
+        }
+
+        @keyframes drawStem {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .heart-leaf {
+            opacity: 0;
+            transform: scale(0);
+            transform-origin: center;
+            animation: popHeart 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popHeart {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .scroll-hint {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: var(--birthday-pink);
+            animation: bounce 2s infinite;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 4s, bounce 2s infinite 4s;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* 2. BIRTHDAY CONTENT (Visible on Scroll) */
+        .birthday-content {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .bday-text {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* Simple Cake Animation */
+        .cake-container {
+            font-size: 5rem;
+            margin: 20px 0;
+            animation: sway 3s ease-in-out infinite;
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .btn-next {
+            display: inline-block;
+            background-color: var(--birthday-pink);
+            color: white;
+            text-decoration: none;
+            padding: 15px 50px;
+            font-weight: 600;
+            margin-top: 30px;
+            border: none;
+        }
+
+        .click-here {
+            display: block;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            color: #888;
+        }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="section">
+        <div class="tree-container">
+            <svg viewBox="0 0 200 200" width="100%" height="100%">
+                <path class="stem" d="M100,180 Q100,100 100,40 M100,140 Q130,120 150,100 M100,120 Q70,90 50,80" 
+                      fill="none" stroke="#5D4037" stroke-width="4" stroke-linecap="round"/>
+                
+                <text class="heart-leaf" x="90" y="40" fill="#FF6B9D" style="animation-delay: 2.5s;">❤</text>
+                <text class="heart-leaf" x="145" y="95" fill="#ffafbd" style="animation-delay: 2.8s;">❤</text>
+                <text class="heart-leaf" x="45" y="75" fill="#e91e63" style="animation-delay: 3.1s;">❤</text>
+                <text class="heart-leaf" x="110" y="60" fill="#FF6B9D" style="animation-delay: 3.4s;">❤</text>
+                <text class="heart-leaf" x="70" y="110" fill="#ffafbd" style="animation-delay: 3.7s;">❤</text>
+            </svg>
+        </div>
+        <div class="scroll-hint">SCROLL DOWN</div>
+    </div>
+
+    <div class="section">
+        <div class="birthday-content">
+            <h1 class="bday-text">Happy Birthday Sneha</h1>
+            
+            <div class="cake-container">
+                🎂
+                </div>
+
+            <a href="gallery.html" class="btn-next">NEXT</a>
+            <span class="click-here">click here *</span>
+        </div>
+    </div>
+
+</body>
+</html>
