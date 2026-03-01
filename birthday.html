@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Perfect Heart Tree</title>
+    <title>For Sneha</title>
     <style>
         @font-face { font-family: 'Harmond'; src: url('Harmond Bold.otf') format('opentype'); font-weight: bold; }
         @font-face { font-family: 'Absans'; src: url('Absans Regular.otf') format('opentype'); font-weight: normal; }
 
         :root {
-            --pink-1: #FF6B9D; --pink-2: #FFB7CE; --pink-3: #D81B60;
+            --pink-main: #FF6B9D;
+            --polaroid-tan: #f4ece1; /* Light brown/tan frame */
             --font-heading: 'Harmond', serif;
             --font-body: 'Absans', sans-serif;
         }
@@ -26,46 +27,45 @@
             padding: 40px 20px;
         }
 
-        /* --- THE DENSE HEART-SHAPED TREE --- */
-        #tree-wrapper {
-            position: relative;
-            width: 100%;
-            height: 450px; /* Increased height */
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
+        /* --- DOODLE HEART DRAWING --- */
+        .heart-draw-container {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
         }
 
-        #hearts-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 10;
+        .heart-path {
+            stroke: var(--pink-main);
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawHeart 3s ease-in-out forwards;
         }
 
-        .stem-svg { width: 220px; z-index: 5; margin-bottom: 20px; }
-        .stem { fill: none; stroke: #4E342E; stroke-width: 6; stroke-linecap: round; }
-
-        .heart-leaf {
-            position: absolute;
-            animation: pop 0.5s ease-out forwards;
-            opacity: 0;
+        @keyframes drawHeart {
+            to { stroke-dashoffset: 0; }
         }
 
-        @keyframes pop {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 0.9; } /* Slightly higher opacity */
+        .scroll-arrow {
+            color: var(--pink-main);
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+            margin-top: 10px;
         }
 
-        /* --- TYPING TEXT --- */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(10px); }
+            60% { transform: translateY(5px); }
+        }
+
+        /* --- TEXT SECTION --- */
         .bday-text {
             font-family: var(--font-heading);
-            font-size: clamp(2.5rem, 10vw, 5rem);
-            line-height: 1.1;
-            margin: 40px 0;
-            width: 100%;
+            font-size: clamp(2.5rem, 12vw, 6rem);
+            line-height: 1;
+            margin-bottom: 50px;
         }
 
         .bday-text span {
@@ -76,123 +76,97 @@
             margin: 0 auto;
         }
 
-        .sneha-long {
-            font-size: clamp(1.5rem, 6vw, 3rem) !important; 
-            word-break: break-all;
-        }
+        .sneha-long { font-size: clamp(1.8rem, 8vw, 4rem) !important; }
 
-        .animate-type { animation: type 1s steps(20) forwards; }
+        .animate-type { animation: type 1.2s steps(20) forwards; }
 
         /* --- POLAROID GALLERY --- */
         .gallery-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
             width: 100%;
-            max-width: 900px;
-            margin: 40px 0;
+            max-width: 1000px;
+            margin-top: 40px;
         }
 
         .polaroid {
-            background: white;
-            padding: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            border-radius: 4px; /* Minimal radius */
+            background: var(--polaroid-tan);
+            padding: 15px 15px 40px 15px; /* Extra bottom padding for Polaroid look */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.4s ease;
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(50px);
         }
 
-        .polaroid:hover {
-            transform: scale(1.05) rotate(1deg);
-            box-shadow: 0 10px 15px rgba(0,0,0,0.4);
-        }
-
-        .gallery-img {
+        .polaroid img {
             width: 100%;
             aspect-ratio: 1/1;
             object-fit: cover;
-            margin-bottom: 10px; /* Space for the "caption" area */
+            display: block;
         }
 
-        .polaroid.show { animation: slideIn 0.8s ease forwards; }
+        .polaroid.show { 
+            /* Slower, smoother photo appearance */
+            animation: fadeInSlow 1.5s ease forwards; 
+        }
 
-        /* --- NEXT BUTTON --- */
-        .cake-photo {
-            width: 80vw;
-            max-width: 400px;
-            border-radius: 20px;
-            margin: 20px 0;
+        @keyframes fadeInSlow {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- POPUP --- */
+        #popup-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.95); /* Minimal light background */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .popup-inner {
+            max-width: 85%;
+            animation: simplePop 0.3s ease-out;
+        }
+
+        #popup-text {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        @keyframes simplePop {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .btn-next {
-            background: var(--pink-1);
+            margin-top: 60px;
+            background: var(--pink-main);
             color: white;
             padding: 20px 80px;
             text-decoration: none;
             font-weight: bold;
             display: inline-block;
-            margin-top: 20px;
-        }
-
-        /* --- POPUP OVERLAY --- */
-        #popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        #popup-content {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            max-width: 80%;
-            position: relative;
-        }
-
-        #popup-img {
-            max-width: 100%;
-            max-height: 60vh;
-            margin-bottom: 20px;
-        }
-
-        #popup-text {
-            font-size: 1.5rem;
-            color: var(--text-black);
-            font-family: var(--font-body);
-        }
-
-        #close-popup {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #333;
         }
 
         @keyframes type { from { width: 0; } to { width: 100%; } }
-        @keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div class="section">
-        <div id="tree-wrapper">
-            <div id="hearts-container"></div>
-            <svg class="stem-svg" viewBox="0 0 200 200">
-                <path class="stem" d="M100,200 L100,100 M100,150 L130,120 M100,140 L70,110" />
+        <div class="heart-draw-container">
+            <svg viewBox="0 0 100 100">
+                <path class="heart-path" d="M50,30 C35,10 10,25 10,45 C10,65 35,85 50,90 C65,85 90,65 90,45 C90,25 65,10 50,30" />
             </svg>
         </div>
-        <p style="color: var(--pink-1); letter-spacing: 5px;">SCROLL DOWN</p>
+        <div class="scroll-arrow">↓</div>
     </div>
 
     <div class="section" id="wish-section">
@@ -202,123 +176,62 @@
             <span id="l3" class="sneha-long">Snehaaaaaaaaaaaaaaaaaaaa</span>
         </h1>
 
-        <img src="cake.jpg" alt="Cake" class="cake-photo">
+        <img src="cake.jpg" alt="Cake" style="width: 250px; border-radius: 10px; margin-bottom: 50px;">
 
         <div class="gallery-container">
-            <div class="polaroid gallery-img-item" data-message="“She’s not just pretty, she’s my peace.”">
-                <img src="snehap1.JPEG" class="gallery-img" alt="Sneha 1">
-            </div>
-            <div class="polaroid gallery-img-item" data-message="“In a world full of trends, she’s my forever.”">
-                <img src="snehap2.JPEG" class="gallery-img" alt="Sneha 2">
-            </div>
-            <div class="polaroid gallery-img-item" data-message="“Her smile >>> everything.”">
-                <img src="snehap3.jpg" class="gallery-img" alt="Sneha 3">
-            </div>
-            <div class="polaroid gallery-img-item" data-message="“Lucky? No. Blessed.”">
-                <img src="snehap4.jpg" class="gallery-img" alt="Sneha 4">
-            </div>
-            <div class="polaroid gallery-img-item" data-message="“She walked in, and suddenly life made sense.”">
-                <img src="snehap5.jpg" class="gallery-img" alt="Sneha 5">
-            </div>
-            <div class="polaroid gallery-img-item" data-message="“Soft heart. Strong soul. My girl.”">
-                <img src="snehap6.jpeg" class="gallery-img" alt="Sneha 6">
-            </div>
-            <div class="polaroid gallery-img-item" data-message="“Every love song finally has a face.”">
-                <img src="snehap7.jpeg" class="gallery-img" alt="Sneha 7">
-            </div>
-            <div class="polaroid gallery-img-item" data-message="“Mine. Always.” ❤️">
-                <img src="snehap8.jpeg" class="gallery-img" alt="Sneha 8">
-            </div>
+            <div class="polaroid" data-msg="“She’s not just pretty, she’s my peace.”"><img src="snehap1.JPEG"></div>
+            <div class="polaroid" data-msg="““Her smile >>> everything.”"><img src="snehap2.JPEG"></div>
+            <div class="polaroid" data-msg="In a world full of trends, she’s my forever.”"><img src="snehap3.jpg"></div>
+            <div class="polaroid" data-msg="“Lucky? No. Blessed.”"><img src="snehap4.jpg"></div>
+            <div class="polaroid" data-msg="“She walked in, and suddenly life made sense.”"><img src="snehap5.jpg"></div>
+            <div class="polaroid" data-msg="“Soft heart. Strong soul. My girl.”"><img src="snehap6.jpeg"></div>
+            <div class="polaroid" data-msg="“Every love song finally has a face.”"><img src="snehap7.jpeg"></div>
+            <div class="polaroid" data-msg="“Mine. Always.” ❤️"><img src="snehap8.jpeg"></div>
         </div>
 
-        <a href="gallery.html" class="btn-next">NEXT</a>
-        <p style="margin-top:10px; color:#999;">click here *</p>
+        <a href="story.html" class="btn-next">NEXT</a>
+        <p style="margin-top: 15px; color: #999; font-size: 0.8rem;">click here *</p>
     </div>
 
     <div id="popup-overlay">
-        <div id="popup-content">
-            <span id="close-popup">&times;</span>
-            <img id="popup-img" src="" alt="Popup Image">
+        <div class="popup-inner">
+            <img id="popup-img" src="" style="width: 100%; max-height: 70vh; object-fit: contain;">
             <p id="popup-text"></p>
         </div>
     </div>
 
     <script>
-        const container = document.getElementById('hearts-container');
-        const colors = ['#FF6B9D', '#FFB7CE', '#D81B60'];
-
-        function createHeartTree() {
-            const totalHearts = 600; // Increased count for density
-            const centerX = window.innerWidth / 2;
-            const centerY = 160; // Adjusted for better placement
-
-            for (let i = 0; i < totalHearts; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.className = 'heart-leaf';
-                    heart.innerHTML = '❤';
-                    heart.style.color = colors[Math.floor(Math.random() * 3)];
-
-                    const t = Math.random() * Math.PI * 2;
-                    const r = (Math.random() * 10) + 7; // size multiplier
-                    
-                    const x = 16 * Math.pow(Math.sin(t), 3);
-                    const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-
-                    heart.style.left = (centerX + x * r) + 'px';
-                    heart.style.top = (centerY + y * r) + 'px';
-                    heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
-                    container.appendChild(heart);
-                }, i * 4); // Slightly faster cascade
-            }
-        }
-
-        window.onload = createHeartTree;
-
-        // Trigger animations on scroll
+        // Scroll Logic for Typing and Photos
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     document.getElementById('l1').classList.add('animate-type');
-                    setTimeout(() => document.getElementById('l2').classList.add('animate-type'), 1000);
-                    setTimeout(() => document.getElementById('l3').classList.add('animate-type'), 2000);
+                    setTimeout(() => document.getElementById('l2').classList.add('animate-type'), 1200);
+                    setTimeout(() => document.getElementById('l3').classList.add('animate-type'), 2400);
                     
-                    // Staggered gallery photos
-                    document.querySelectorAll('.polaroid').forEach((img, index) => {
-                        setTimeout(() => img.classList.add('show'), 2500 + (index * 200));
+                    document.querySelectorAll('.polaroid').forEach((p, i) => {
+                        setTimeout(() => p.classList.add('show'), 3500 + (i * 400)); // Much slower appearance
                     });
                 }
             });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.1 });
 
         observer.observe(document.getElementById('wish-section'));
 
         // Popup Logic
         const overlay = document.getElementById('popup-overlay');
-        const popupImg = document.getElementById('popup-img');
-        const popupText = document.getElementById('popup-text');
-        const closeBtn = document.getElementById('close-popup');
+        const popImg = document.getElementById('popup-img');
+        const popText = document.getElementById('popup-text');
 
-        document.querySelectorAll('.gallery-img-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const imgSrc = item.querySelector('.gallery-img').src;
-                const message = item.dataset.message;
-                
-                popupImg.src = imgSrc;
-                popupText.innerText = message;
+        document.querySelectorAll('.polaroid').forEach(p => {
+            p.addEventListener('click', () => {
+                popImg.src = p.querySelector('img').src;
+                popText.innerText = p.getAttribute('data-msg');
                 overlay.style.display = 'flex';
             });
         });
 
-        closeBtn.addEventListener('click', () => {
-            overlay.style.display = 'none';
-        });
-
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                overlay.style.display = 'none';
-            }
-        });
+        overlay.addEventListener('click', () => { overlay.style.display = 'none'; });
     </script>
 </body>
 </html>
