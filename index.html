@@ -3,106 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <title>For Sneha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;500&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --primary-pink: #ffafbd;
-            --secondary-pink: #ffc3a0;
-            --text-color: #4a4a4a;
+            --birthday-pink: #FF6B9D; /* A vibrant, modern pink */
+            --text-black: #1a1a1a;
+            /* Update these font names if you have the local files */
+            --font-heading: 'Playfair Display', serif; /* Stands in for Harmond */
+            --font-body: 'Inter', sans-serif;           /* Stands in for Absans */
         }
 
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
-            font-family: 'Montserrat', sans-serif;
-            overflow: hidden; /* Keeps hearts contained */
-            background: linear-gradient(135deg, var(--primary-pink), var(--secondary-pink));
+            background-color: #ffffff;
+            font-family: var(--font-body);
+            color: var(--text-black);
+            overflow-x: hidden;
         }
 
-        /* Hero Container */
-        .hero {
+        .container {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-            color: white;
+            justify-content: space-between;
+            min-height: 100vh;
+            padding: 0 10%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Left Side Content */
+        .content-left {
+            flex: 1;
             z-index: 2;
-            position: relative;
         }
 
         h1 {
-            font-family: 'Dancing Script', cursive;
+            font-family: var(--font-heading);
             font-size: 5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            margin: 0;
+            line-height: 1.1;
         }
 
         p {
             font-size: 1.2rem;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
+            margin: 20px 0 40px 0;
+            font-weight: 300;
         }
 
-        /* The Button */
         .btn {
-            padding: 15px 40px;
-            background: white;
-            color: #ff6b6b;
+            display: inline-block;
+            background-color: var(--birthday-pink);
+            color: #ffffff;
             text-decoration: none;
-            border-radius: 50px;
+            padding: 18px 45px;
             font-weight: 600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: none;
         }
 
         .btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 107, 157, 0.3);
         }
 
-        /* Floating Hearts Animation */
-        .heart {
+        /* Right Side Image & Doodle */
+        .content-right {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .photo-wrapper {
+            position: relative;
+            width: 400px;
+            height: 500px;
+        }
+
+        .photo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+            border-radius: 4px; /* Slight softening of edges */
+        }
+
+        /* The Sunflower Doodle Background */
+        .sunflower-doodle {
             position: absolute;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 20px;
-            animation: float 6s linear infinite;
-            top: 100%;
+            top: -50px;
+            right: -50px;
+            width: 500px;
+            height: 500px;
+            z-index: 1;
+            opacity: 0.8;
+            pointer-events: none;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column-reverse;
+                padding: 50px 20px;
+                text-align: center;
+            }
+            .content-right {
+                justify-content: center;
+                margin-bottom: 50px;
+            }
+            .photo-wrapper {
+                width: 300px;
+                height: 380px;
+            }
+            h1 { font-size: 3.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="hero">
-        <h1>Happy Birthday, Sneha</h1>
-        <p>A SPECIAL JOURNEY JUST FOR YOU</p>
-        <a href="story.html" class="btn">Open Your Gift</a>
+    <div class="container">
+        <div class="content-left">
+            <h1>Hello Sneha</h1>
+            <p>I have created something for you.</p>
+            <a href="story.html" class="btn">Start</a>
+        </div>
+
+        <div class="content-right">
+            <div class="photo-wrapper">
+                <img src="sneha-photo.jpg" alt="Sneha">
+                
+                <svg class="sunflower-doodle" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#FFD700" d="M100,100 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0" opacity="0.2"/>
+                    <g fill="none" stroke="#FFD700" stroke-width="2" stroke-linecap="round">
+                        <path d="M100,20 Q110,50 100,60 Q90,50 100,20" />
+                        <path d="M100,180 Q110,150 100,140 Q90,150 100,180" />
+                        <path d="M180,100 Q150,110 140,100 Q150,90 180,100" />
+                        <path d="M20,100 Q50,110 60,100 Q50,90 20,100" />
+                        </g>
+                    <circle cx="100" cy="100" r="30" fill="#6B4423" fill-opacity="0.1" />
+                </svg>
+            </div>
+        </div>
     </div>
 
-    <script>
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
-            heart.style.opacity = Math.random();
-            document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 6000);
-        }
-        setInterval(createHeart, 300);
-    </script>
 </body>
 </html>
-
