@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Heart Tree</title>
+    <title>The Perfect Heart Tree</title>
     <style>
         @font-face { font-family: 'Harmond'; src: url('Harmond Bold.otf') format('opentype'); font-weight: bold; }
         @font-face { font-family: 'Absans'; src: url('Absans Regular.otf') format('opentype'); font-weight: normal; }
@@ -26,11 +26,11 @@
             padding: 40px 20px;
         }
 
-        /* --- THE HEART-SHAPED TREE --- */
+        /* --- THE DENSE HEART-SHAPED TREE --- */
         #tree-wrapper {
             position: relative;
             width: 100%;
-            height: 400px;
+            height: 450px; /* Increased height */
             display: flex;
             justify-content: center;
             align-items: flex-end;
@@ -45,7 +45,7 @@
             z-index: 10;
         }
 
-        .stem-svg { width: 200px; z-index: 5; margin-bottom: 20px; }
+        .stem-svg { width: 220px; z-index: 5; margin-bottom: 20px; }
         .stem { fill: none; stroke: #4E342E; stroke-width: 6; stroke-linecap: round; }
 
         .heart-leaf {
@@ -56,10 +56,10 @@
 
         @keyframes pop {
             0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 0.9; } /* Slightly higher opacity */
         }
 
-        /* --- RESPONSIVE TYPING TEXT --- */
+        /* --- TYPING TEXT --- */
         .bday-text {
             font-family: var(--font-heading);
             font-size: clamp(2.5rem, 10vw, 5rem);
@@ -69,14 +69,13 @@
         }
 
         .bday-text span {
-            display: block; /* Forces line breaks */
+            display: block;
             overflow: hidden;
             white-space: nowrap;
             width: 0;
             margin: 0 auto;
         }
 
-        /* Long name fix: specifically targets the extra long 'sneha' string */
         .sneha-long {
             font-size: clamp(1.5rem, 6vw, 3rem) !important; 
             word-break: break-all;
@@ -84,28 +83,42 @@
 
         .animate-type { animation: type 1s steps(20) forwards; }
 
-        /* --- PHOTO GALLERY ANIMATION --- */
+        /* --- POLAROID GALLERY --- */
         .gallery-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             margin: 40px 0;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border-radius: 4px; /* Minimal radius */
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .polaroid:hover {
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.4);
         }
 
         .gallery-img {
             width: 100%;
             aspect-ratio: 1/1;
             object-fit: cover;
-            border-radius: 10px;
-            opacity: 0;
-            transform: translateY(30px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin-bottom: 10px; /* Space for the "caption" area */
         }
 
-        .gallery-img.show { animation: slideIn 0.8s ease forwards; }
+        .polaroid.show { animation: slideIn 0.8s ease forwards; }
 
+        /* --- NEXT BUTTON --- */
         .cake-photo {
             width: 80vw;
             max-width: 400px;
@@ -121,6 +134,49 @@
             font-weight: bold;
             display: inline-block;
             margin-top: 20px;
+        }
+
+        /* --- POPUP OVERLAY --- */
+        #popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #popup-content {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 80%;
+            position: relative;
+        }
+
+        #popup-img {
+            max-width: 100%;
+            max-height: 60vh;
+            margin-bottom: 20px;
+        }
+
+        #popup-text {
+            font-size: 1.5rem;
+            color: var(--text-black);
+            font-family: var(--font-body);
+        }
+
+        #close-popup {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #333;
         }
 
         @keyframes type { from { width: 0; } to { width: 100%; } }
@@ -149,17 +205,42 @@
         <img src="cake.jpg" alt="Cake" class="cake-photo">
 
         <div class="gallery-container">
-            <img src="snehap1.jpeg" class="gallery-img" alt="Sneha 1">
-            <img src="snehap2.jpeg" class="gallery-img" alt="Sneha 2">
-            <img src="snehap3.jpg" class="gallery-img" alt="Sneha 3">
-            <img src="snehap4.jpg" class="gallery-img" alt="Sneha 4">
-            <img src="snehap5.jpg" class="gallery-img" alt="Sneha 5">
-            <img src="snehap6.jpeg" class="gallery-img" alt="Sneha 6">
-            <img src="snehap7.jpeg" class="gallery-img" alt="Sneha 7">
+            <div class="polaroid gallery-img-item" data-message="“She’s not just pretty, she’s my peace.”">
+                <img src="snehap1.JPEG" class="gallery-img" alt="Sneha 1">
+            </div>
+            <div class="polaroid gallery-img-item" data-message="“In a world full of trends, she’s my forever.”">
+                <img src="snehap2.JPEG" class="gallery-img" alt="Sneha 2">
+            </div>
+            <div class="polaroid gallery-img-item" data-message="“Her smile >>> everything.”">
+                <img src="snehap3.jpg" class="gallery-img" alt="Sneha 3">
+            </div>
+            <div class="polaroid gallery-img-item" data-message="“Lucky? No. Blessed.”">
+                <img src="snehap4.jpg" class="gallery-img" alt="Sneha 4">
+            </div>
+            <div class="polaroid gallery-img-item" data-message="“She walked in, and suddenly life made sense.”">
+                <img src="snehap5.jpg" class="gallery-img" alt="Sneha 5">
+            </div>
+            <div class="polaroid gallery-img-item" data-message="“Soft heart. Strong soul. My girl.”">
+                <img src="snehap6.jpeg" class="gallery-img" alt="Sneha 6">
+            </div>
+            <div class="polaroid gallery-img-item" data-message="“Every love song finally has a face.”">
+                <img src="snehap7.jpeg" class="gallery-img" alt="Sneha 7">
+            </div>
+            <div class="polaroid gallery-img-item" data-message="“Mine. Always.” ❤️">
+                <img src="snehap8.jpeg" class="gallery-img" alt="Sneha 8">
+            </div>
         </div>
 
         <a href="gallery.html" class="btn-next">NEXT</a>
         <p style="margin-top:10px; color:#999;">click here *</p>
+    </div>
+
+    <div id="popup-overlay">
+        <div id="popup-content">
+            <span id="close-popup">&times;</span>
+            <img id="popup-img" src="" alt="Popup Image">
+            <p id="popup-text"></p>
+        </div>
     </div>
 
     <script>
@@ -167,9 +248,9 @@
         const colors = ['#FF6B9D', '#FFB7CE', '#D81B60'];
 
         function createHeartTree() {
-            const totalHearts = 400;
+            const totalHearts = 600; // Increased count for density
             const centerX = window.innerWidth / 2;
-            const centerY = 150; 
+            const centerY = 160; // Adjusted for better placement
 
             for (let i = 0; i < totalHearts; i++) {
                 setTimeout(() => {
@@ -178,12 +259,9 @@
                     heart.innerHTML = '❤';
                     heart.style.color = colors[Math.floor(Math.random() * 3)];
 
-                    // HEART FORMULA (Parametric equation for heart shape)
                     const t = Math.random() * Math.PI * 2;
-                    const r = (Math.random() * 10) + 5; // size multiplier
+                    const r = (Math.random() * 10) + 7; // size multiplier
                     
-                    // x = 16sin^3(t)
-                    // y = 13cos(t) - 5cos(2t) - 2cos(3t) - cos(4t)
                     const x = 16 * Math.pow(Math.sin(t), 3);
                     const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
 
@@ -191,7 +269,7 @@
                     heart.style.top = (centerY + y * r) + 'px';
                     heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
                     container.appendChild(heart);
-                }, i * 5);
+                }, i * 4); // Slightly faster cascade
             }
         }
 
@@ -206,7 +284,7 @@
                     setTimeout(() => document.getElementById('l3').classList.add('animate-type'), 2000);
                     
                     // Staggered gallery photos
-                    document.querySelectorAll('.gallery-img').forEach((img, index) => {
+                    document.querySelectorAll('.polaroid').forEach((img, index) => {
                         setTimeout(() => img.classList.add('show'), 2500 + (index * 200));
                     });
                 }
@@ -214,6 +292,33 @@
         }, { threshold: 0.2 });
 
         observer.observe(document.getElementById('wish-section'));
+
+        // Popup Logic
+        const overlay = document.getElementById('popup-overlay');
+        const popupImg = document.getElementById('popup-img');
+        const popupText = document.getElementById('popup-text');
+        const closeBtn = document.getElementById('close-popup');
+
+        document.querySelectorAll('.gallery-img-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.querySelector('.gallery-img').src;
+                const message = item.dataset.message;
+                
+                popupImg.src = imgSrc;
+                popupText.innerText = message;
+                overlay.style.display = 'flex';
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            overlay.style.display = 'none';
+        });
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
