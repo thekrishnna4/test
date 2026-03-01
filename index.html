@@ -8,11 +8,10 @@
     
     <style>
         :root {
-            --birthday-pink: #FF6B9D; /* A vibrant, modern pink */
+            --birthday-pink: #FF6B9D; 
             --text-black: #1a1a1a;
-            /* Update these font names if you have the local files */
-            --font-heading: 'Playfair Display', serif; /* Stands in for Harmond */
-            --font-body: 'Inter', sans-serif;           /* Stands in for Absans */
+            --font-heading: 'Playfair Display', serif; /* Harmond Alternative */
+            --font-body: 'Inter', sans-serif;           /* Absans Alternative */
         }
 
         body, html {
@@ -21,36 +20,37 @@
             background-color: #ffffff;
             font-family: var(--font-body);
             color: var(--text-black);
-            overflow-x: hidden;
         }
 
         .container {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             min-height: 100vh;
-            padding: 0 10%;
-            max-width: 1400px;
+            padding: 0 8%;
+            gap: 60px; /* Space between text and photo */
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         /* Left Side Content */
         .content-left {
-            flex: 1;
-            z-index: 2;
+            flex: 1.2;
         }
 
         h1 {
             font-family: var(--font-heading);
-            font-size: 5rem;
+            font-size: clamp(3rem, 8vw, 5.5rem); /* Adjusts size based on screen */
             margin: 0;
-            line-height: 1.1;
+            line-height: 1;
+            font-weight: 700;
         }
 
-        p {
+        .sub-text {
             font-size: 1.2rem;
-            margin: 20px 0 40px 0;
+            margin: 15px 0 45px 0;
             font-weight: 300;
+            color: #555;
         }
 
         .btn {
@@ -58,68 +58,46 @@
             background-color: var(--birthday-pink);
             color: #ffffff;
             text-decoration: none;
-            padding: 18px 45px;
-            font-weight: 600;
-            text-transform: uppercase;
+            padding: 20px 60px;
+            font-weight: 500;
             letter-spacing: 1px;
-            transition: all 0.3s ease;
-            border: none;
+            transition: opacity 0.3s ease;
+            /* Sharp rectangle as requested */
+            border: none; 
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(255, 107, 157, 0.3);
+            opacity: 0.85;
         }
 
-        /* Right Side Image & Doodle */
+        /* Right Side Image */
         .content-right {
             flex: 1;
-            position: relative;
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
         }
 
-        .photo-wrapper {
-            position: relative;
-            width: 400px;
-            height: 500px;
-        }
-
-        .photo-wrapper img {
+        .photo-container {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: relative;
-            z-index: 2;
-            border-radius: 4px; /* Slight softening of edges */
+            max-width: 450px; /* Limits how big the photo gets */
         }
 
-        /* The Sunflower Doodle Background */
-        .sunflower-doodle {
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 500px;
-            height: 500px;
-            z-index: 1;
-            opacity: 0.8;
-            pointer-events: none;
+        .photo-container img {
+            width: 100%;
+            height: auto; /* This prevents cropping and maintains original ratio */
+            display: block;
+            box-shadow: 20px 20px 0px #f9f9f9; /* Subtle offset background instead of doodle */
         }
 
-        /* Responsive Design */
-        @media (max-width: 900px) {
+        /* Responsive for Mobile */
+        @media (max-width: 850px) {
             .container {
                 flex-direction: column-reverse;
-                padding: 50px 20px;
                 text-align: center;
+                padding: 60px 20px;
             }
             .content-right {
-                justify-content: center;
-                margin-bottom: 50px;
-            }
-            .photo-wrapper {
-                width: 300px;
-                height: 380px;
+                width: 80%;
             }
             h1 { font-size: 3.5rem; }
         }
@@ -130,28 +108,16 @@
     <div class="container">
         <div class="content-left">
             <h1>Hello Sneha</h1>
-            <p>I have created something for you.</p>
-            <a href="story.html" class="btn">Start</a>
+            <p class="sub-text">I have created something for you.</p>
+            <a href="story.html" class="btn">START</a>
         </div>
 
         <div class="content-right">
-            <div class="photo-wrapper">
+            <div class="photo-container">
                 <img src="snehaphoto.jpg" alt="Sneha">
-                
-                <svg class="sunflower-doodle" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#FFD700" d="M100,100 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0" opacity="0.2"/>
-                    <g fill="none" stroke="#FFD700" stroke-width="2" stroke-linecap="round">
-                        <path d="M100,20 Q110,50 100,60 Q90,50 100,20" />
-                        <path d="M100,180 Q110,150 100,140 Q90,150 100,180" />
-                        <path d="M180,100 Q150,110 140,100 Q150,90 180,100" />
-                        <path d="M20,100 Q50,110 60,100 Q50,90 20,100" />
-                        </g>
-                    <circle cx="100" cy="100" r="30" fill="#6B4423" fill-opacity="0.1" />
-                </svg>
             </div>
         </div>
     </div>
 
 </body>
 </html>
-
