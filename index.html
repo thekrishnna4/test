@@ -77,10 +77,11 @@
             justify-content: center;
         }
 
-        .photo-container {
-            width: 100%;
-            max-width: 450px; /* Limits how big the photo gets */
-        }
+       .photo-container {
+    width: 100%;
+    max-width: 450px; 
+    margin: 0 auto; /* Add this to center the block itself */
+}
 
         .photo-container img {
             width: 150%;
@@ -97,8 +98,11 @@
                 padding: 60px 20px;
             }
             .content-right {
-                width: 80%;
-            }
+        width: 100%; /* Change from 80% to 100% */
+        display: flex;
+        justify-content: center;
+        margin-bottom: 40px; /* Space between photo and text */
+    }
             h1 { font-size: 3.5rem; }
         }
     </style>
@@ -121,6 +125,7 @@
 
 </body>
 </html>
+
 
 
 
