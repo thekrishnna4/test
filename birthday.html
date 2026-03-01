@@ -24,32 +24,38 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            position: relative;
         }
 
-        /* --- THE TREE --- */
-        #tree-wrapper { 
-            position: relative; 
-            width: 300px; 
-            height: 400px; 
-            display: flex; 
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
+        /* --- THE TREE STRUCTURE --- */
+        #tree-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 450px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; /* Keeps trunk at bottom */
         }
-        
-        #hearts-container {
+
+        #hearts-canvas {
             position: absolute;
-            width: 300px;
-            height: 300px;
-            bottom: 120px; /* Positions hearts ON TOP of the branches */
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 10; /* Hearts sit OVER the branches */
             pointer-events: none;
         }
 
-        .stem-svg { z-index: 5; margin-bottom: 20px; }
+        .stem-svg {
+            width: 280px;
+            height: auto;
+            z-index: 5;
+            margin-bottom: 20px;
+        }
 
         .stem {
-            fill: none; stroke: #4E342E; stroke-width: 5; stroke-linecap: round;
+            fill: none; stroke: #4E342E; stroke-width: 6; stroke-linecap: round;
             stroke-dasharray: 1000; stroke-dashoffset: 1000;
             animation: drawStem 1s ease-out forwards;
         }
@@ -67,21 +73,19 @@
             100% { transform: scale(1); opacity: 0.8; }
         }
 
-        /* --- BIG BIRTHDAY TEXT --- */
+        /* --- GIANT BIRTHDAY TEXT --- */
         .bday-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             width: 100%;
+            text-align: center;
+            padding-top: 50px;
         }
 
         .bday-text {
             font-family: var(--font-heading);
-            /* Massive font size for mobile impact */
-            font-size: 15vw; 
-            line-height: 1.1;
-            text-align: center;
-            margin-bottom: 30px;
+            font-size: 18vw; /* Massive size */
+            line-height: 0.9;
+            color: var(--text-black);
+            margin-bottom: 40px;
         }
 
         .bday-text span {
@@ -92,105 +96,110 @@
             margin: 0 auto;
         }
 
-        .animate-line-1 { animation: typing 0.6s steps(10, end) forwards; }
-        .animate-line-2 { animation: typing 0.6s steps(10, end) forwards 0.6s; }
-        .animate-line-3 { animation: typing 0.6s steps(10, end) forwards 1.2s; }
+        .animate-l1 { animation: type 0.6s steps(10) forwards; }
+        .animate-l2 { animation: type 0.6s steps(10) forwards 0.6s; }
+        .animate-l3 { animation: type 0.6s steps(10) forwards 1.2s; }
 
-        .cake-img {
-            width: 70vw; /* Larger cake image */
-            max-width: 300px;
+        @keyframes type { from { width: 0; } to { width: 100%; } }
+
+        .cake-photo {
+            width: 85vw;
+            max-width: 350px;
             height: auto;
-            border-radius: 15px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(255,107,157,0.2);
             opacity: 0;
-            transform: translateY(20px);
+            transform: scale(0.9);
         }
 
-        .show-cake { animation: slideUp 1s ease forwards 1.8s; }
-
-        @keyframes typing { from { width: 0; } to { width: 100%; } }
-        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        .show-cake { animation: cakeIn 0.8s ease forwards 1.8s; }
+        @keyframes cakeIn { to { opacity: 1; transform: scale(1); } }
 
         .btn-next {
+            display: inline-block;
             background: var(--pink-1);
             color: #fff;
-            padding: 20px 80px;
+            padding: 22px 90px;
             text-decoration: none;
             font-weight: bold;
-            margin-top: 40px;
+            font-size: 1.2rem;
+            margin-top: 50px;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
     <div class="section">
-        <div id="tree-wrapper">
-            <div id="hearts-container"></div>
-            <svg class="stem-svg" viewBox="0 0 200 200" width="250">
-                <path class="stem" d="M100,200 L100,80 M100,160 L140,120 M100,140 L60,100 M100,110 L130,70 M100,100 L70,60" />
+        <div id="tree-container">
+            <div id="hearts-canvas"></div>
+            <svg class="stem-svg" viewBox="0 0 200 200">
+                <path class="stem" d="M100,200 L100,80 M100,160 L140,120 M100,140 L60,105 M100,115 L130,75 M100,105 L70,65" />
             </svg>
         </div>
-        <p style="margin-top: 20px; letter-spacing: 8px; color: var(--pink-1); font-weight: bold;">SCROLL</p>
+        <p style="margin-top: 30px; letter-spacing: 10px; color: var(--pink-1); font-weight: 800;">SCROLL</p>
     </div>
 
-    <div class="section" id="bday-section">
+    <div class="section" id="bday-trigger">
         <div class="bday-container">
             <h1 class="bday-text">
-                <span id="l1">Happy</span>
-                <span id="l2">Birthday</span>
-                <span id="l3">Sneha</span>
+                <span id="line1">Happy</span>
+                <span id="line2">Birthday</span>
+                <span id="line3">Snehaaaaaaaaaaaaaaaaaaaa</span>
             </h1>
             
-            <img src="cake.jpg" alt="Cake" class="cake-img" id="cake-photo">
+            <img src="cake.jpg" alt="Cake" class="cake-photo" id="cake">
             
             <a href="gallery.html" class="btn-next">NEXT</a>
-            <p style="font-size: 0.9rem; color: #999; margin-top: 15px;">click here *</p>
+            <p style="margin-top: 15px; color: #bbb; font-size: 0.9rem;">click here *</p>
         </div>
     </div>
 
     <script>
-        const container = document.getElementById('hearts-container');
+        const canvas = document.getElementById('hearts-canvas');
         const colors = ['#FF6B9D', '#FFB7CE', '#D81B60'];
         
-        function createHearts() {
-            // Reduced to 400 for better mobile performance and a cleaner "bush" look
-            for(let i=0; i<400; i++) {
+        function growTree() {
+            for(let i=0; i<500; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
                     heart.className = 'heart';
                     heart.innerHTML = '❤';
                     heart.style.color = colors[Math.floor(Math.random() * 3)];
                     
-                    // CIRCULAR CLUSTER MATH
-                    const radius = 120; // Size of the tree head
-                    const angle = Math.random() * Math.PI * 2;
-                    const dist = Math.sqrt(Math.random()) * radius;
+                    // TREE MATH: The "Oval Bush" Look
+                    const centerX = canvas.offsetWidth / 2;
+                    const centerY = 140; // Height where hearts cluster
                     
-                    // Centered within the hearts-container
-                    const x = Math.cos(angle) * dist + 150; 
-                    const y = Math.sin(angle) * dist + 150; 
+                    const angle = Math.random() * Math.PI * 2;
+                    const radiusX = Math.random() * 130; // Width of canopy
+                    const radiusY = Math.random() * 110; // Height of canopy
+                    
+                    const x = centerX + Math.cos(angle) * radiusX;
+                    const y = centerY + Math.sin(angle) * radiusY;
                     
                     heart.style.left = x + 'px';
                     heart.style.top = y + 'px';
-                    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                    container.appendChild(heart);
+                    heart.style.fontSize = (Math.random() * 22 + 8) + 'px';
+                    canvas.appendChild(heart);
                 }, i * 2);
             }
         }
 
-        setTimeout(createHearts, 800);
+        setTimeout(growTree, 600);
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) {
-                    document.getElementById('l1').classList.add('animate-line-1');
-                    document.getElementById('l2').classList.add('animate-line-2');
-                    document.getElementById('l3').classList.add('animate-line-3');
-                    document.getElementById('cake-photo').classList.add('show-cake');
+                    document.getElementById('line1').classList.add('animate-l1');
+                    document.getElementById('line2').classList.add('animate-l2');
+                    document.getElementById('line3').classList.add('animate-l3');
+                    document.getElementById('cake').classList.add('show-cake');
                 }
             });
-        }, { threshold: 0.3 });
+        }, { threshold: 0.4 });
 
-        observer.observe(document.getElementById('bday-section'));
+        observer.observe(document.getElementById('bday-trigger'));
     </script>
 </body>
 </html>
