@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Sneha</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -14,118 +14,144 @@
             --font-body: 'Inter', sans-serif;           /* Absans Alternative */
         }
 
-        body, html {
+        /* 1. Global Reset to fix alignment */
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        body {
             background-color: #ffffff;
             font-family: var(--font-body);
             color: var(--text-black);
+            overflow-x: hidden; /* Prevents side-scrolling on mobile */
         }
 
+        /* 2. Main Container */
         .container {
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 0 8%;
-            gap: 60px; /* Space between text and photo */
-            max-width: 1200px;
+            padding: 0 10%;
+            gap: 40px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* Left Side Content */
+        /* 3. Left Side (Text) */
         .content-left {
             flex: 1;
+            z-index: 2;
         }
 
         h1 {
             font-family: var(--font-heading);
-            font-size: clamp(3rem, 8vw, 5.5rem); /* Adjusts size based on screen */
-            margin: 0;
-            line-height: 1;
-            font-weight: 700;
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 10px;
         }
 
         .sub-text {
             font-size: 1.2rem;
-            margin: 15px 0 45px 0;
+            margin-bottom: 40px;
             font-weight: 300;
             color: #555;
         }
 
+        /* 4. The Button */
         .btn {
             display: inline-block;
             background-color: var(--birthday-pink);
             color: #ffffff;
             text-decoration: none;
-            padding: 20px 60px;
-            font-weight: 500;
-            letter-spacing: 1px;
-            transition: opacity 0.3s ease;
-            /* Sharp rectangle as requested */
-            border: none; 
+            padding: 18px 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            border: none;
+            font-size: 0.9rem;
         }
 
         .btn:hover {
-            opacity: 0.85;
+            opacity: 0.9;
+            transform: translateY(-2px);
         }
 
-        /* Right Side Image */
+        /* 5. Right Side (Photo) */
         .content-right {
-            flex: 4;
+            flex: 1.2; /* Makes photo slightly larger than text area */
             display: flex;
             justify-content: center;
+            align-items: center;
         }
 
-       .photo-container {
-    width: 100%;
-    max-width: 450px; 
-    margin: 0 auto; /* Add this to center the block itself */
-}
+        .photo-container {
+            width: 100%;
+            max-width: 550px; /* Increased size as requested */
+            position: relative;
+        }
 
         .photo-container img {
-            width: 150%;
-            height: auto; /* This prevents cropping and maintains original ratio */
+            width: 100%;
+            height: auto; /* Maintains original aspect ratio */
             display: block;
-            box-shadow: 20px 20px 0px #f9f9f9; /* Subtle offset background instead of doodle */
+            /* Centered shadow so it doesn't push the image to one side */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1); 
         }
 
-        /* Responsive for Mobile */
+        /* 6. MOBILE RESPONSIVE FIXES */
         @media (max-width: 850px) {
             .container {
-                flex-direction: column-reverse;
+                flex-direction: column; /* Photo on top, Text on bottom */
+                padding: 40px 20px;
                 text-align: center;
-                padding: 60px 20px;
+                gap: 30px;
             }
+
             .content-right {
-        width: 100%; /* Change from 80% to 100% */
-        display: flex;
-        justify-content: center;
-        margin-bottom: 40px; /* Space between photo and text */
-    }
-            h1 { font-size: 3.5rem; }
+                width: 100%;
+                margin: 0;
+            }
+
+            .photo-container {
+                width: 95%; /* Almost full width on mobile */
+                margin: 0 auto;
+            }
+
+            .content-left {
+                width: 100%;
+            }
+
+            h1 {
+                font-size: 3.2rem;
+            }
+
+            .sub-text {
+                margin-bottom: 30px;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="content-left">
-            <h1>Hello Sneha</h1>
-            <p class="sub-text">I have created something for you.</p>
-            <a href="story.html" class="btn">START</a>
-        </div>
-
+        
         <div class="content-right">
             <div class="photo-container">
                 <img src="snehaphoto.jpg" alt="Sneha">
             </div>
         </div>
+
+        <div class="content-left">
+            <h1>Hello Sneha</h1>
+            <p class="sub-text">I have created something for you.</p>
+            <a href="story.html" class="btn">Start</a>
+        </div>
+
     </div>
 
 </body>
 </html>
-
-
-
-
