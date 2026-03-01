@@ -1,44 +1,37 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Sneha</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
     
     <style>
-   /* 1. Register your custom fonts */
-    @font-face {
-        font-family: 'Harmond';
-        src: url('Harmond Bold.otf') format('opentype');
-        font-weight: bold;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Absans';
-        src: url('Absans Regular.otf') format('opentype');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    /* 2. Update your variables to use them */
-    :root {
-        --birthday-pink: #FF6B9D; 
-        --text-black: #1a1a1a;
-        --font-heading: 'Harmond', serif; /* Now using your file */
-        --font-body: 'Absans', sans-serif; /* Now using your file */
-    }
-    
-    /* ... rest of your CSS remains the same ... */    
-     :root {
-            --birthday-pink: #FF6B9D; 
-            --text-black: #1a1a1a;
-            --font-heading: 'Playfair Display', serif; /* Harmond Alternative */
-            --font-body: 'Inter', sans-serif;           /* Absans Alternative */
+        /* 1. FONT REGISTRATION - DOUBLE CHECK YOUR FILENAMES! */
+        @font-face {
+            font-family: 'Harmond';
+            /* Make sure this filename is EXACTLY what is in your folder */
+            src: url('Harmond Bold.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
         }
 
-        /* 1. Global Reset to fix alignment */
+        @font-face {
+            font-family: 'Absans';
+            /* Make sure this filename is EXACTLY what is in your folder */
+            src: url('Absans Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        :root {
+            --birthday-pink: #FF6B9D; 
+            --text-black: #1a1a1a;
+            /* If the custom font fails, it will use Times New Roman or Arial */
+            --font-heading: 'Harmond', 'Playfair Display', serif; 
+            --font-body: 'Absans', 'Inter', sans-serif;
+        }
+
+        /* 2. RESET & LAYOUT */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -49,22 +42,22 @@
             background-color: #ffffff;
             font-family: var(--font-body);
             color: var(--text-black);
-            overflow-x: hidden; /* Prevents side-scrolling on mobile */
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* 2. Main Container */
         .container {
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             padding: 0 10%;
-            gap: 40px;
+            gap: 5%;
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* 3. Left Side (Text) */
+        /* 3. TEXT SECTION */
         .content-left {
             flex: 1;
             z-index: 2;
@@ -72,41 +65,41 @@
 
         h1 {
             font-family: var(--font-heading);
-            font-size: clamp(3rem, 6vw, 5rem);
-            line-height: 1.1;
+            font-size: clamp(3.5rem, 7vw, 6rem);
+            line-height: 1;
             margin-bottom: 10px;
+            font-weight: bold;
         }
 
         .sub-text {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             margin-bottom: 40px;
             font-weight: 300;
-            color: #555;
+            color: #444;
         }
 
-        /* 4. The Button */
         .btn {
             display: inline-block;
             background-color: var(--birthday-pink);
             color: #ffffff;
             text-decoration: none;
-            padding: 18px 50px;
+            padding: 20px 60px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2px;
-            transition: transform 0.2s ease, opacity 0.2s ease;
+            transition: all 0.3s ease;
             border: none;
             font-size: 0.9rem;
         }
 
         .btn:hover {
             opacity: 0.9;
-            transform: translateY(-2px);
+            letter-spacing: 3px;
         }
 
-        /* 5. Right Side (Photo) */
+        /* 4. PHOTO SECTION */
         .content-right {
-            flex: 1.2; /* Makes photo slightly larger than text area */
+            flex: 1.3; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -114,47 +107,42 @@
 
         .photo-container {
             width: 100%;
-            max-width: 550px; /* Increased size as requested */
-            position: relative;
+            max-width: 600px; /* Large size for desktop */
         }
 
         .photo-container img {
             width: 100%;
-            height: auto; /* Maintains original aspect ratio */
+            height: auto; 
             display: block;
-            /* Centered shadow so it doesn't push the image to one side */
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1); 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
 
-        /* 6. MOBILE RESPONSIVE FIXES */
+        /* 5. MOBILE VIEW (CRITICAL FIXES) */
         @media (max-width: 850px) {
             .container {
-                flex-direction: column; /* Photo on top, Text on bottom */
-                padding: 40px 20px;
+                flex-direction: column; /* Stacks photo on top of text */
+                padding: 60px 24px;
                 text-align: center;
-                gap: 30px;
+                gap: 40px;
             }
 
             .content-right {
                 width: 100%;
-                margin: 0;
-            }
-
-            .photo-container {
-                width: 95%; /* Almost full width on mobile */
-                margin: 0 auto;
+                order: 1; /* Ensures photo is first */
             }
 
             .content-left {
                 width: 100%;
+                order: 2; /* Ensures text is second */
+            }
+
+            .photo-container {
+                width: 100%; /* Uses full width of phone */
+                max-width: 100%;
             }
 
             h1 {
-                font-size: 3.2rem;
-            }
-
-            .sub-text {
-                margin-bottom: 30px;
+                font-size: 3.5rem;
             }
         }
     </style>
@@ -165,7 +153,7 @@
         
         <div class="content-right">
             <div class="photo-container">
-                <img src="snehaphoto.jpg" alt="Sneha">
+                <img src="sneha photo.jpg" alt="Sneha">
             </div>
         </div>
 
@@ -179,4 +167,3 @@
 
 </body>
 </html>
-
