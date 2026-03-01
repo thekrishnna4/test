@@ -3,169 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Growing Love</title>
+    <title>The Heart Tree</title>
     <style>
-        @font-face {
-            font-family: 'Harmond';
-            src: url('Harmond Bold.otf') format('opentype');
-            font-weight: bold;
-        }
-
-        @font-face {
-            font-family: 'Absans';
-            src: url('Absans Regular.otf') format('opentype');
-            font-weight: normal;
-        }
+        @font-face { font-family: 'Harmond'; src: url('Harmond Bold.otf') format('opentype'); font-weight: bold; }
+        @font-face { font-family: 'Absans'; src: url('Absans Regular.otf') format('opentype'); font-weight: normal; }
 
         :root {
-            --birthday-pink: #FF6B9D;
-            --soft-pink: #ffafbd;
-            --dark-pink: #e91e63;
-            --text-black: #1a1a1a;
+            --pink-1: #FF6B9D; --pink-2: #FFB7CE; --pink-3: #D81B60;
             --font-heading: 'Harmond', serif;
             --font-body: 'Absans', sans-serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #fff; overflow-x: hidden; font-family: var(--font-body); }
 
-        body {
-            background-color: #ffffff;
-            font-family: var(--font-body);
-            color: var(--text-black);
-            overflow-x: hidden;
-            text-align: center;
-        }
-
-        /* Full screen sections for smooth scrolling */
         .section {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
-        /* 1. THE TREE ANIMATION */
-        .tree-container {
-            position: relative;
-            width: 300px;
-            height: 400px;
-        }
-
+        /* --- TREE SECTION --- */
+        #tree-wrapper { position: relative; width: 100%; height: 500px; display: flex; justify-content: center; }
+        
         .stem {
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: drawStem 3s ease-out forwards;
+            fill: none; stroke: #4E342E; stroke-width: 5; stroke-linecap: round;
+            stroke-dasharray: 1000; stroke-dashoffset: 1000;
+            animation: drawStem 1.5s ease-out forwards; /* FASTER STEM */
         }
 
-        @keyframes drawStem {
-            to { stroke-dashoffset: 0; }
+        @keyframes drawStem { to { stroke-dashoffset: 0; } }
+
+        .heart {
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+            animation: pop 0.4s ease-out forwards;
         }
 
-        .heart-leaf {
-            opacity: 0;
-            transform: scale(0);
-            transform-origin: center;
-            animation: popHeart 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        @keyframes pop {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        @keyframes popHeart {
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .scroll-hint {
+        .scroll-text {
             margin-top: 20px;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            color: var(--birthday-pink);
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            color: var(--pink-1);
             animation: bounce 2s infinite;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards 4s, bounce 2s infinite 4s;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-
-        /* 2. BIRTHDAY CONTENT (Visible on Scroll) */
-        .birthday-content {
-            width: 100%;
-            max-width: 500px;
-        }
-
+        /* --- BIRTHDAY SECTION --- */
         .bday-text {
             font-family: var(--font-heading);
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: clamp(3.5rem, 10vw, 5rem); /* LARGER FONT */
+            margin-bottom: 30px;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            border-right: 4px solid var(--pink-1);
         }
 
-        /* Simple Cake Animation */
-        .cake-container {
-            font-size: 5rem;
+        /* Triggered by JS when scrolled into view */
+        .animate-typing {
+            animation: typing 2s steps(20, end) forwards, blink 0.8s infinite;
+        }
+
+        .cake-doodle {
+            width: 250px;
+            height: auto;
             margin: 20px 0;
-            animation: sway 3s ease-in-out infinite;
-        }
-
-        @keyframes sway {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
+            filter: drop-shadow(0 10px 10px rgba(255,107,157,0.2));
         }
 
         .btn-next {
-            display: inline-block;
-            background-color: var(--birthday-pink);
-            color: white;
+            background: var(--pink-1);
+            color: #fff;
+            padding: 20px 80px;
             text-decoration: none;
-            padding: 15px 50px;
-            font-weight: 600;
-            margin-top: 30px;
-            border: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 40px;
+            display: inline-block;
         }
 
-        .click-here {
-            display: block;
-            font-size: 0.8rem;
-            margin-top: 10px;
-            color: #888;
-        }
+        .footer-note { font-size: 0.9rem; color: #999; margin-top: 15px; }
 
-        @keyframes fadeIn { to { opacity: 1; } }
-
+        @keyframes typing { from { width: 0; } to { width: 100%; } }
+        @keyframes blink { 50% { border-color: transparent; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
 
     <div class="section">
-        <div class="tree-container">
-            <svg viewBox="0 0 200 200" width="100%" height="100%">
-                <path class="stem" d="M100,180 Q100,100 100,40 M100,140 Q130,120 150,100 M100,120 Q70,90 50,80" 
-                      fill="none" stroke="#5D4037" stroke-width="4" stroke-linecap="round"/>
-                
-                <text class="heart-leaf" x="90" y="40" fill="#FF6B9D" style="animation-delay: 2.5s;">❤</text>
-                <text class="heart-leaf" x="145" y="95" fill="#ffafbd" style="animation-delay: 2.8s;">❤</text>
-                <text class="heart-leaf" x="45" y="75" fill="#e91e63" style="animation-delay: 3.1s;">❤</text>
-                <text class="heart-leaf" x="110" y="60" fill="#FF6B9D" style="animation-delay: 3.4s;">❤</text>
-                <text class="heart-leaf" x="70" y="110" fill="#ffafbd" style="animation-delay: 3.7s;">❤</text>
+        <div id="tree-wrapper">
+            <svg viewBox="0 0 200 200" width="300">
+                <path class="stem" d="M100,200 C100,150 100,100 100,50 M100,150 C120,130 160,120 170,80 M100,130 C80,110 40,100 30,70 M100,100 C120,80 140,40 110,20 M100,100 C80,80 60,40 90,20" />
             </svg>
+            <div id="hearts-container"></div>
         </div>
-        <div class="scroll-hint">SCROLL DOWN</div>
+        <p class="scroll-text">SCROLL</p>
     </div>
 
-    <div class="section">
-        <div class="birthday-content">
-            <h1 class="bday-text">Happy Birthday Sneha</h1>
-            
-            <div class="cake-container">
-                🎂
-                </div>
+    <div class="section" id="bday-section">
+        <h1 class="bday-text" id="bday-title">Happy Birthday Sneha</h1>
+        
+        <svg class="cake-doodle" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20,80 L80,80 L75,50 L25,50 Z" fill="none" stroke="#FF6B9D" stroke-width="2"/>
+            <path d="M30,50 L70,50 L65,30 L35,30 Z" fill="none" stroke="#FFB7CE" stroke-width="2"/>
+            <line x1="50" y1="30" x2="50" y2="15" stroke="#D81B60" stroke-width="2"/>
+            <circle cx="50" cy="10" r="3" fill="#FFD700" />
+        </svg>
 
-            <a href="gallery.html" class="btn-next">NEXT</a>
-            <span class="click-here">click here *</span>
-        </div>
+        <a href="gallery.html" class="btn-next">NEXT</a>
+        <p class="footer-note">click here *</p>
     </div>
 
+    <script>
+        // Generate 1000 Hearts
+        const container = document.getElementById('hearts-container');
+        const colors = ['#FF6B9D', '#FFB7CE', '#D81B60'];
+        
+        function createHearts() {
+            for(let i=0; i<1000; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = '❤';
+                    heart.style.color = colors[Math.floor(Math.random() * 3)];
+                    heart.style.fontSize = (Math.random() * 15 + 5) + 'px';
+                    
+                    // Position them around the "branches"
+                    const x = Math.random() * 300 - 150 + (window.innerWidth / 2);
+                    const y = Math.random() * 350 + 50;
+                    
+                    heart.style.left = x + 'px';
+                    heart.style.top = y + 'px';
+                    container.appendChild(heart);
+                }, i * 2); // Extremely fast cascading pop
+            }
+        }
+
+        // Start hearts after stem starts
+        setTimeout(createHearts, 500);
+
+        // Intersection Observer for Typing Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    document.getElementById('bday-title').classList.add('animate-typing');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(document.getElementById('bday-section'));
+    </script>
 </body>
 </html>
