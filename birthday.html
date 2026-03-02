@@ -10,13 +10,20 @@
 
         :root {
             --pink-main: #FF6B9D;
-            --polaroid-tan: #f4ece1; /* Light brown/tan frame */
+            --page-beige: #F5F5DC; /* Beige background */
+            --polaroid-brown: #C4A484; /* Richer brown frame */
             --font-heading: 'Harmond', serif;
             --font-body: 'Absans', sans-serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #fff; overflow-x: hidden; font-family: var(--font-body); text-align: center; }
+        
+        body { 
+            background-color: var(--page-beige); 
+            overflow-x: hidden; 
+            font-family: var(--font-body); 
+            text-align: center; 
+        }
 
         .section {
             min-height: 100vh;
@@ -24,40 +31,45 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
-        /* --- DOODLE HEART DRAWING --- */
-        .heart-draw-container {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 20px;
+        /* --- CUSTOM HEART-TO-ARROW DRAWING --- */
+        .doodle-container {
+            width: 250px;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .heart-path {
-            stroke: var(--pink-main);
-            stroke-width: 3;
+        .heart-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .path-draw {
             fill: none;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: drawHeart 3s ease-in-out forwards;
+            stroke: var(--pink-main);
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 1200;
+            stroke-dashoffset: 1200;
+            animation: drawPath 4s linear forwards; /* Slower drawing */
         }
 
-        @keyframes drawHeart {
+        @keyframes drawPath {
             to { stroke-dashoffset: 0; }
         }
 
-        .scroll-arrow {
+        .scroll-text {
             color: var(--pink-main);
-            font-size: 2rem;
-            animation: bounce 2s infinite;
-            margin-top: 10px;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(10px); }
-            60% { transform: translateY(5px); }
+            font-weight: bold;
+            letter-spacing: 4px;
+            margin-top: -50px;
+            animation: fadeIn 2s forwards 3s;
+            opacity: 0;
         }
 
         /* --- TEXT SECTION --- */
@@ -65,7 +77,7 @@
             font-family: var(--font-heading);
             font-size: clamp(2.5rem, 12vw, 6rem);
             line-height: 1;
-            margin-bottom: 50px;
+            margin: 40px 0;
         }
 
         .bday-text span {
@@ -76,28 +88,28 @@
             margin: 0 auto;
         }
 
-        .sneha-long { font-size: clamp(1.8rem, 8vw, 4rem) !important; }
+        .sneha-long { font-size: clamp(1.8rem, 7vw, 3.5rem) !important; }
 
-        .animate-type { animation: type 1.2s steps(20) forwards; }
+        .animate-type { animation: type 1.5s steps(25) forwards; }
 
-        /* --- POLAROID GALLERY --- */
+        /* --- 2x4 POLAROID GRID --- */
         .gallery-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(2, 1fr); /* Forced 2x4 grid */
+            gap: 15px;
             width: 100%;
-            max-width: 1000px;
-            margin-top: 40px;
+            max-width: 500px;
+            margin: 30px auto;
         }
 
         .polaroid {
-            background: var(--polaroid-tan);
-            padding: 15px 15px 40px 15px; /* Extra bottom padding for Polaroid look */
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            background: var(--polaroid-brown);
+            padding: 10px 10px 30px 10px; /* Polaroid bottom spacing */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
             cursor: pointer;
-            transition: transform 0.4s ease;
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(30px);
+            transition: transform 0.3s ease;
         }
 
         .polaroid img {
@@ -108,65 +120,67 @@
         }
 
         .polaroid.show { 
-            /* Slower, smoother photo appearance */
-            animation: fadeInSlow 1.5s ease forwards; 
+            animation: fadeInSlow 1.8s ease forwards; 
         }
 
-        @keyframes fadeInSlow {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- POPUP --- */
+        /* --- POPUP WITH FRAME --- */
         #popup-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.95); /* Minimal light background */
+            background: rgba(0, 0, 0, 0.85);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            backdrop-filter: blur(5px);
         }
 
-        .popup-inner {
+        .popup-polaroid-frame {
+            background: var(--polaroid-brown);
+            padding: 15px 15px 50px 15px;
             max-width: 85%;
-            animation: simplePop 0.3s ease-out;
+            position: relative;
+            animation: minimalFade 0.4s ease-out;
+        }
+
+        #popup-img {
+            max-width: 100%;
+            max-height: 60vh;
+            display: block;
         }
 
         #popup-text {
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            margin-top: 20px;
-            color: #333;
-        }
-
-        @keyframes simplePop {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            margin-top: 15px;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
         .btn-next {
-            margin-top: 60px;
+            margin: 50px 0;
             background: var(--pink-main);
             color: white;
-            padding: 20px 80px;
+            padding: 18px 70px;
             text-decoration: none;
             font-weight: bold;
             display: inline-block;
         }
 
         @keyframes type { from { width: 0; } to { width: 100%; } }
+        @keyframes fadeInSlow { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes minimalFade { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <div class="section">
-        <div class="heart-draw-container">
-            <svg viewBox="0 0 100 100">
-                <path class="heart-path" d="M50,30 C35,10 10,25 10,45 C10,65 35,85 50,90 C65,85 90,65 90,45 C90,25 65,10 50,30" />
+        <div class="doodle-container">
+            <svg class="heart-svg" viewBox="0 0 100 150">
+                <path class="path-draw" d="M30,40 C10,20 10,60 50,85 C90,60 90,20 70,40 C50,60 50,85 50,140 M40,130 L50,140 L60,130" />
             </svg>
+            <p class="scroll-text">SCROLL DOWN</p>
         </div>
-        <div class="scroll-arrow">↓</div>
     </div>
 
     <div class="section" id="wish-section">
@@ -176,12 +190,12 @@
             <span id="l3" class="sneha-long">Snehaaaaaaaaaaaaaaaaaaaa</span>
         </h1>
 
-        <img src="cake.jpg" alt="Cake" style="width: 250px; border-radius: 10px; margin-bottom: 50px;">
+        <img src="cake.jpg" alt="Cake" style="width: 200px; border-radius: 10px; margin-bottom: 40px;">
 
         <div class="gallery-container">
             <div class="polaroid" data-msg="“She’s not just pretty, she’s my peace.”"><img src="snehap1.JPEG"></div>
-            <div class="polaroid" data-msg="““Her smile >>> everything.”"><img src="snehap2.JPEG"></div>
-            <div class="polaroid" data-msg="In a world full of trends, she’s my forever.”"><img src="snehap3.jpg"></div>
+            <div class="polaroid" data-msg="“In a world full of trends, she’s my forever.”"><img src="snehap2.JPEG"></div>
+            <div class="polaroid" data-msg="“Her smile >>> everything.”"><img src="snehap3.jpg"></div>
             <div class="polaroid" data-msg="“Lucky? No. Blessed.”"><img src="snehap4.jpg"></div>
             <div class="polaroid" data-msg="“She walked in, and suddenly life made sense.”"><img src="snehap5.jpg"></div>
             <div class="polaroid" data-msg="“Soft heart. Strong soul. My girl.”"><img src="snehap6.jpeg"></div>
@@ -190,27 +204,28 @@
         </div>
 
         <a href="story.html" class="btn-next">NEXT</a>
-        <p style="margin-top: 15px; color: #999; font-size: 0.8rem;">click here *</p>
+        <p style="margin-top: 10px; color: #888; font-size: 0.8rem;">click here *</p>
     </div>
 
     <div id="popup-overlay">
-        <div class="popup-inner">
-            <img id="popup-img" src="" style="width: 100%; max-height: 70vh; object-fit: contain;">
+        <div class="popup-polaroid-frame">
+            <img id="popup-img" src="">
             <p id="popup-text"></p>
         </div>
     </div>
 
     <script>
-        // Scroll Logic for Typing and Photos
+        // Intersection Observer to trigger slow animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     document.getElementById('l1').classList.add('animate-type');
-                    setTimeout(() => document.getElementById('l2').classList.add('animate-type'), 1200);
-                    setTimeout(() => document.getElementById('l3').classList.add('animate-type'), 2400);
+                    setTimeout(() => document.getElementById('l2').classList.add('animate-type'), 1500);
+                    setTimeout(() => document.getElementById('l3').classList.add('animate-type'), 3000);
                     
                     document.querySelectorAll('.polaroid').forEach((p, i) => {
-                        setTimeout(() => p.classList.add('show'), 3500 + (i * 400)); // Much slower appearance
+                        // Slower staggered entry
+                        setTimeout(() => p.classList.add('show'), 4500 + (i * 500)); 
                     });
                 }
             });
@@ -218,7 +233,7 @@
 
         observer.observe(document.getElementById('wish-section'));
 
-        // Popup Logic
+        // Popup Logic including the Frame
         const overlay = document.getElementById('popup-overlay');
         const popImg = document.getElementById('popup-img');
         const popText = document.getElementById('popup-text');
