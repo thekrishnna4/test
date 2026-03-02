@@ -3,223 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Page</title>
-    <style>
-        @font-face {
-            font-family: 'Harmond Bold';
-            src: url('Harmond bold.otf') format('opentype');
-        }
+    <title>Birthday Surprise - Page 2</title>
+    
+    <script type="text/javascript" src="./file/jquery.min.js"></script>
+    <script type="text/javascript" src="./file/jscex.min.js"></script>
+    <script type="text/javascript" src="./file/jscex-parser.js"></script>
+    <script type="text/javascript" src="./file/jscex-jit.js"></script>
+    <script type="text/javascript" src="./file/jscex-builderbase.min.js"></script>
+    <script type="text/javascript" src="./file/jscex-async.min.js"></script>
+    <script type="text/javascript" src="./file/jscex-async-powerpack.min.js"></script>
+    <script type="text/javascript" src="./file/functions.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./file/love.js" charset="utf-8"></script>
 
-        @font-face {
-            font-family: 'Absans Regular';
-            src: url('Absans Regular.otf') format('opentype');
-        }
+    <style>
+        @font-face { font-family: 'Harmond Bold'; src: url('Harmond bold.otf') format('opentype'); }
+        @font-face { font-family: 'Absans Regular'; src: url('Absans Regular.otf') format('opentype'); }
 
         :root {
             --pink-1: #FF6B9D;
-            --polaroid-brown: #C4A484; 
             --page-beige: #F5F5DC;
+            --polaroid-brown: #C4A484;
             --font-heading: 'Harmond Bold', serif;
             --font-body: 'Absans Regular', sans-serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background-color: var(--page-beige);
-            overflow-x: hidden;
-            font-family: var(--font-body);
-            text-align: center;
-        }
+        body { background-color: var(--page-beige); font-family: var(--font-body); text-align: center; overflow-x: hidden; }
 
-        .section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        /* --- HEART DOODLE (FIXED POSITIONING) --- */
-        .drawing-block {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .path-draw {
-            fill: none;
-            stroke: var(--pink-1);
-            stroke-width: 4;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: drawPath 2.5s linear forwards;
-        }
-
-        @keyframes drawPath { to { stroke-dashoffset: 0; } }
-
-        .scrooldown-block {
-            margin-top: 30px; /* Space to prevent overlap */
+        /* --- TREE SECTION --- */
+        #main { width: 100%; position: relative; }
+        #wrap { position: relative; margin: 0 auto; width: 1100px; height: 680px; transform: scale(0.7); margin-top: -50px; }
+        canvas { display: block; width: 100%; height: 100%; }
+        
+        .tree-instruction {
             color: var(--pink-1);
             font-weight: bold;
-            letter-spacing: 5px;
-            opacity: 0;
-            animation: fadeIn 1s forwards 2s;
+            margin-top: -100px;
+            letter-spacing: 2px;
+            animation: bounce 2s infinite;
         }
 
-        /* --- TYPING ANIMATION (FAST) --- */
-        .bday-text {
-            font-family: var(--font-heading);
-            font-size: clamp(2.5rem, 12vw, 6rem);
-            line-height: 1;
-            margin: 40px 0;
-        }
+        /* --- PHOTO GRID & TEXT --- */
+        .content-section { padding: 50px 20px; }
+        
+        .bday-text { font-family: var(--font-heading); font-size: clamp(2.5rem, 10vw, 5rem); margin: 40px 0; line-height: 1.1; }
+        .bday-text span { display: block; overflow: hidden; white-space: nowrap; width: 0; margin: 0 auto; }
+        .animate-type { animation: type 0.8s steps(20) forwards; }
 
-        .bday-text span {
-            display: block;
-            overflow: hidden;
-            white-space: nowrap;
-            width: 0;
-            margin: 0 auto;
-        }
-
-        .sneha-long { font-size: clamp(1.8rem, 7vw, 3.5rem) !important; }
-
-        .animate-type { animation: type 0.8s steps(20) forwards; } /* Faster typing */
-
-        @keyframes type { from { width: 0; } to { width: 100%; } }
-
-        /* --- INSTRUCTION BOX --- */
         .instruction-box {
-            background: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px auto;
-            max-width: 90%;
-            border: 2px solid var(--pink-1);
+            background: #fff; padding: 15px; border-radius: 10px; margin: 20px auto; 
+            max-width: 400px; border: 2px solid var(--pink-1);
         }
 
-        /* --- 2x4 GRID --- */
         .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            width: 100%;
-            max-width: 500px;
-            margin: 20px auto;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
+            width: 100%; max-width: 500px; margin: 30px auto;
         }
 
         .polaroid {
-            background: var(--polaroid-brown);
-            padding: 10px 10px 30px 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            opacity: 0;
-            transform: translateY(20px);
-            cursor: pointer;
+            background: var(--polaroid-brown); padding: 10px 10px 30px 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); opacity: 0; transform: translateY(20px); cursor: pointer;
         }
-
         .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
-        .polaroid.show { animation: fadeInSlow 0.8s ease forwards; }
+        .polaroid.show { animation: fadeInPhoto 0.8s ease forwards; }
 
         /* --- POPUP --- */
         #popup-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9); display: none; justify-content: center; align-items: center; z-index: 1000;
         }
-
-        .popup-polaroid-frame {
-            background: var(--polaroid-brown);
-            padding: 15px 15px 50px 15px;
-            max-width: 100%;
-            animation: popIn 0.3s ease-out;
-        }
-
+        .popup-frame { background: var(--polaroid-brown); padding: 15px 15px 50px 15px; max-width: 90%; }
         #popup-img { max-width: 100%; max-height: 60vh; }
-        #popup-text {
-            font-family: var(--font-body);
-            font-size: 1.2rem;
-            margin-top: 15px;
-            color: #fff;
-            padding: 0 10px;
-        }
+        #popup-text { color: #fff; margin-top: 15px; font-size: 1.1rem; }
 
-        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes fadeInSlow { to { opacity: 1; transform: translateY(0); } }
+        @keyframes type { from { width: 0; } to { width: 100%; } }
+        @keyframes fadeInPhoto { to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        .btn-next {
-            margin: 40px 0;
-            background: var(--pink-1);
-            color: white;
-            padding: 15px 60px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
+        .btn-next { background: var(--pink-1); color: white; padding: 15px 60px; text-decoration: none; font-weight: bold; display: inline-block; margin: 40px 0; }
+        
+        /* Mobile Scaling for Tree */
+        @media (max-width: 768px) {
+            #wrap { transform: scale(0.35); margin-left: -300px; margin-top: -150px; }
+            .tree-instruction { margin-top: -250px; }
         }
     </style>
 </head>
 <body>
-    <audio id="mySong" loop>
-    <source src="song.mp3" type="audio/mpeg">
-</audio>
 
-<script>
-    // This function runs as soon as the page loads
-    window.addEventListener('load', () => {
-        const song = document.getElementById('mySong');
-        
-        // Try to play immediately
-        const playPromise = song.play();
+    <audio id="myAudio" loop>
+        <source src="song.mp3" type="audio/mp3" />
+    </audio>
 
-        if (playPromise !== undefined) {
-            playPromise.then(_ => {
-                // Autoplay started!
-                console.log("Music playing...");
-            }).catch(error => {
-                // If browser blocks it, play on first touch/scroll
-                console.log("Autoplay blocked. Waiting for interaction.");
-                document.addEventListener('touchstart', () => {
-                    song.play();
-                }, { once: true });
-                document.addEventListener('click', () => {
-                    song.play();
-                }, { once: true });
-            });
-        }
-    });
-</script>
-
-    <div class="section">
-        <div class="drawing-block">
-            <svg viewBox="0 0 100 150" class="heart-svg">
-                <path class="path-draw" d="M30,40 C10,20 10,60 50,85 C90,60 90,20 70,40 C50,60 50,85 50,140 M40,130 L50,140 L60,130" />
-            </svg>
-            <div class="scrooldown-block">SCROLL DOWN</div>
+    <div id="main">
+        <div id="wrap">
+            <canvas id="canvas"></canvas>
         </div>
+        <p class="tree-instruction">TAP THE HEART SEED TO GROW THE TREE</p>
     </div>
 
-    <div class="section" id="wish-section">
+    <div class="content-section" id="wish-section">
         <h1 class="bday-text">
             <span id="l1">Happy</span>
             <span id="l2">Birthday</span>
-            <span id="l3" class="sneha-long">Snehaaaaaaaaaaaaaaaaaaaa</span>
+            <span id="l3" style="font-size: 0.6em;">Snehaaaaaaaaaaaaaaaaaaaa</span>
         </h1>
 
         <img src="cake.jpg" style="width: 180px; border-radius: 10px;">
 
         <div class="instruction-box">
-            <h3 style="font-family: var(--font-heading);">there is a message for you</h3>
-            <p>in every photo tap on them to see it</p>
+            <h3>there is a message for you</h3>
+            <p>tap on photos to reveal them</p>
         </div>
 
         <div class="gallery-container">
@@ -237,42 +131,97 @@
     </div>
 
     <div id="popup-overlay">
-        <div class="popup-polaroid-frame">
-            <img id="popup-img" src="">
+        <div class="popup-frame">
+            <img id="popup-img">
             <p id="popup-text"></p>
         </div>
     </div>
 
     <script>
+        (function(){
+            var canvas = $('#canvas');
+            if (!canvas[0].getContext) { return; }
+
+            var width = canvas.width();
+            var height = canvas.height();
+            canvas.attr("width", width);
+            canvas.attr("height", height);
+
+            var opts = {
+                seed: { x: width / 2 - 20, color: "rgb(190, 26, 37)", scale: 2 },
+                branch: [[535, 680, 570, 250, 500, 200, 30, 100, [[540, 500, 455, 417, 340, 400, 13, 100, [[450, 435, 434, 430, 394, 395, 2, 40]]],[550, 445, 600, 356, 680, 345, 12, 100, [[578, 400, 648, 409, 661, 426, 3, 80]]],[539, 281, 537, 248, 534, 217, 3, 40],[546, 397, 413, 247, 328, 244, 9, 80, [[427, 286, 383, 253, 371, 205, 2, 40],[498, 345, 435, 315, 395, 330, 4, 60]]],[546, 357, 608, 252, 678, 221, 6, 100, [[590, 293, 646, 277, 648, 271, 2, 80]]]]]],
+                bloom: { num: 700, width: 1080, height: 650 },
+                footer: { width: 1200, height: 5, speed: 10 }
+            };
+
+            var tree = new Tree(canvas[0], width, height, opts);
+            var seed = tree.seed;
+            var hold = 1;
+
+            canvas.click(function(e) {
+                document.getElementById('myAudio').play(); // Play music on click
+                var offset = canvas.offset(), x, y;
+                x = e.pageX - offset.left;
+                y = e.pageY - offset.top;
+                if (seed.hover(x, y)) {
+                    hold = 0;
+                    canvas.unbind("click");
+                    canvas.unbind("mousemove");
+                    canvas.removeClass('hand');
+                }
+            }).mousemove(function(e){
+                var offset = canvas.offset(), x, y;
+                x = e.pageX - offset.left;
+                y = e.pageY - offset.top;
+                canvas.toggleClass('hand', seed.hover(x, y));
+            });
+
+            var seedAnimate = eval(Jscex.compile("async", function () {
+                seed.draw();
+                while (hold) { $await(Jscex.Async.sleep(10)); }
+                while (seed.canScale()) { seed.scale(0.95); $await(Jscex.Async.sleep(10)); }
+                while (seed.canMove()) { seed.move(0, 2); $await(Jscex.Async.sleep(10)); }
+            }));
+
+            var growAnimate = eval(Jscex.compile("async", function () {
+                do { tree.grow(); $await(Jscex.Async.sleep(10)); } while (tree.canGrow());
+            }));
+
+            var flowAnimate = eval(Jscex.compile("async", function () {
+                do { tree.flower(2); $await(Jscex.Async.sleep(10)); } while (tree.canFlower());
+            }));
+
+            var runAsync = eval(Jscex.compile("async", function () {
+                $await(seedAnimate());
+                $await(growAnimate());
+                $await(flowAnimate());
+            }));
+
+            runAsync().start();
+        })();
+
+        // SCROLL OBSERVER FOR TEXT & PHOTOS
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     document.getElementById('l1').classList.add('animate-type');
                     setTimeout(() => document.getElementById('l2').classList.add('animate-type'), 800);
                     setTimeout(() => document.getElementById('l3').classList.add('animate-type'), 1600);
-                    
                     document.querySelectorAll('.polaroid').forEach((p, i) => {
                         setTimeout(() => p.classList.add('show'), 2400 + (i * 200)); 
                     });
                 }
             });
         }, { threshold: 0.1 });
-
         observer.observe(document.getElementById('wish-section'));
 
-        const overlay = document.getElementById('popup-overlay');
-        const popImg = document.getElementById('popup-img');
-        const popText = document.getElementById('popup-text');
-
-        document.querySelectorAll('.polaroid').forEach(p => {
-            p.addEventListener('click', () => {
-                popImg.src = p.querySelector('img').src;
-                popText.innerText = p.getAttribute('data-msg');
-                overlay.style.display = 'flex';
-            });
+        // POPUP LOGIC
+        $('.polaroid').click(function(){
+            $('#popup-img').attr('src', $(this).find('img').attr('src'));
+            $('#popup-text').text($(this).data('msg'));
+            $('#popup-overlay').css('display', 'flex');
         });
-
-        overlay.addEventListener('click', () => { overlay.style.display = 'none'; });
+        $('#popup-overlay').click(function(){ $(this).hide(); });
     </script>
 </body>
 </html>
