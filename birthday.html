@@ -3,26 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Sneha</title>
+    <title>Birthday Page</title>
     <style>
-        @font-face { font-family: 'Harmond'; src: url('Harmond Bold.otf') format('opentype'); font-weight: bold; }
-        @font-face { font-family: 'Absans'; src: url('Absans Regular.otf') format('opentype'); font-weight: normal; }
-
-        :root {
-            --pink-main: #FF6B9D;
-            --page-beige: #F5F5DC; /* Beige background */
-            --polaroid-brown: #C4A484; /* Richer brown frame */
-            --font-heading: 'Harmond', serif;
-            --font-body: 'Absans', sans-serif;
+        /* 1. Register Your Exact Font Files */
+        @font-face {
+            font-family: 'Harmond Bold';
+            src: url('Harmond bold.otf') format('opentype'); /* Verified filename from your folder image */
         }
 
+        @font-face {
+            font-family: 'Absans Regular';
+            src: url('Absans Regular.otf') format('opentype'); /* Verified filename from your folder image */
+        }
+
+        :root {
+            --pink-1: #FF6B9D;
+            --polaroid-tan: #D2B48C; /* More brown tint */
+            --page-beige: #F5F5DC;
+            --font-heading: 'Harmond Bold', serif;
+            --font-body: 'Absans Regular', sans-serif;
+        }
+
+        /* 2. Page & Layout Reset */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body { 
-            background-color: var(--page-beige); 
-            overflow-x: hidden; 
-            font-family: var(--font-body); 
-            text-align: center; 
+        body {
+            background-color: var(--page-beige);
+            overflow-x: hidden;
+            font-family: var(--font-body);
+            text-align: center;
         }
 
         .section {
@@ -34,45 +42,69 @@
             padding: 20px;
         }
 
-        /* --- CUSTOM HEART-TO-ARROW DRAWING --- */
-        .doodle-container {
-            width: 250px;
-            height: 350px;
+        /* --- THE FIXED NO-OVERLAP DOODLE STRUCTURE --- */
+        .drawing-block {
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* VERTICAL STACK */
             align-items: center;
+            width: 100%;
+            max-width: 300px;
         }
 
-        .heart-svg {
+        .doodle-container {
             width: 100%;
-            height: 100%;
+            height: auto; /* Uses the natural SVG height */
         }
+
+        .heart-svg { width: 100%; }
 
         .path-draw {
             fill: none;
-            stroke: var(--pink-main);
+            stroke: var(--pink-1);
             stroke-width: 4;
             stroke-linecap: round;
             stroke-linejoin: round;
-            stroke-dasharray: 1200;
-            stroke-dashoffset: 1200;
-            animation: drawPath 4s linear forwards; /* Slower drawing */
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawPath 3s linear forwards; /* Standard draw speed */
         }
 
-        @keyframes drawPath {
-            to { stroke-dashoffset: 0; }
-        }
+        @keyframes drawPath { to { stroke-dashoffset: 0; } }
 
-        .scroll-text {
-            color: var(--pink-main);
+        /* No Overlap Text Block */
+        .scrooldown-block {
+            margin-top: 20px; /* Space BELOW the drawing */
+            color: var(--pink-1);
             font-weight: bold;
-            letter-spacing: 4px;
-            margin-top: -50px;
-            animation: fadeIn 2s forwards 3s;
+            letter-spacing: 5px;
             opacity: 0;
+            animation: fadeIn 1.5s forwards 2.5s; /* Appears after drawing */
         }
 
-        /* --- TEXT SECTION --- */
+        /* --- NEW: THE INSTRUCTION MESSAGE BOX --- */
+        .instruction-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 30px auto;
+            max-width: 90%;
+            width: 500px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .instruction-box h2 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .instruction-box p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* --- TEXT SECTION & FAST TYPING --- */
         .bday-text {
             font-family: var(--font-heading);
             font-size: clamp(2.5rem, 12vw, 6rem);
@@ -90,12 +122,15 @@
 
         .sneha-long { font-size: clamp(1.8rem, 7vw, 3.5rem) !important; }
 
-        .animate-type { animation: type 1.5s steps(25) forwards; }
+        /* FAST Typing Animation (1s per line, total 3s) */
+        .animate-type { animation: type 1s steps(25) forwards; }
 
-        /* --- 2x4 POLAROID GRID --- */
+        @keyframes type { from { width: 0; } to { width: 100%; } }
+
+        /* --- 2x4 POLAROID GRID (MOBILE-FRIENDLY) --- */
         .gallery-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Forced 2x4 grid */
+            grid-template-columns: repeat(2, 1fr); /* FORCED 2x4 grid on phone */
             gap: 15px;
             width: 100%;
             max-width: 500px;
@@ -103,7 +138,7 @@
         }
 
         .polaroid {
-            background: var(--polaroid-brown);
+            background: var(--polaroid-tan);
             padding: 10px 10px 30px 10px; /* Polaroid bottom spacing */
             box-shadow: 0 8px 15px rgba(0,0,0,0.15);
             cursor: pointer;
@@ -112,6 +147,8 @@
             transition: transform 0.3s ease;
         }
 
+        .polaroid:hover { transform: scale(1.05); z-index: 10; }
+
         .polaroid img {
             width: 100%;
             aspect-ratio: 1/1;
@@ -119,11 +156,9 @@
             display: block;
         }
 
-        .polaroid.show { 
-            animation: fadeInSlow 1.8s ease forwards; 
-        }
+        .polaroid.show { animation: fadeInSlow 1s ease forwards; }
 
-        /* --- POPUP WITH FRAME --- */
+        /* --- POPUP OVERLAY WITH THE SAME FRAME --- */
         #popup-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -135,11 +170,11 @@
         }
 
         .popup-polaroid-frame {
-            background: var(--polaroid-brown);
+            background: var(--polaroid-tan); /* Maintains frame identity */
             padding: 15px 15px 50px 15px;
             max-width: 85%;
             position: relative;
-            animation: minimalFade 0.4s ease-out;
+            animation: minimalFade 0.3s ease-out; /* Basic pop-in animation */
         }
 
         #popup-img {
@@ -156,9 +191,10 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
+        /* Global Animation Utilities */
         .btn-next {
             margin: 50px 0;
-            background: var(--pink-main);
+            background: var(--pink-1);
             color: white;
             padding: 18px 70px;
             text-decoration: none;
@@ -166,7 +202,6 @@
             display: inline-block;
         }
 
-        @keyframes type { from { width: 0; } to { width: 100%; } }
         @keyframes fadeInSlow { to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { to { opacity: 1; } }
         @keyframes minimalFade { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
@@ -175,11 +210,13 @@
 <body>
 
     <div class="section">
-        <div class="doodle-container">
-            <svg class="heart-svg" viewBox="0 0 100 150">
-                <path class="path-draw" d="M30,40 C10,20 10,60 50,85 C90,60 90,20 70,40 C50,60 50,85 50,140 M40,130 L50,140 L60,130" />
-            </svg>
-            <p class="scroll-text">SCROLL DOWN</p>
+        <div class="drawing-block">
+            <div class="doodle-container">
+                <svg class="heart-svg" viewBox="0 0 100 150">
+                    <path class="path-draw" d="M30,40 C10,20 10,60 50,85 C90,60 90,20 70,40 C50,60 50,85 50,140 M40,130 L50,140 L60,130" />
+                </svg>
+            </div>
+            <div class="scrooldown-block">SCROLL DOWN</div>
         </div>
     </div>
 
@@ -190,17 +227,22 @@
             <span id="l3" class="sneha-long">Snehaaaaaaaaaaaaaaaaaaaa</span>
         </h1>
 
-        <img src="cake.jpg" alt="Cake" style="width: 200px; border-radius: 10px; margin-bottom: 40px;">
+        <img src="cake.jpg" alt="Cake" style="width: 200px; border-radius: 10px; margin-bottom: 10px;">
+
+        <div class="instruction-box">
+            <h2>there is a message for you</h2>
+            <p>in every photo tap on them to see this</p>
+        </div>
 
         <div class="gallery-container">
-            <div class="polaroid" data-msg="“She’s not just pretty, she’s my peace.”"><img src="snehap1.JPEG"></div>
-            <div class="polaroid" data-msg="“In a world full of trends, she’s my forever.”"><img src="snehap2.JPEG"></div>
-            <div class="polaroid" data-msg="“Her smile >>> everything.”"><img src="snehap3.jpg"></div>
-            <div class="polaroid" data-msg="“Lucky? No. Blessed.”"><img src="snehap4.jpg"></div>
-            <div class="polaroid" data-msg="“She walked in, and suddenly life made sense.”"><img src="snehap5.jpg"></div>
-            <div class="polaroid" data-msg="“Soft heart. Strong soul. My girl.”"><img src="snehap6.jpeg"></div>
-            <div class="polaroid" data-msg="“Every love song finally has a face.”"><img src="snehap7.jpeg"></div>
-            <div class="polaroid" data-msg="“Mine. Always.” ❤️"><img src="snehap8.jpeg"></div>
+            <div class="polaroid" data-msg="“Message 1”"><img src="snehap1.JPEG"></div>
+            <div class="polaroid" data-msg="“Message 2”"><img src="snehap2.JPEG"></div>
+            <div class="polaroid" data-msg="“Message 3”"><img src="snehap3.jpg"></div>
+            <div class="polaroid" data-msg="“Message 4”"><img src="snehap4.jpg"></div>
+            <div class="polaroid" data-msg="“Message 5”"><img src="snehap5.jpg"></div>
+            <div class="polaroid" data-msg="“Message 6”"><img src="snehap6.jpeg"></div>
+            <div class="polaroid" data-msg="“Message 7”"><img src="snehap7.jpeg"></div>
+            <div class="polaroid" data-msg="“Message 8”"><img src="snehap8.jpeg"></div>
         </div>
 
         <a href="story.html" class="btn-next">NEXT</a>
@@ -215,17 +257,18 @@
     </div>
 
     <script>
-        // Intersection Observer to trigger slow animations
+        // Intersection Observer for rapid animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
+                    // FAST Typing (1s gap)
                     document.getElementById('l1').classList.add('animate-type');
-                    setTimeout(() => document.getElementById('l2').classList.add('animate-type'), 1500);
-                    setTimeout(() => document.getElementById('l3').classList.add('animate-type'), 3000);
+                    setTimeout(() => document.getElementById('l2').classList.add('animate-type'), 1000);
+                    setTimeout(() => document.getElementById('l3').classList.add('animate-type'), 2000);
                     
+                    // Slightly slower photo staggered entry for aesthetic
                     document.querySelectorAll('.polaroid').forEach((p, i) => {
-                        // Slower staggered entry
-                        setTimeout(() => p.classList.add('show'), 4500 + (i * 500)); 
+                        setTimeout(() => p.classList.add('show'), 3000 + (i * 300)); 
                     });
                 }
             });
