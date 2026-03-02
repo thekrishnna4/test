@@ -3,153 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Surprise - Page 2</title>
+    <title>Birthday Surprise</title>
     
-    <script type="text/javascript" src="./file/jquery.min.js"></script>
-    <script type="text/javascript" src="./file/jscex.min.js"></script>
-    <script type="text/javascript" src="./file/jscex-parser.js"></script>
-    <script type="text/javascript" src="./file/jscex-jit.js"></script>
-    <script type="text/javascript" src="./file/jscex-builderbase.min.js"></script>
-    <script type="text/javascript" src="./file/jscex-async.min.js"></script>
-    <script type="text/javascript" src="./file/jscex-async-powerpack.min.js"></script>
-    <script type="text/javascript" src="./file/functions.js" charset="utf-8"></script>
-    <script type="text/javascript" src="./file/love.js" charset="utf-8"></script>
+    <script src="file/jquery.min.js"></script>
+    <script src="file/jscex.min.js"></script>
+    <script src="file/jscex-parser.js"></script>
+    <script src="file/jscex-jit.js"></script>
+    <script src="file/jscex-builderbase.min.js"></script>
+    <script src="file/jscex-async.min.js"></script>
+    <script src="file/jscex-async-powerpack.min.js"></script>
+    <script src="file/functions.js"></script>
+    <script src="file/love.js"></script>
 
     <style>
-        @font-face { font-family: 'Harmond Bold'; src: url('Harmond bold.otf') format('opentype'); }
-        @font-face { font-family: 'Absans Regular'; src: url('Absans Regular.otf') format('opentype'); }
+        @font-face { font-family: 'Harmond Bold'; src: url('Harmond bold.otf'); }
+        @font-face { font-family: 'Absans Regular'; src: url('Absans Regular.otf'); }
 
         :root {
             --pink-1: #FF6B9D;
             --page-beige: #F5F5DC;
             --polaroid-brown: #C4A484;
-            --font-heading: 'Harmond Bold', serif;
-            --font-body: 'Absans Regular', sans-serif;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--page-beige); font-family: var(--font-body); text-align: center; overflow-x: hidden; }
+        body { background-color: var(--page-beige); margin: 0; overflow-x: hidden; font-family: 'Absans Regular', sans-serif; text-align: center; }
 
-        /* --- TREE SECTION --- */
-        #main { width: 100%; position: relative; }
-        #wrap { position: relative; margin: 0 auto; width: 1100px; height: 680px; transform: scale(0.7); margin-top: -50px; }
-        canvas { display: block; width: 100%; height: 100%; }
-        
-        .tree-instruction {
+        /* --- TREE CONTAINER --- */
+        #main { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+        #canvas { display: block; background: none; cursor: pointer; max-width: 100%; }
+
+        .tree-msg {
             color: var(--pink-1);
             font-weight: bold;
-            margin-top: -100px;
+            position: absolute;
+            top: 20%;
+            width: 100%;
+            pointer-events: none;
             letter-spacing: 2px;
-            animation: bounce 2s infinite;
+            z-index: 10;
         }
 
-        /* --- PHOTO GRID & TEXT --- */
-        .content-section { padding: 50px 20px; }
+        /* --- CONTENT SECTION --- */
+        .content-section { padding: 40px 20px; display: none; }
+        .bday-title { font-family: 'Harmond Bold'; font-size: 3rem; margin-bottom: 20px; }
         
-        .bday-text { font-family: var(--font-heading); font-size: clamp(2.5rem, 10vw, 5rem); margin: 40px 0; line-height: 1.1; }
-        .bday-text span { display: block; overflow: hidden; white-space: nowrap; width: 0; margin: 0 auto; }
-        .animate-type { animation: type 0.8s steps(20) forwards; }
-
-        .instruction-box {
-            background: #fff; padding: 15px; border-radius: 10px; margin: 20px auto; 
-            max-width: 400px; border: 2px solid var(--pink-1);
-        }
-
-        .gallery-container {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
-            width: 100%; max-width: 500px; margin: 30px auto;
-        }
-
-        .polaroid {
-            background: var(--polaroid-brown); padding: 10px 10px 30px 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2); opacity: 0; transform: translateY(20px); cursor: pointer;
-        }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 500px; margin: 0 auto; }
+        .polaroid { background: var(--polaroid-brown); padding: 10px 10px 30px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
-        .polaroid.show { animation: fadeInPhoto 0.8s ease forwards; }
-
-        /* --- POPUP --- */
-        #popup-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9); display: none; justify-content: center; align-items: center; z-index: 1000;
-        }
-        .popup-frame { background: var(--polaroid-brown); padding: 15px 15px 50px 15px; max-width: 90%; }
-        #popup-img { max-width: 100%; max-height: 60vh; }
-        #popup-text { color: #fff; margin-top: 15px; font-size: 1.1rem; }
-
-        @keyframes type { from { width: 0; } to { width: 100%; } }
-        @keyframes fadeInPhoto { to { opacity: 1; transform: translateY(0); } }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-        .btn-next { background: var(--pink-1); color: white; padding: 15px 60px; text-decoration: none; font-weight: bold; display: inline-block; margin: 40px 0; }
-        
-        /* Mobile Scaling for Tree */
-        @media (max-width: 768px) {
-            #wrap { transform: scale(0.35); margin-left: -300px; margin-top: -150px; }
-            .tree-instruction { margin-top: -250px; }
-        }
     </style>
 </head>
 <body>
 
     <audio id="myAudio" loop>
-        <source src="song.mp3" type="audio/mp3" />
+        <source src="song.mp3" type="audio/mp3">
     </audio>
 
     <div id="main">
-        <div id="wrap">
-            <canvas id="canvas"></canvas>
-        </div>
-        <p class="tree-instruction">TAP THE HEART SEED TO GROW THE TREE</p>
+        <div class="tree-msg" id="msg">TAP THE HEART SEED TO GROW THE TREE</div>
+        <canvas id="canvas" width="1100" height="680"></canvas>
     </div>
 
     <div class="content-section" id="wish-section">
-        <h1 class="bday-text">
-            <span id="l1">Happy</span>
-            <span id="l2">Birthday</span>
-            <span id="l3" style="font-size: 0.6em;">Snehaaaaaaaaaaaaaaaaaaaa</span>
-        </h1>
-
-        <img src="cake.jpg" style="width: 180px; border-radius: 10px;">
-
-        <div class="instruction-box">
-            <h3>there is a message for you</h3>
-            <p>tap on photos to reveal them</p>
-        </div>
-
-        <div class="gallery-container">
-            <div class="polaroid" data-msg="“She’s not just pretty, she’s my peace.”"><img src="snehap1.JPEG"></div>
-            <div class="polaroid" data-msg="“In a world full of trends, she’s my forever.”"><img src="snehap2.JPEG"></div>
-            <div class="polaroid" data-msg="“Her smile >>> everything.”"><img src="snehap3.jpg"></div>
-            <div class="polaroid" data-msg="“Lucky? No. Blessed.”"><img src="snehap4.jpg"></div>
-            <div class="polaroid" data-msg="“She walked in, and suddenly life made sense.”"><img src="snehap5.jpg"></div>
-            <div class="polaroid" data-msg="“Soft heart. Strong soul. My girl.”"><img src="snehap6.jpeg"></div>
-            <div class="polaroid" data-msg="“Every love song finally has a face.”"><img src="snehap7.jpeg"></div>
-            <div class="polaroid" data-msg="“Mine. Always.” ❤️"><img src="snehap8.jpeg"></div>
-        </div>
-
-        <a href="story.html" class="btn-next">NEXT</a>
-    </div>
-
-    <div id="popup-overlay">
-        <div class="popup-frame">
-            <img id="popup-img">
-            <p id="popup-text"></p>
+        <h1 class="bday-title">Happy Birthday Sneha</h1>
+        <div class="grid">
+            <div class="polaroid"><img src="snehap1.JPEG"></div>
+            <div class="polaroid"><img src="snehap2.JPEG"></div>
+            <div class="polaroid"><img src="snehap3.jpg"></div>
+            <div class="polaroid"><img src="snehap4.jpg"></div>
         </div>
     </div>
 
     <script>
         (function(){
             var canvas = $('#canvas');
-            if (!canvas[0].getContext) { return; }
-
+            var ctx = canvas[0].getContext("2d", { willReadFrequently: true }); // Fixes your console warning
+            
             var width = canvas.width();
             var height = canvas.height();
-            canvas.attr("width", width);
-            canvas.attr("height", height);
-
+            
             var opts = {
-                seed: { x: width / 2 - 20, color: "rgb(190, 26, 37)", scale: 2 },
-                branch: [[535, 680, 570, 250, 500, 200, 30, 100, [[540, 500, 455, 417, 340, 400, 13, 100, [[450, 435, 434, 430, 394, 395, 2, 40]]],[550, 445, 600, 356, 680, 345, 12, 100, [[578, 400, 648, 409, 661, 426, 3, 80]]],[539, 281, 537, 248, 534, 217, 3, 40],[546, 397, 413, 247, 328, 244, 9, 80, [[427, 286, 383, 253, 371, 205, 2, 40],[498, 345, 435, 315, 395, 330, 4, 60]]],[546, 357, 608, 252, 678, 221, 6, 100, [[590, 293, 646, 277, 648, 271, 2, 80]]]]]],
+                seed: {
+                    x: width / 2 - 20,
+                    color: "rgb(190, 26, 37)",
+                    scale: 2
+                },
+                branch: [
+                    [535, 680, 570, 250, 500, 200, 30, 100, [
+                        [540, 500, 455, 417, 340, 400, 13, 100, [[450, 435, 434, 430, 394, 395, 2, 40]]],
+                        [550, 445, 600, 356, 680, 345, 12, 100, [[578, 400, 648, 409, 661, 426, 3, 80]]]
+                    ]]
+                ],
                 bloom: { num: 700, width: 1080, height: 650 },
                 footer: { width: 1200, height: 5, speed: 10 }
             };
@@ -159,15 +101,18 @@
             var hold = 1;
 
             canvas.click(function(e) {
-                document.getElementById('myAudio').play(); // Play music on click
+                document.getElementById('myAudio').play();
                 var offset = canvas.offset(), x, y;
                 x = e.pageX - offset.left;
                 y = e.pageY - offset.top;
+                
                 if (seed.hover(x, y)) {
                     hold = 0;
                     canvas.unbind("click");
                     canvas.unbind("mousemove");
-                    canvas.removeClass('hand');
+                    $('#msg').fadeOut();
+                    // Reveal content after tree grows
+                    setTimeout(() => { $('#wish-section').fadeIn(); }, 5000);
                 }
             }).mousemove(function(e){
                 var offset = canvas.offset(), x, y;
@@ -199,29 +144,6 @@
 
             runAsync().start();
         })();
-
-        // SCROLL OBSERVER FOR TEXT & PHOTOS
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    document.getElementById('l1').classList.add('animate-type');
-                    setTimeout(() => document.getElementById('l2').classList.add('animate-type'), 800);
-                    setTimeout(() => document.getElementById('l3').classList.add('animate-type'), 1600);
-                    document.querySelectorAll('.polaroid').forEach((p, i) => {
-                        setTimeout(() => p.classList.add('show'), 2400 + (i * 200)); 
-                    });
-                }
-            });
-        }, { threshold: 0.1 });
-        observer.observe(document.getElementById('wish-section'));
-
-        // POPUP LOGIC
-        $('.polaroid').click(function(){
-            $('#popup-img').attr('src', $(this).find('img').attr('src'));
-            $('#popup-text').text($(this).data('msg'));
-            $('#popup-overlay').css('display', 'flex');
-        });
-        $('#popup-overlay').click(function(){ $(this).hide(); });
     </script>
 </body>
 </html>
