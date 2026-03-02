@@ -169,6 +169,35 @@
     </style>
 </head>
 <body>
+    <audio id="mySong" loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // This function runs as soon as the page loads
+    window.addEventListener('load', () => {
+        const song = document.getElementById('mySong');
+        
+        // Try to play immediately
+        const playPromise = song.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                // Autoplay started!
+                console.log("Music playing...");
+            }).catch(error => {
+                // If browser blocks it, play on first touch/scroll
+                console.log("Autoplay blocked. Waiting for interaction.");
+                document.addEventListener('touchstart', () => {
+                    song.play();
+                }, { once: true });
+                document.addEventListener('click', () => {
+                    song.play();
+                }, { once: true });
+            });
+        }
+    });
+</script>
 
     <div class="section">
         <div class="drawing-block">
