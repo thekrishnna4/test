@@ -25,73 +25,85 @@
             --polaroid-brown: #C4A484;
         }
 
-        body { background-color: var(--page-beige); margin: 0; overflow-x: hidden; font-family: 'Absans Regular', sans-serif; text-align: center; }
+        body { background-color: var(--page-beige); margin: 0; font-family: 'Absans Regular', sans-serif; text-align: center; }
 
-        /* --- TREE CONTAINER --- */
-        #main { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
-        #canvas { display: block; background: none; cursor: pointer; max-width: 100%; }
+        /* --- TREE SECTION --- */
+        #main { width: 100%; height: 100vh; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; }
+        
+        /* This wrapper ensures the tree is clickable on mobile */
+        #canvas-wrapper { position: relative; width: 1100px; height: 680px; transform-origin: top center; }
+        
+        canvas { display: block; }
 
-        .tree-msg {
-            color: var(--pink-1);
-            font-weight: bold;
-            position: absolute;
-            top: 20%;
-            width: 100%;
-            pointer-events: none;
-            letter-spacing: 2px;
-            z-index: 10;
+        .tree-msg { color: var(--pink-1); font-weight: bold; margin-top: 50px; letter-spacing: 2px; z-index: 10; }
+        
+        #scroll-hint { 
+            color: var(--pink-1); font-weight: bold; margin-top: -100px; 
+            display: none; letter-spacing: 5px; animation: bounce 2s infinite; 
         }
 
         /* --- CONTENT SECTION --- */
-        .content-section { padding: 40px 20px; display: none; }
-        .bday-title { font-family: 'Harmond Bold'; font-size: 3rem; margin-bottom: 20px; }
+        .content-section { padding: 60px 20px; display: none; }
+        .bday-title { font-family: 'Harmond Bold'; font-size: clamp(2rem, 8vw, 4rem); margin-bottom: 30px; }
         
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 500px; margin: 0 auto; }
+        /* 2x4 GRID RESTORED */
+        .grid { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; 
+            max-width: 500px; margin: 0 auto; 
+        }
         .polaroid { background: var(--polaroid-brown); padding: 10px 10px 30px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        /* Mobile Scaling */
+        @media (max-width: 768px) {
+            #canvas-wrapper { transform: scale(0.35); margin-top: -50px; }
+            #scroll-hint { margin-top: -250px; }
+        }
     </style>
 </head>
 <body>
 
-    <audio id="myAudio" loop>
-        <source src="song.mp3" type="audio/mp3">
-    </audio>
+    <audio id="myAudio" loop><source src="song.mp3" type="audio/mp3"></audio>
 
     <div id="main">
-        <div class="tree-msg" id="msg">TAP THE HEART SEED TO GROW THE TREE</div>
-        <canvas id="canvas" width="1100" height="680"></canvas>
+        <div class="tree-msg" id="msg">TAP THE HEART SEED</div>
+        <div id="canvas-wrapper">
+            <canvas id="canvas" width="1100" height="680"></canvas>
+        </div>
+        <div id="scroll-hint">SCROLL DOWN ↓</div>
     </div>
 
     <div class="content-section" id="wish-section">
         <h1 class="bday-title">Happy Birthday Sneha</h1>
+        
         <div class="grid">
             <div class="polaroid"><img src="snehap1.JPEG"></div>
             <div class="polaroid"><img src="snehap2.JPEG"></div>
             <div class="polaroid"><img src="snehap3.jpg"></div>
             <div class="polaroid"><img src="snehap4.jpg"></div>
+            <div class="polaroid"><img src="snehap5.jpg"></div>
+            <div class="polaroid"><img src="snehap6.jpeg"></div>
+            <div class="polaroid"><img src="snehap7.jpeg"></div>
+            <div class="polaroid"><img src="snehap8.jpeg"></div>
         </div>
     </div>
 
     <script>
         (function(){
             var canvas = $('#canvas');
-            var ctx = canvas[0].getContext("2d", { willReadFrequently: true }); // Fixes your console warning
+            var ctx = canvas[0].getContext("2d", { willReadFrequently: true });
             
             var width = canvas.width();
             var height = canvas.height();
             
             var opts = {
-                seed: {
-                    x: width / 2 - 20,
-                    color: "rgb(190, 26, 37)",
-                    scale: 2
-                },
-                branch: [
-                    [535, 680, 570, 250, 500, 200, 30, 100, [
-                        [540, 500, 455, 417, 340, 400, 13, 100, [[450, 435, 434, 430, 394, 395, 2, 40]]],
-                        [550, 445, 600, 356, 680, 345, 12, 100, [[578, 400, 648, 409, 661, 426, 3, 80]]]
-                    ]]
-                ],
+                seed: { x: width / 2 - 20, color: "rgb(190, 26, 37)", scale: 2 },
+                branch: [[535, 680, 570, 250, 500, 200, 30, 100, [
+                    [540, 500, 455, 417, 340, 400, 13, 100, [[450, 435, 434, 430, 394, 395, 2, 40]]],
+                    [550, 445, 600, 356, 680, 345, 12, 100, [[578, 400, 648, 409, 661, 426, 3, 80]]]
+                ]]],
                 bloom: { num: 700, width: 1080, height: 650 },
                 footer: { width: 1200, height: 5, speed: 10 }
             };
@@ -100,26 +112,29 @@
             var seed = tree.seed;
             var hold = 1;
 
-            canvas.click(function(e) {
-                document.getElementById('myAudio').play();
+            // Handle Click AND Touch for Mobile
+            const startAnimation = function(e) {
                 var offset = canvas.offset(), x, y;
-                x = e.pageX - offset.left;
-                y = e.pageY - offset.top;
+                // Support for both mouse and touch coordinates
+                var ev = e.originalEvent.touches ? e.originalEvent.touches[0] : e;
+                x = ev.pageX - offset.left;
+                y = ev.pageY - offset.top;
                 
                 if (seed.hover(x, y)) {
                     hold = 0;
-                    canvas.unbind("click");
-                    canvas.unbind("mousemove");
+                    document.getElementById('myAudio').play();
+                    canvas.unbind("click touchstart");
                     $('#msg').fadeOut();
-                    // Reveal content after tree grows
-                    setTimeout(() => { $('#wish-section').fadeIn(); }, 5000);
+                    
+                    // Show scroll hint and photos after tree blooms
+                    setTimeout(() => { 
+                        $('#scroll-hint').fadeIn(); 
+                        $('#wish-section').show(); 
+                    }, 7000);
                 }
-            }).mousemove(function(e){
-                var offset = canvas.offset(), x, y;
-                x = e.pageX - offset.left;
-                y = e.pageY - offset.top;
-                canvas.toggleClass('hand', seed.hover(x, y));
-            });
+            };
+
+            canvas.bind("click touchstart", startAnimation);
 
             var seedAnimate = eval(Jscex.compile("async", function () {
                 seed.draw();
