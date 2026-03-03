@@ -28,86 +28,58 @@
         body { background-color: var(--page-beige); margin: 0; font-family: 'Absans Regular', sans-serif; text-align: center; overflow-x: hidden; }
 
         /* --- TREE SECTION --- */
-        #main { 
-            width: 100%; 
-            height: 100vh; 
-            position: relative; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-        }
+        #main { width: 100%; height: 100vh; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #mobile-trigger { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; cursor: pointer; }
+        #canvas-wrapper { position: relative; width: 1100px; height: 680px; transform: scale(1.1); transform-origin: center; }
         
-        /* The Click Trigger (Massive) */
-        #mobile-trigger { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            z-index: 999; cursor: pointer; 
-        }
-
-        #canvas-wrapper { 
-            position: relative; 
-            width: 1100px; 
-            height: 680px; 
-            transform: scale(1.1); 
-            transform-origin: center; 
-        }
-        
-        /* Fixed Message Positioning for Phones */
-        .tree-msg { 
-            color: var(--pink-1); 
-            font-weight: bold; 
-            font-size: 1.5rem; 
-            position: absolute;
-            top: 15%; /* Lowered so it doesn't hide at the top */
-            width: 100%;
-            z-index: 10; 
-            text-transform: uppercase; 
-        }
-
-        /* Scroll Hint Positioning to avoid overlapping the tree */
-        #scroll-hint { 
-            color: var(--pink-1); 
-            font-weight: bold; 
-            display: none; 
-            letter-spacing: 5px; 
-            animation: bounce 2s infinite; 
-            position: absolute;
-            bottom: 5%; 
-            width: 100%;
-            z-index: 10; 
-        }
+        .tree-msg { color: var(--pink-1); font-weight: bold; font-size: 1.5rem; position: absolute; top: 15%; width: 100%; z-index: 10; text-transform: uppercase; }
+        #scroll-hint { color: var(--pink-1); font-weight: bold; display: none; letter-spacing: 5px; animation: bounce 2s infinite; position: absolute; bottom: 5%; width: 100%; z-index: 10; }
 
         /* --- BIRTHDAY CONTENT --- */
-        .content-section { padding: 40px 10px 100px 10px; display: none; }
-        
+        .content-section { padding: 40px 10px 120px 10px; display: none; }
         .bday-title { font-family: 'Harmond Bold'; font-size: clamp(3rem, 18vw, 7.5rem); margin: 60px 0 20px 0; line-height: 0.9; }
         .bday-title span { display: block; overflow: hidden; white-space: nowrap; width: 0; margin: 0 auto; }
         .animate-type { animation: type 1s steps(30) forwards; }
-        
         .line-long { font-size: 0.4em; letter-spacing: 1px; color: var(--pink-1); margin-top: 20px; }
 
         .cake-img { width: 300px; border-radius: 20px; margin: 40px 0; border: 10px solid white; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+
+        /* --- RESTORED INSTRUCTION BOX --- */
+        .instruction-box {
+            background: #fff; padding: 20px; border-radius: 10px; margin: 40px auto; 
+            max-width: 450px; border: 2px solid var(--pink-1);
+        }
+        .instruction-box h3 { font-family: 'Harmond Bold'; color: #333; margin-bottom: 5px; }
+        .instruction-box p { color: #666; font-size: 0.9rem; margin: 0; }
 
         /* --- GRID & POLAROIDS --- */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 650px; margin: 40px auto; }
         .polaroid { background: var(--polaroid-brown); padding: 10px 10px 30px 10px; cursor: pointer; transition: 0.3s; }
         .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
 
-        /* --- NEXT BUTTON (CLEAN) --- */
+        /* --- RECTANGLE NEXT BUTTON --- */
         .btn-container { margin-top: 80px; }
         .btn-next {
-            display: inline-block; background: var(--pink-1); color: white;
-            padding: 18px 80px; border-radius: 50px; text-decoration: none;
-            font-weight: bold; font-size: 1.5rem; transition: 0.3s;
+            display: inline-block; 
+            background: var(--pink-1); 
+            color: white;
+            padding: 20px 100px; /* Wider for rectangle look */
+            border-radius: 0; /* REMOVED ROUNDED CORNERS */
+            text-decoration: none;
+            font-weight: bold; 
+            font-size: 1.5rem; 
+            transition: 0.3s;
             box-shadow: 0 5px 20px rgba(255, 107, 157, 0.3);
+            border: 2px solid var(--pink-1);
         }
-        .sub-btn-text { display: block; margin-top: 15px; font-size: 1rem; color: #777; font-style: italic; }
+        .btn-next:hover { background: transparent; color: var(--pink-1); }
+        .sub-btn-text { display: block; margin-top: 20px; font-size: 1rem; color: #777; font-style: italic; }
 
-        /* --- BLURRY POPUP BACKGROUND --- */
+        /* --- BLURRY POPUP --- */
         #popup { 
             position: fixed; top:0; left:0; width:100%; height:100%; 
-            background: rgba(245, 245, 220, 0.7); /* Beige Tint */
-            backdrop-filter: blur(15px); /* THE BLUR EFFECT */
+            background: rgba(245, 245, 220, 0.7); 
+            backdrop-filter: blur(15px); 
             -webkit-backdrop-filter: blur(15px);
             display:none; justify-content:center; align-items:center; z-index:2000; flex-direction: column; 
         }
@@ -118,13 +90,10 @@
         @keyframes type { from { width: 0; } to { width: 100%; } }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* --- MOBILE SCALING --- */
         @media (max-width: 768px) { 
             #canvas-wrapper { transform: scale(0.38); margin-top: -50px; } 
-            .tree-msg { top: 18%; font-size: 1.2rem; }
-            #scroll-hint { bottom: 10%; font-size: 0.9rem; }
             .cake-img { width: 250px; }
-            .bday-title { margin-top: 100px; }
+            .btn-next { padding: 15px 60px; width: 70%; }
         }
     </style>
 </head>
@@ -149,6 +118,11 @@
         </h1>
 
         <img src="cake.jpg" class="cake-img">
+
+        <div class="instruction-box">
+            <h3>there is a message for you</h3>
+            <p>tap on photos to reveal them</p>
+        </div>
         
         <div class="grid">
             <div class="polaroid" onclick="openMe(this)" data-cap="You are my favorite person. ❤️"><img src="snehap1.JPEG"></div>
@@ -185,9 +159,8 @@
             var canvas = $('#canvas');
             var width = canvas.width(), height = canvas.height();
             
-            // HEART SEED SCALING - Scaled up for easier viewing
             var tree = new Tree(canvas[0], width, height, {
-                seed: { x: width / 2 - 20, color: "rgb(190, 26, 37)", scale: 4 }, // Scaled 2x more
+                seed: { x: width / 2 - 20, color: "rgb(190, 26, 37)", scale: 4 }, 
                 branch: [[535, 680, 570, 250, 500, 200, 30, 100, [[540, 500, 455, 417, 340, 400, 13, 100, [[450, 435, 434, 430, 394, 395, 2, 40]]],[550, 445, 600, 356, 680, 345, 12, 100, [[578, 400, 648, 409, 661, 426, 3, 80]]]]]],
                 bloom: { num: 700, width: 1080, height: 650 },
                 footer: { width: 1200, height: 5, speed: 10 }
