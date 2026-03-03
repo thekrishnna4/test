@@ -27,41 +27,55 @@
 
         body { background-color: var(--page-beige); margin: 0; font-family: 'Absans Regular', sans-serif; text-align: center; }
 
-        /* --- TREE SECTION --- */
-        #main { width: 100%; height: 100vh; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        #canvas-wrapper { position: relative; width: 1100px; height: 680px; transform-origin: center; }
+        /* --- TREE SCALING --- */
+        #main { width: 100%; height: 100vh; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
         
-        /* MOBILE OVERLAY: Makes the whole screen clickable to start */
-        #mobile-trigger { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            z-index: 100; cursor: pointer; 
+        /* Adjusted scaling for better fit on all devices */
+        #canvas-wrapper { position: relative; width: 1100px; height: 680px; transform: scale(0.8); transform-origin: center; }
+        
+        #mobile-trigger { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; cursor: pointer; }
+        .tree-msg { color: var(--pink-1); font-weight: bold; margin-bottom: 10px; letter-spacing: 2px; z-index: 10; font-size: 1.2rem; }
+        #scroll-hint { color: var(--pink-1); font-weight: bold; display: none; letter-spacing: 5px; animation: bounce 2s infinite; margin-top: 10px; }
+
+        /* --- SCALED BIRTHDAY TEXT --- */
+        .bday-title { 
+            font-family: 'Harmond Bold'; 
+            font-size: clamp(2rem, 12vw, 5rem); /* Dynamically scales based on screen width */
+            margin: 40px 0; 
+            line-height: 1.1; 
         }
-
-        .tree-msg { color: var(--pink-1); font-weight: bold; margin-bottom: 20px; letter-spacing: 2px; z-index: 10; }
-        #scroll-hint { color: var(--pink-1); font-weight: bold; display: none; letter-spacing: 5px; animation: bounce 2s infinite; margin-top: 20px; }
-
-        /* --- BIRTHDAY TEXT ANIMATION --- */
-        .bday-title { font-family: 'Harmond Bold'; font-size: clamp(2.5rem, 8vw, 4.5rem); margin: 40px 0; line-height: 1.2; }
         .bday-title span { display: block; overflow: hidden; white-space: nowrap; width: 0; margin: 0 auto; }
         .animate-type { animation: type 1s steps(30) forwards; }
-        .line-long { font-size: 0.5em; letter-spacing: 1px; }
+        .line-long { font-size: 0.4em; letter-spacing: 0.5px; margin-top: 10px; }
 
         /* --- CONTENT SECTION --- */
-        .content-section { padding: 40px 20px; display: none; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 500px; margin: 30px auto; }
-        .polaroid { background: var(--polaroid-brown); padding: 10px 10px 30px 10px; cursor: pointer; transition: transform 0.3s; }
-        .polaroid:hover { transform: scale(1.05); }
+        .content-section { padding: 40px 10px; display: none; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 600px; margin: 30px auto; padding: 0 10px; }
+        .polaroid { background: var(--polaroid-brown); padding: 8px 8px 25px 8px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
         .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
 
-        /* --- POPUP --- */
-        #popup { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:none; justify-content:center; align-items:center; z-index:2000; }
-        .popup-box { background: var(--polaroid-brown); padding: 15px 15px 50px 15px; max-width: 85%; }
-        #popup-img { max-width: 100%; max-height: 70vh; }
+        /* --- POPUP WITH CAPTIONS --- */
+        #popup { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); display:none; justify-content:center; align-items:center; z-index:2000; flex-direction: column; }
+        .popup-box { background: var(--polaroid-brown); padding: 12px 12px 15px 12px; max-width: 90%; position: relative; }
+        #popup-img { max-width: 100%; max-height: 65vh; display: block; }
+        #popup-caption { 
+            color: #3d2b1f; /* Dark brown for polaroid look */
+            background: #fdfdfd; 
+            margin-top: 10px; 
+            padding: 10px; 
+            font-weight: bold; 
+            font-family: 'Absans Regular';
+            font-size: 1rem;
+        }
 
         @keyframes type { from { width: 0; } to { width: 100%; } }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        @media (max-width: 768px) { #canvas-wrapper { transform: scale(0.35); } }
+        /* Mobile specific tree scaling */
+        @media (max-width: 768px) { 
+            #canvas-wrapper { transform: scale(0.35); } 
+            .grid { gap: 10px; }
+        }
     </style>
 </head>
 <body>
@@ -69,7 +83,8 @@
     <audio id="myAudio" loop><source src="song.mp3" type="audio/mp3"></audio>
 
     <div id="main">
-        <div id="mobile-trigger"></div> <div class="tree-msg" id="msg">TAP THE HEART TO START</div>
+        <div id="mobile-trigger"></div>
+        <div class="tree-msg" id="msg">TAP THE HEART TO START</div>
         <div id="canvas-wrapper">
             <canvas id="canvas" width="1100" height="680"></canvas>
         </div>
@@ -83,26 +98,36 @@
             <span id="t3" class="line-long">Snehaaaaaaaaaaaaaaaaaaaa</span>
         </h1>
 
-        <img src="cake.jpg" style="width: 200px; border-radius: 15px; margin-bottom: 30px;">
+        <img src="cake.jpg" style="width: 180px; border-radius: 15px; margin-bottom: 30px; border: 5px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
         
         <div class="grid">
-            <div class="polaroid" onclick="show('snehap1.JPEG')"><img src="snehap1.JPEG"></div>
-            <div class="polaroid" onclick="show('snehap2.JPEG')"><img src="snehap2.JPEG"></div>
-            <div class="polaroid" onclick="show('snehap3.jpg')"><img src="snehap3.jpg"></div>
-            <div class="polaroid" onclick="show('snehap4.jpg')"><img src="snehap4.jpg"></div>
-            <div class="polaroid" onclick="show('snehap5.jpg')"><img src="snehap5.jpg"></div>
-            <div class="polaroid" onclick="show('snehap6.jpeg')"><img src="snehap6.jpeg"></div>
-            <div class="polaroid" onclick="show('snehap7.jpeg')"><img src="snehap7.jpeg"></div>
-            <div class="polaroid" onclick="show('snehap8.jpeg')"><img src="snehap8.jpeg"></div>
+            <div class="polaroid" onclick="openMe(this)" data-cap="You are my favorite person. ❤️"><img src="snehap1.JPEG"></div>
+            <div class="polaroid" onclick="openMe(this)" data-cap="My peace in this chaotic world."><img src="snehap2.JPEG"></div>
+            <div class="polaroid" onclick="openMe(this)" data-cap="That smile? Forever my favorite view."><img src="snehap3.jpg"></div>
+            <div class="polaroid" onclick="openMe(this)" data-cap="Blessed to have you by my side."><img src="snehap4.jpg"></div>
+            <div class="polaroid" onclick="openMe(this)" data-cap="Making memories with you is my favorite thing."><img src="snehap5.jpg"></div>
+            <div class="polaroid" onclick="openMe(this)" data-cap="Soft heart, strong soul. That's you."><img src="snehap6.jpeg"></div>
+            <div class="polaroid" onclick="openMe(this)" data-cap="The face behind every love song."><img src="snehap7.jpeg"></div>
+            <div class="polaroid" onclick="openMe(this)" data-cap="Always and forever, mine."><img src="snehap8.jpeg"></div>
         </div>
     </div>
 
     <div id="popup" onclick="this.style.display='none'">
-        <div class="popup-box"><img id="popup-img"></div>
+        <div class="popup-box">
+            <img id="popup-img">
+            <div id="popup-caption"></div>
+        </div>
     </div>
 
     <script>
-        function show(src) { document.getElementById('popup-img').src = src; document.getElementById('popup').style.display = 'flex'; }
+        // Popup function that grabs the image and the unique caption
+        function openMe(el) { 
+            const imgPath = $(el).find('img').attr('src');
+            const captionText = $(el).attr('data-cap');
+            $('#popup-img').attr('src', imgPath);
+            $('#popup-caption').text(captionText);
+            $('#popup').css('display', 'flex'); 
+        }
 
         (function(){
             var canvas = $('#canvas');
@@ -122,14 +147,13 @@
                     document.getElementById('myAudio').play();
                     $('#msg').fadeOut();
                     $(this).hide(); 
-                    // Type text when tree finishes
                     setTimeout(() => { 
                         $('#scroll-hint').fadeIn(); 
-                        $('#wish-section').show();
+                        $('#wish-section').fadeIn(1000);
                         $('#t1').addClass('animate-type');
                         setTimeout(()=> $('#t2').addClass('animate-type'), 1000);
                         setTimeout(()=> $('#t3').addClass('animate-type'), 2000);
-                    }, 6000);
+                    }, 6500);
                 }
             });
 
