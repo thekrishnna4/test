@@ -27,85 +27,60 @@
 
         body { background-color: var(--page-beige); margin: 0; font-family: 'Absans Regular', sans-serif; text-align: center; overflow-x: hidden; }
 
-        /* --- TREE SECTION --- */
-        #main { 
-            width: 100%; 
-            height: 90vh; /* Reduced height so hint is visible sooner */
-            position: relative; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-        }
+        /* --- MASSIVE MOBILE TRIGGER --- */
+        #main { width: 100%; height: 100vh; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         
-        #canvas-wrapper { 
-            position: relative; 
-            width: 1100px; 
-            height: 680px; 
-            transform: scale(0.9); /* Scaled up for Desktop */
-            transform-origin: center; 
-        }
-        
-        #mobile-trigger { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; cursor: pointer; }
-        
-        .tree-msg { color: var(--pink-1); font-weight: bold; margin-top: 20px; letter-spacing: 2px; z-index: 10; font-size: 1.2rem; }
-        
-        #scroll-hint { 
-            color: var(--pink-1); 
-            font-weight: bold; 
-            display: none; 
-            letter-spacing: 3px; 
-            animation: bounce 2s infinite; 
-            margin-top: -50px; /* Pulled up to be visible */
-            z-index: 10;
+        /* This is now "10x" bigger in terms of click priority */
+        #mobile-trigger { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: 999; cursor: pointer; background: rgba(255,255,255,0); 
         }
 
-        /* --- TEXT SCALING --- */
-        .bday-title { 
-            font-family: 'Harmond Bold'; 
-            font-size: clamp(2.5rem, 15vw, 6rem); 
-            margin: 60px 0 20px 0; 
-            line-height: 1.1; 
-        }
+        #canvas-wrapper { position: relative; width: 1100px; height: 680px; transform: scale(1.1); transform-origin: center; }
+        
+        .tree-msg { color: var(--pink-1); font-weight: bold; font-size: 1.5rem; z-index: 10; margin-bottom: 10px; text-transform: uppercase; }
+        #scroll-hint { color: var(--pink-1); font-weight: bold; display: none; letter-spacing: 5px; animation: bounce 2s infinite; margin-top: -80px; z-index: 10; }
+
+        /* --- SCALED BIRTHDAY TEXT --- */
+        .bday-title { font-family: 'Harmond Bold'; font-size: clamp(3rem, 18vw, 7rem); margin: 60px 0 20px 0; line-height: 1; }
         .bday-title span { display: block; overflow: hidden; white-space: nowrap; width: 0; margin: 0 auto; }
         .animate-type { animation: type 1s steps(30) forwards; }
-        .line-long { font-size: 0.35em; letter-spacing: 0.2px; margin-top: 5px; }
+        
+        /* MASSIVE SNEHAAAAA TEXT */
+        .line-long { font-size: 0.45em; letter-spacing: 2px; margin-top: 15px; color: var(--pink-1); }
 
-        /* --- CONTENT --- */
-        .content-section { padding: 20px 10px 100px 10px; display: none; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 600px; margin: 30px auto; }
-        .polaroid { background: var(--polaroid-brown); padding: 8px 8px 25px 8px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        /* SCALED CAKE */
+        .cake-img { width: 280px; border-radius: 20px; margin-bottom: 40px; border: 8px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+
+        /* --- CONTENT & GRID --- */
+        .content-section { padding: 20px 10px 120px 10px; display: none; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 650px; margin: 40px auto; }
+        .polaroid { background: var(--polaroid-brown); padding: 10px 10px 30px 10px; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
         .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
 
-        /* --- NEXT BUTTON --- */
+        /* --- ORIGINAL NEXT BUTTON & TEXT --- */
+        .btn-container { margin-top: 60px; }
         .btn-next {
-            display: inline-block;
-            background: var(--pink-1);
-            color: white;
-            padding: 15px 50px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 40px;
-            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
-            transition: 0.3s;
+            display: inline-block; background: var(--pink-1); color: white;
+            padding: 18px 60px; border-radius: 50px; text-decoration: none;
+            font-weight: bold; font-size: 1.2rem; transition: 0.3s;
         }
-        .btn-next:hover { transform: scale(1.1); background: #ff4785; }
+        .sub-btn-text { display: block; margin-top: 15px; font-size: 0.9rem; color: #666; font-style: italic; }
 
         /* --- POPUP --- */
         #popup { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); display:none; justify-content:center; align-items:center; z-index:2000; flex-direction: column; }
         .popup-box { background: var(--polaroid-brown); padding: 12px 12px 15px 12px; max-width: 90%; }
-        #popup-img { max-width: 100%; max-height: 60vh; display: block; }
-        #popup-caption { color: #3d2b1f; background: #fff; margin-top: 10px; padding: 10px; font-weight: bold; }
+        #popup-img { max-width: 100%; max-height: 60vh; }
+        #popup-caption { color: #3d2b1f; background: #fff; margin-top: 10px; padding: 15px; font-weight: bold; font-size: 1.1rem; }
 
         @keyframes type { from { width: 0; } to { width: 100%; } }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* Mobile specific tree scaling - Much smaller to fit screen */
         @media (max-width: 768px) { 
-            #canvas-wrapper { transform: scale(0.33); margin-top: -80px; } 
-            #main { height: 75vh; }
-            #scroll-hint { margin-top: -180px; font-size: 0.9rem; }
+            #canvas-wrapper { transform: scale(0.38); margin-top: -100px; } 
+            #main { height: 80vh; }
+            #scroll-hint { margin-top: -220px; }
+            .cake-img { width: 220px; }
         }
     </style>
 </head>
@@ -115,11 +90,11 @@
 
     <div id="main">
         <div id="mobile-trigger"></div>
-        <div class="tree-msg" id="msg">TAP THE HEART TO START</div>
+        <div class="tree-msg" id="msg">Tap anywhere to start</div>
         <div id="canvas-wrapper">
             <canvas id="canvas" width="1100" height="680"></canvas>
         </div>
-        <div id="scroll-hint">SCROLL DOWN ↓</div>
+        <div id="scroll-hint">KEEP SCROLLING ↓</div>
     </div>
 
     <div class="content-section" id="wish-section">
@@ -129,7 +104,7 @@
             <span id="t3" class="line-long">Snehaaaaaaaaaaaaaaaaaaaa</span>
         </h1>
 
-        <img src="cake.jpg" style="width: 160px; border-radius: 15px; margin-bottom: 30px; border: 4px solid white;">
+        <img src="cake.jpg" class="cake-img">
         
         <div class="grid">
             <div class="polaroid" onclick="openMe(this)" data-cap="You are my favorite person. ❤️"><img src="snehap1.JPEG"></div>
@@ -142,7 +117,10 @@
             <div class="polaroid" onclick="openMe(this)" data-cap="Always and forever, mine."><img src="snehap8.jpeg"></div>
         </div>
 
-        <a href="story.html" class="btn-next">READ MY LETTER 💌</a>
+        <div class="btn-container">
+            <a href="story.html" class="btn-next">Click here for more</a>
+            <span class="sub-btn-text">there is something more for you</span>
+        </div>
     </div>
 
     <div id="popup" onclick="this.style.display='none'">
@@ -171,6 +149,7 @@
 
             var seed = tree.seed, hold = 1;
 
+            // Trigger animation on ANY tap of the #main screen
             $('#mobile-trigger').on('click touchstart', function() {
                 if (hold) {
                     hold = 0;
