@@ -25,56 +25,87 @@
             --polaroid-brown: #C4A484;
         }
 
-        body { background-color: var(--page-beige); margin: 0; font-family: 'Absans Regular', sans-serif; text-align: center; }
+        body { background-color: var(--page-beige); margin: 0; font-family: 'Absans Regular', sans-serif; text-align: center; overflow-x: hidden; }
 
-        /* --- TREE SCALING --- */
-        #main { width: 100%; height: 100vh; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+        /* --- TREE SECTION --- */
+        #main { 
+            width: 100%; 
+            height: 90vh; /* Reduced height so hint is visible sooner */
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+        }
         
-        /* Adjusted scaling for better fit on all devices */
-        #canvas-wrapper { position: relative; width: 1100px; height: 680px; transform: scale(0.8); transform-origin: center; }
+        #canvas-wrapper { 
+            position: relative; 
+            width: 1100px; 
+            height: 680px; 
+            transform: scale(0.9); /* Scaled up for Desktop */
+            transform-origin: center; 
+        }
         
         #mobile-trigger { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; cursor: pointer; }
-        .tree-msg { color: var(--pink-1); font-weight: bold; margin-bottom: 10px; letter-spacing: 2px; z-index: 10; font-size: 1.2rem; }
-        #scroll-hint { color: var(--pink-1); font-weight: bold; display: none; letter-spacing: 5px; animation: bounce 2s infinite; margin-top: 10px; }
+        
+        .tree-msg { color: var(--pink-1); font-weight: bold; margin-top: 20px; letter-spacing: 2px; z-index: 10; font-size: 1.2rem; }
+        
+        #scroll-hint { 
+            color: var(--pink-1); 
+            font-weight: bold; 
+            display: none; 
+            letter-spacing: 3px; 
+            animation: bounce 2s infinite; 
+            margin-top: -50px; /* Pulled up to be visible */
+            z-index: 10;
+        }
 
-        /* --- SCALED BIRTHDAY TEXT --- */
+        /* --- TEXT SCALING --- */
         .bday-title { 
             font-family: 'Harmond Bold'; 
-            font-size: clamp(2rem, 12vw, 5rem); /* Dynamically scales based on screen width */
-            margin: 40px 0; 
+            font-size: clamp(2.5rem, 15vw, 6rem); 
+            margin: 60px 0 20px 0; 
             line-height: 1.1; 
         }
         .bday-title span { display: block; overflow: hidden; white-space: nowrap; width: 0; margin: 0 auto; }
         .animate-type { animation: type 1s steps(30) forwards; }
-        .line-long { font-size: 0.4em; letter-spacing: 0.5px; margin-top: 10px; }
+        .line-long { font-size: 0.35em; letter-spacing: 0.2px; margin-top: 5px; }
 
-        /* --- CONTENT SECTION --- */
-        .content-section { padding: 40px 10px; display: none; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 600px; margin: 30px auto; padding: 0 10px; }
+        /* --- CONTENT --- */
+        .content-section { padding: 20px 10px 100px 10px; display: none; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 600px; margin: 30px auto; }
         .polaroid { background: var(--polaroid-brown); padding: 8px 8px 25px 8px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
         .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
 
-        /* --- POPUP WITH CAPTIONS --- */
-        #popup { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); display:none; justify-content:center; align-items:center; z-index:2000; flex-direction: column; }
-        .popup-box { background: var(--polaroid-brown); padding: 12px 12px 15px 12px; max-width: 90%; position: relative; }
-        #popup-img { max-width: 100%; max-height: 65vh; display: block; }
-        #popup-caption { 
-            color: #3d2b1f; /* Dark brown for polaroid look */
-            background: #fdfdfd; 
-            margin-top: 10px; 
-            padding: 10px; 
-            font-weight: bold; 
-            font-family: 'Absans Regular';
-            font-size: 1rem;
+        /* --- NEXT BUTTON --- */
+        .btn-next {
+            display: inline-block;
+            background: var(--pink-1);
+            color: white;
+            padding: 15px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 40px;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+            transition: 0.3s;
         }
+        .btn-next:hover { transform: scale(1.1); background: #ff4785; }
+
+        /* --- POPUP --- */
+        #popup { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); display:none; justify-content:center; align-items:center; z-index:2000; flex-direction: column; }
+        .popup-box { background: var(--polaroid-brown); padding: 12px 12px 15px 12px; max-width: 90%; }
+        #popup-img { max-width: 100%; max-height: 60vh; display: block; }
+        #popup-caption { color: #3d2b1f; background: #fff; margin-top: 10px; padding: 10px; font-weight: bold; }
 
         @keyframes type { from { width: 0; } to { width: 100%; } }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* Mobile specific tree scaling */
+        /* Mobile specific tree scaling - Much smaller to fit screen */
         @media (max-width: 768px) { 
-            #canvas-wrapper { transform: scale(0.35); } 
-            .grid { gap: 10px; }
+            #canvas-wrapper { transform: scale(0.33); margin-top: -80px; } 
+            #main { height: 75vh; }
+            #scroll-hint { margin-top: -180px; font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -98,7 +129,7 @@
             <span id="t3" class="line-long">Snehaaaaaaaaaaaaaaaaaaaa</span>
         </h1>
 
-        <img src="cake.jpg" style="width: 180px; border-radius: 15px; margin-bottom: 30px; border: 5px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+        <img src="cake.jpg" style="width: 160px; border-radius: 15px; margin-bottom: 30px; border: 4px solid white;">
         
         <div class="grid">
             <div class="polaroid" onclick="openMe(this)" data-cap="You are my favorite person. ❤️"><img src="snehap1.JPEG"></div>
@@ -110,6 +141,8 @@
             <div class="polaroid" onclick="openMe(this)" data-cap="The face behind every love song."><img src="snehap7.jpeg"></div>
             <div class="polaroid" onclick="openMe(this)" data-cap="Always and forever, mine."><img src="snehap8.jpeg"></div>
         </div>
+
+        <a href="story.html" class="btn-next">READ MY LETTER 💌</a>
     </div>
 
     <div id="popup" onclick="this.style.display='none'">
@@ -120,12 +153,9 @@
     </div>
 
     <script>
-        // Popup function that grabs the image and the unique caption
         function openMe(el) { 
-            const imgPath = $(el).find('img').attr('src');
-            const captionText = $(el).attr('data-cap');
-            $('#popup-img').attr('src', imgPath);
-            $('#popup-caption').text(captionText);
+            $('#popup-img').attr('src', $(el).find('img').attr('src'));
+            $('#popup-caption').text($(el).attr('data-cap'));
             $('#popup').css('display', 'flex'); 
         }
 
@@ -149,7 +179,7 @@
                     $(this).hide(); 
                     setTimeout(() => { 
                         $('#scroll-hint').fadeIn(); 
-                        $('#wish-section').fadeIn(1000);
+                        $('#wish-section').show();
                         $('#t1').addClass('animate-type');
                         setTimeout(()=> $('#t2').addClass('animate-type'), 1000);
                         setTimeout(()=> $('#t3').addClass('animate-type'), 2000);
