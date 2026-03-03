@@ -28,39 +28,40 @@
         body { background-color: var(--page-beige); margin: 0; font-family: 'Absans Regular', sans-serif; text-align: center; }
 
         /* --- TREE SECTION --- */
-        #main { width: 100%; height: 100vh; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; }
+        #main { width: 100%; height: 100vh; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #canvas-wrapper { position: relative; width: 1100px; height: 680px; transform-origin: center; }
         
-        /* This wrapper ensures the tree is clickable on mobile */
-        #canvas-wrapper { position: relative; width: 1100px; height: 680px; transform-origin: top center; }
-        
-        canvas { display: block; }
-
-        .tree-msg { color: var(--pink-1); font-weight: bold; margin-top: 50px; letter-spacing: 2px; z-index: 10; }
-        
-        #scroll-hint { 
-            color: var(--pink-1); font-weight: bold; margin-top: -100px; 
-            display: none; letter-spacing: 5px; animation: bounce 2s infinite; 
+        /* MOBILE OVERLAY: Makes the whole screen clickable to start */
+        #mobile-trigger { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: 100; cursor: pointer; 
         }
+
+        .tree-msg { color: var(--pink-1); font-weight: bold; margin-bottom: 20px; letter-spacing: 2px; z-index: 10; }
+        #scroll-hint { color: var(--pink-1); font-weight: bold; display: none; letter-spacing: 5px; animation: bounce 2s infinite; margin-top: 20px; }
+
+        /* --- BIRTHDAY TEXT ANIMATION --- */
+        .bday-title { font-family: 'Harmond Bold'; font-size: clamp(2.5rem, 8vw, 4.5rem); margin: 40px 0; line-height: 1.2; }
+        .bday-title span { display: block; overflow: hidden; white-space: nowrap; width: 0; margin: 0 auto; }
+        .animate-type { animation: type 1s steps(30) forwards; }
+        .line-long { font-size: 0.5em; letter-spacing: 1px; }
 
         /* --- CONTENT SECTION --- */
-        .content-section { padding: 60px 20px; display: none; }
-        .bday-title { font-family: 'Harmond Bold'; font-size: clamp(2rem, 8vw, 4rem); margin-bottom: 30px; }
-        
-        /* 2x4 GRID RESTORED */
-        .grid { 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; 
-            max-width: 500px; margin: 0 auto; 
-        }
-        .polaroid { background: var(--polaroid-brown); padding: 10px 10px 30px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .content-section { padding: 40px 20px; display: none; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 500px; margin: 30px auto; }
+        .polaroid { background: var(--polaroid-brown); padding: 10px 10px 30px 10px; cursor: pointer; transition: transform 0.3s; }
+        .polaroid:hover { transform: scale(1.05); }
         .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
 
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        /* --- POPUP --- */
+        #popup { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:none; justify-content:center; align-items:center; z-index:2000; }
+        .popup-box { background: var(--polaroid-brown); padding: 15px 15px 50px 15px; max-width: 85%; }
+        #popup-img { max-width: 100%; max-height: 70vh; }
 
-        /* Mobile Scaling */
-        @media (max-width: 768px) {
-            #canvas-wrapper { transform: scale(0.35); margin-top: -50px; }
-            #scroll-hint { margin-top: -250px; }
-        }
+        @keyframes type { from { width: 0; } to { width: 100%; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        @media (max-width: 768px) { #canvas-wrapper { transform: scale(0.35); } }
     </style>
 </head>
 <body>
@@ -68,7 +69,7 @@
     <audio id="myAudio" loop><source src="song.mp3" type="audio/mp3"></audio>
 
     <div id="main">
-        <div class="tree-msg" id="msg">TAP THE HEART SEED</div>
+        <div id="mobile-trigger"></div> <div class="tree-msg" id="msg">TAP THE HEART TO START</div>
         <div id="canvas-wrapper">
             <canvas id="canvas" width="1100" height="680"></canvas>
         </div>
@@ -76,87 +77,70 @@
     </div>
 
     <div class="content-section" id="wish-section">
-        <h1 class="bday-title">Happy Birthday Sneha</h1>
+        <h1 class="bday-title">
+            <span id="t1">Happy</span>
+            <span id="t2">Birthday</span>
+            <span id="t3" class="line-long">Snehaaaaaaaaaaaaaaaaaaaa</span>
+        </h1>
+
+        <img src="cake.jpg" style="width: 200px; border-radius: 15px; margin-bottom: 30px;">
         
         <div class="grid">
-            <div class="polaroid"><img src="snehap1.JPEG"></div>
-            <div class="polaroid"><img src="snehap2.JPEG"></div>
-            <div class="polaroid"><img src="snehap3.jpg"></div>
-            <div class="polaroid"><img src="snehap4.jpg"></div>
-            <div class="polaroid"><img src="snehap5.jpg"></div>
-            <div class="polaroid"><img src="snehap6.jpeg"></div>
-            <div class="polaroid"><img src="snehap7.jpeg"></div>
-            <div class="polaroid"><img src="snehap8.jpeg"></div>
+            <div class="polaroid" onclick="show('snehap1.JPEG')"><img src="snehap1.JPEG"></div>
+            <div class="polaroid" onclick="show('snehap2.JPEG')"><img src="snehap2.JPEG"></div>
+            <div class="polaroid" onclick="show('snehap3.jpg')"><img src="snehap3.jpg"></div>
+            <div class="polaroid" onclick="show('snehap4.jpg')"><img src="snehap4.jpg"></div>
+            <div class="polaroid" onclick="show('snehap5.jpg')"><img src="snehap5.jpg"></div>
+            <div class="polaroid" onclick="show('snehap6.jpeg')"><img src="snehap6.jpeg"></div>
+            <div class="polaroid" onclick="show('snehap7.jpeg')"><img src="snehap7.jpeg"></div>
+            <div class="polaroid" onclick="show('snehap8.jpeg')"><img src="snehap8.jpeg"></div>
         </div>
     </div>
 
+    <div id="popup" onclick="this.style.display='none'">
+        <div class="popup-box"><img id="popup-img"></div>
+    </div>
+
     <script>
+        function show(src) { document.getElementById('popup-img').src = src; document.getElementById('popup').style.display = 'flex'; }
+
         (function(){
             var canvas = $('#canvas');
-            var ctx = canvas[0].getContext("2d", { willReadFrequently: true });
-            
-            var width = canvas.width();
-            var height = canvas.height();
-            
-            var opts = {
+            var width = canvas.width(), height = canvas.height();
+            var tree = new Tree(canvas[0], width, height, {
                 seed: { x: width / 2 - 20, color: "rgb(190, 26, 37)", scale: 2 },
-                branch: [[535, 680, 570, 250, 500, 200, 30, 100, [
-                    [540, 500, 455, 417, 340, 400, 13, 100, [[450, 435, 434, 430, 394, 395, 2, 40]]],
-                    [550, 445, 600, 356, 680, 345, 12, 100, [[578, 400, 648, 409, 661, 426, 3, 80]]]
-                ]]],
+                branch: [[535, 680, 570, 250, 500, 200, 30, 100, [[540, 500, 455, 417, 340, 400, 13, 100, [[450, 435, 434, 430, 394, 395, 2, 40]]],[550, 445, 600, 356, 680, 345, 12, 100, [[578, 400, 648, 409, 661, 426, 3, 80]]]]]],
                 bloom: { num: 700, width: 1080, height: 650 },
                 footer: { width: 1200, height: 5, speed: 10 }
-            };
+            });
 
-            var tree = new Tree(canvas[0], width, height, opts);
-            var seed = tree.seed;
-            var hold = 1;
+            var seed = tree.seed, hold = 1;
 
-            // Handle Click AND Touch for Mobile
-            const startAnimation = function(e) {
-                var offset = canvas.offset(), x, y;
-                // Support for both mouse and touch coordinates
-                var ev = e.originalEvent.touches ? e.originalEvent.touches[0] : e;
-                x = ev.pageX - offset.left;
-                y = ev.pageY - offset.top;
-                
-                if (seed.hover(x, y)) {
+            $('#mobile-trigger').on('click touchstart', function() {
+                if (hold) {
                     hold = 0;
                     document.getElementById('myAudio').play();
-                    canvas.unbind("click touchstart");
                     $('#msg').fadeOut();
-                    
-                    // Show scroll hint and photos after tree blooms
+                    $(this).hide(); 
+                    // Type text when tree finishes
                     setTimeout(() => { 
                         $('#scroll-hint').fadeIn(); 
-                        $('#wish-section').show(); 
-                    }, 7000);
+                        $('#wish-section').show();
+                        $('#t1').addClass('animate-type');
+                        setTimeout(()=> $('#t2').addClass('animate-type'), 1000);
+                        setTimeout(()=> $('#t3').addClass('animate-type'), 2000);
+                    }, 6000);
                 }
-            };
+            });
 
-            canvas.bind("click touchstart", startAnimation);
-
-            var seedAnimate = eval(Jscex.compile("async", function () {
+            var runAsync = eval(Jscex.compile("async", function () {
                 seed.draw();
                 while (hold) { $await(Jscex.Async.sleep(10)); }
                 while (seed.canScale()) { seed.scale(0.95); $await(Jscex.Async.sleep(10)); }
                 while (seed.canMove()) { seed.move(0, 2); $await(Jscex.Async.sleep(10)); }
-            }));
-
-            var growAnimate = eval(Jscex.compile("async", function () {
                 do { tree.grow(); $await(Jscex.Async.sleep(10)); } while (tree.canGrow());
-            }));
-
-            var flowAnimate = eval(Jscex.compile("async", function () {
                 do { tree.flower(2); $await(Jscex.Async.sleep(10)); } while (tree.canFlower());
             }));
-
-            var runAsync = eval(Jscex.compile("async", function () {
-                $await(seedAnimate());
-                $await(growAnimate());
-                $await(flowAnimate());
-            }));
-
             runAsync().start();
         })();
     </script>
