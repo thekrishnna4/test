@@ -11,212 +11,259 @@
         :root {
             --pink-1: #FF6B9D;
             --page-beige: #F5F5DC;
-            --line-color: #C4A484;
+            --doodle-brown: #5D4037;
         }
 
         body { 
             background-color: var(--page-beige); 
             margin: 0; 
             font-family: 'Absans Regular', sans-serif; 
-            color: #333;
+            color: var(--doodle-brown);
+            background-image: radial-gradient(#d1d1b3 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
         }
 
-        /* --- DAY COUNTER --- */
+        /* --- HEADER --- */
         .counter-section {
             height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(to bottom, #F5F5DC, #efebe0);
+            text-align: center;
+            padding: 20px;
         }
 
-        .counter-title { font-family: 'Harmond Bold'; font-size: 2rem; color: var(--pink-1); margin-bottom: 10px; }
-        #timer { font-family: 'Harmond Bold'; font-size: 3rem; color: #444; }
-        .scroll-down-text { margin-top: 30px; font-size: 0.8rem; letter-spacing: 3px; color: #888; animation: bounce 2s infinite; }
+        .counter-title { font-family: 'Harmond Bold'; font-size: 1.8rem; margin-bottom: 10px; }
+        #timer { font-family: 'Harmond Bold'; font-size: clamp(1.2rem, 6vw, 2.2rem); color: var(--pink-1); }
+        .doodle-arrow { font-size: 2rem; margin-top: 20px; animation: bounce 2s infinite; }
 
-        /* --- TIMELINE STRUCTURE --- */
-        .timeline {
-            position: relative;
-            max-width: 1000px;
-            margin: 50px auto;
-            padding: 40px 0;
-        }
-
-        /* The vertical line */
+        /* --- TIMELINE --- */
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 50px 20px; }
         .timeline::after {
             content: '';
             position: absolute;
-            width: 2px;
-            background-color: var(--line-color);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -1px;
+            width: 3px;
+            background: var(--doodle-brown);
+            top: 0; bottom: 0; left: 50%;
+            border-radius: 10px;
         }
 
-        /* Container for timeline items */
-        .container {
-            padding: 10px 40px;
-            position: relative;
-            background-color: inherit;
-            width: 50%;
-            box-sizing: border-box;
-            opacity: 0; /* Hidden initially for scroll effect */
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
-        }
-
-        .container.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Left & Right positioning */
+        .container { padding: 20px 40px; position: relative; width: 50%; box-sizing: border-box; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .container.show { opacity: 1; transform: translateY(0); }
         .left { left: 0; text-align: right; }
         .right { left: 50%; text-align: left; }
 
-        /* The dots on the timeline */
-        .container::after {
-            content: '';
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            right: -8px;
-            background-color: var(--pink-1);
-            border: 4px solid var(--page-beige);
-            top: 15px;
-            border-radius: 50%;
-            z-index: 1;
-        }
+        .container::after { content: '❤'; position: absolute; right: -12px; top: 25px; background: var(--page-beige); color: var(--pink-1); font-size: 1.2rem; z-index: 1; }
+        .right::after { left: -12px; }
 
-        .right::after { left: -8px; }
-
-        /* Content styling */
+        /* Content Box */
         .content {
-            padding: 20px;
-            background-color: white;
-            position: relative;
-            border-radius: 6px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 12px;
+            background: #fff;
+            border: 2px solid var(--doodle-brown);
+            border-radius: 15px 5px 15px 5px;
+            box-shadow: 5px 5px 0px var(--doodle-brown);
+            display: inline-block;
+            max-width: 100%;
         }
 
-        .content img {
+        .content img, .content video {
             width: 100%;
-            border-radius: 4px;
+            border-radius: 10px;
             margin-bottom: 10px;
+            border: 1px solid #eee;
+            display: block;
         }
 
-        .content h2 { font-family: 'Harmond Bold'; font-size: 1.4rem; margin: 0; color: var(--pink-1); }
-        .content p { font-size: 0.95rem; line-height: 1.5; color: #666; }
-        .date { font-weight: bold; color: var(--line-color); display: block; margin-bottom: 5px; }
+        .content span.date-label { font-size: 0.8rem; font-weight: bold; color: var(--pink-1); letter-spacing: 1px; }
+        .content h2 { font-family: 'Harmond Bold'; font-size: 1.2rem; margin: 5px 0; color: var(--pink-1); }
+        .content p { font-size: 0.85rem; margin: 0; line-height: 1.4; font-style: italic; }
 
-        /* --- FINAL BUTTON --- */
-        .footer-nav { padding: 100px 0; text-align: center; }
+        /* --- BUTTON --- */
+        .footer-nav { padding: 80px 0; }
         .btn-next {
-            display: inline-block; background: var(--pink-1); color: white;
-            padding: 15px 50px; text-decoration: none; font-weight: bold;
-            transition: 0.3s; border: 2px solid var(--pink-1);
+            display: inline-block;
+            background: var(--pink-1);
+            color: white;
+            padding: 12px 50px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid var(--doodle-brown);
+            box-shadow: 4px 4px 0px var(--doodle-brown);
         }
-        .btn-next:hover { background: transparent; color: var(--pink-1); }
 
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* Mobile Responsive */
         @media screen and (max-width: 600px) {
-            .timeline::after { left: 31px; }
-            .container { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
-            .container::after { left: 23px; }
-            .left::after { left: 23px; }
+            .timeline::after { left: 20px; }
+            .container { width: 100%; padding-left: 50px; padding-right: 10px; text-align: left; }
+            .container::after { left: 10px; }
             .right { left: 0%; }
-            #timer { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
+    <audio id="bgMusic" autoplay loop><source src="storysong.mp3" type="audio/mp3"></audio>
+
     <section class="counter-section">
-        <div class="counter-title">WE HAVE BEEN TOGETHER FOR</div>
-        <div id="timer">000 DAYS 00 HOURS</div>
-        <div class="scroll-down-text">SCROLL TO SEE OUR STORY ↓</div>
+        <div class="counter-title">You've been blessing this world for</div>
+        <div id="timer">0 DAYS</div>
+        <div class="doodle-arrow">↴</div>
     </section>
 
-    <div class="timeline" id="timeline">
+    <div class="timeline">
         
         <div class="container left">
             <div class="content">
-                <span class="date">OCTOBER 12, 2023</span>
-                <h2>The Beginning</h2>
-                <img src="snehap1.JPEG" alt="Memory 1">
-                <p>The day we first started talking. I had no idea how much you would change my life.</p>
+                <span class="date-label">March 21, 2006</span>
+                <h2>The Day You Were Born</h2>
+                <img src="sn1.jpeg">
+                <p>The world got a lot more beautiful.</p>
             </div>
         </div>
 
         <div class="container right">
             <div class="content">
-                <span class="date">NOVEMBER 05, 2023</span>
-                <h2>First Date</h2>
-                <img src="snehap2.JPEG" alt="Memory 2">
-                <p>I was so nervous, but the moment I saw your smile, everything felt right.</p>
+                <h2>Different Worlds</h2>
+                <img src="sn2.png">
+                <p>We were in different schools, just waiting for the right time.</p>
             </div>
         </div>
 
         <div class="container left">
             <div class="content">
-                <span class="date">JANUARY 01, 2024</span>
-                <h2>New Year's</h2>
-                <img src="snehap3.jpg" alt="Memory 3">
-                <p>Started the year with the most beautiful person by my side.</p>
+                <span class="date-label">July 25, 2021</span>
+                <h2>KV Mathura Cantt</h2>
+                <img src="sn3.png">
+                <p>Destiny finally brought you to my side of the city.</p>
             </div>
         </div>
 
         <div class="container right">
             <div class="content">
-                <span class="date">TODAY</span>
-                <h2>Happy Birthday</h2>
-                <img src="cake.jpg" alt="Memory 4">
-                <p>Another year of you being the best thing that ever happened to me.</p>
+                <h2>The Online Spark</h2>
+                <img src="sn4.png">
+                <p>Our story started behind screens in those online classes.</p>
+            </div>
+        </div>
+
+        <div class="container left">
+            <div class="content">
+                <span class="date-label">January 20, 2022</span>
+                <h2>First Handshake</h2>
+                <img src="sn5.png">
+                <p>A simple touch that changed everything for me.</p>
+            </div>
+        </div>
+
+        <div class="container right">
+            <div class="content">
+                <h2>The Hidden Days</h2>
+                <img src="sn6.png">
+                <p>Same school, same air, but zero photos to prove it.</p>
+            </div>
+        </div>
+
+        <div class="container left">
+            <div class="content">
+                <h2>Long Distance Friends</h2>
+                <img src="sn7.png">
+                <p>The miles started to grow, but so did our bond.</p>
+            </div>
+        </div>
+
+        <div class="container right">
+            <div class="content">
+                <span class="date-label">August 19</span>
+                <h2>The Proposal</h2>
+                <img src="sn8.jpeg">
+                <p>When I finally asked, and you made me the happiest guy.</p>
+            </div>
+        </div>
+
+        <div class="container left">
+            <div class="content">
+                <span class="date-label">August 17, 2025</span>
+                <h2>First Meetup</h2>
+                <img src="sn9.jpeg">
+                <p>The distance ended for a moment. Finally, you were real.</p>
+            </div>
+        </div>
+
+        <div class="container right">
+            <div class="content">
+                <h2>Odisha Days</h2>
+                <video autoplay loop muted playsinline><source src="sn10.mp4" type="video/mp4"></video>
+                <p>You left for college, and the long distance began again.</p>
+            </div>
+        </div>
+
+        <div class="container left">
+            <div class="content">
+                <span class="date-label">January 25, 2026</span>
+                <h2>First Kiss</h2>
+                <video autoplay loop muted playsinline><source src="sn11.mp4" type="video/mp4"></video>
+                <p>A moment where time stood completely still.</p>
+            </div>
+        </div>
+
+        <div class="container right">
+            <div class="content">
+                <h2>Dehradun Trip</h2>
+                <video autoplay loop muted playsinline><source src="sn12.mp4" type="video/mp4"></video>
+                <p>Meeting in the hills, making memories we'll never forget.</p>
+            </div>
+        </div>
+
+        <div class="container left">
+            <div class="content">
+                <h2>Distance Again</h2>
+                <video autoplay loop muted playsinline><source src="sn13.mp4" type="video/mp4"></video>
+                <p>Counting days until the next time I can hold you.</p>
+            </div>
+        </div>
+
+        <div class="container right">
+            <div class="content">
+                <h2>Forever Yours</h2>
+                <img src="sn14.jpeg">
+                <p>No matter where life takes us... it's always you.</p>
             </div>
         </div>
 
     </div>
 
     <div class="footer-nav">
-        <a href="letter.html" class="btn-next">Next</a>
-        <p style="font-style: italic; color: #888; margin-top: 15px;">one last thing...</p>
+        <a href="final.html" class="btn-next">Next</a>
     </div>
 
     <script src="file/jquery.min.js"></script>
     <script>
-        // 1. TIMER LOGIC
-        // Set the date you first met/started (Year, Month[0-11], Day)
-        const startDate = new Date(2023, 9, 12); 
-
+        const birthDate = new Date(2006, 2, 21);
         function updateTimer() {
             const now = new Date();
-            const diff = now - startDate;
-
+            const diff = now - birthDate;
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / 1000 / 60) % 60);
-
-            document.getElementById('timer').innerHTML = 
-                days + " DAYS " + hours + " HOURS " + minutes + " MINS";
+            const mins = Math.floor((diff / (1000 * 60)) % 60);
+            document.getElementById('timer').innerHTML = days + " DAYS, " + hours + " HOURS & " + mins + " MINS";
         }
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // 2. SCROLL REVEAL LOGIC
         $(window).on('scroll', function() {
             $('.container').each(function() {
-                const bottom_of_element = $(this).offset().top + $(this).outerHeight() / 3;
-                const bottom_of_window = $(window).scrollTop() + $(window).height();
-
-                if (bottom_of_window > bottom_of_element) {
+                if ($(window).scrollTop() + $(window).height() > $(this).offset().top + 100) {
                     $(this).addClass('show');
                 }
             });
         });
+
+        document.body.addEventListener('click', () => {
+            document.getElementById('bgMusic').play();
+        }, { once: true });
     </script>
 </body>
 </html>
