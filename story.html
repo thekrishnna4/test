@@ -21,6 +21,7 @@
             color: var(--doodle-brown);
             background-image: radial-gradient(#d1d1b3 0.5px, transparent 0.5px);
             background-size: 20px 20px;
+            overflow-x: hidden; /* Prevent horizontal scroll on mobile */
         }
 
         /* --- HEADER --- */
@@ -32,6 +33,7 @@
             align-items: center;
             text-align: center;
             padding: 20px;
+            position: relative;
         }
 
         .counter-title { font-family: 'Harmond Bold'; font-size: 1.8rem; margin-bottom: 10px; }
@@ -49,17 +51,35 @@
             border-radius: 10px;
         }
 
-        .container { padding: 20px 40px; position: relative; width: 50%; box-sizing: border-box; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .container { 
+            padding: 20px 40px; 
+            position: relative; 
+            width: 50%; 
+            box-sizing: border-box; 
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: all 0.6s ease; 
+        }
         .container.show { opacity: 1; transform: translateY(0); }
         .left { left: 0; text-align: right; }
         .right { left: 50%; text-align: left; }
 
-        .container::after { content: '❤'; position: absolute; right: -12px; top: 25px; background: var(--page-beige); color: var(--pink-1); font-size: 1.2rem; z-index: 1; }
+        /* The dots on the timeline */
+        .container::after { 
+            content: '❤'; 
+            position: absolute; 
+            right: -12px; 
+            top: 25px; 
+            background: var(--page-beige); 
+            color: var(--pink-1); 
+            font-size: 1.2rem; 
+            z-index: 1; 
+        }
         .right::after { left: -12px; }
 
-        /* Content Box */
+        /* Content Box - Casual/Doodle Style */
         .content {
-            padding: 12px;
+            padding: 20px; /* INCREASED PADDING to prevent cut-off at the top */
             background: #fff;
             border: 2px solid var(--doodle-brown);
             border-radius: 15px 5px 15px 5px;
@@ -76,7 +96,7 @@
             display: block;
         }
 
-        .content span.date-label { font-size: 0.8rem; font-weight: bold; color: var(--pink-1); letter-spacing: 1px; }
+        .content span.date-label { font-size: 0.8rem; font-weight: bold; color: var(--pink-1); letter-spacing: 1px; display: block; margin-bottom: 5px; }
         .content h2 { font-family: 'Harmond Bold'; font-size: 1.2rem; margin: 5px 0; color: var(--pink-1); }
         .content p { font-size: 0.85rem; margin: 0; line-height: 1.4; font-style: italic; }
 
@@ -95,17 +115,49 @@
 
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
+        /* --- FIXED MOBILE ALTERNATING LAYOUT --- */
         @media screen and (max-width: 600px) {
-            .timeline::after { left: 20px; }
-            .container { width: 100%; padding-left: 50px; padding-right: 10px; text-align: left; }
-            .container::after { left: 10px; }
-            .right { left: 0%; }
+            .timeline::after { left: 50%; } /* Keep the line centered */
+            .container { 
+                width: 90%; /* Slides take up most of the screen width */
+                padding-left: 10px; 
+                padding-right: 10px; 
+                text-align: left !important; /* Force text to align left on mobile */
+                left: 5% !important; /* Center the slides themselves */
+                margin-bottom: 40px; /* Add space between slides */
+            }
+            .container::after { display: none; } /* Remove the heart dots on the central line for cleaner mobile view */
+            
+            /* Add connecting lines from the center to the slides */
+            .left::before {
+                content: '';
+                position: absolute;
+                width: 45%;
+                height: 2px;
+                background: var(--doodle-brown);
+                top: 35px;
+                left: -10px;
+            }
+            .right::before {
+                content: '';
+                position: absolute;
+                width: 45%;
+                height: 2px;
+                background: var(--doodle-brown);
+                top: 35px;
+                right: -10px;
+            }
+            
+            /* Specific content positioning to prevent overlap/cut-off on mobile */
+            .content { padding: 15px; }
+            .content h2 { font-size: 1.1rem; }
+            .content p { font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <audio id="bgMusic" autoplay loop><source src="storysong.mp3" type="audio/mp3"></audio>
+    <audio id="bgMusic" loop><source src="storysong.mp3" type="audio/mp3"></audio>
 
     <section class="counter-section">
         <div class="counter-title">You've been blessing this world for</div>
@@ -151,22 +203,13 @@
 
         <div class="container left">
             <div class="content">
-                <span class="date-label">January 20, 2022</span>
-                <h2>First Handshake</h2>
-                <img src="sn5.png">
-                <p>A simple touch that changed everything for me.</p>
-            </div>
-        </div>
-
-        <div class="container right">
-            <div class="content">
                 <h2>The Hidden Days</h2>
                 <img src="sn6.png">
                 <p>Same school, same air, but zero photos to prove it.</p>
             </div>
         </div>
 
-        <div class="container left">
+        <div class="container right">
             <div class="content">
                 <h2>Long Distance Friends</h2>
                 <img src="sn7.png">
@@ -174,7 +217,7 @@
             </div>
         </div>
 
-        <div class="container right">
+        <div class="container left">
             <div class="content">
                 <span class="date-label">August 19</span>
                 <h2>The Proposal</h2>
@@ -183,7 +226,7 @@
             </div>
         </div>
 
-        <div class="container left">
+        <div class="container right">
             <div class="content">
                 <span class="date-label">August 17, 2025</span>
                 <h2>First Meetup</h2>
@@ -192,7 +235,7 @@
             </div>
         </div>
 
-        <div class="container right">
+        <div class="container left">
             <div class="content">
                 <h2>Odisha Days</h2>
                 <video autoplay loop muted playsinline><source src="sn10.mp4" type="video/mp4"></video>
@@ -200,7 +243,7 @@
             </div>
         </div>
 
-        <div class="container left">
+        <div class="container right">
             <div class="content">
                 <span class="date-label">January 25, 2026</span>
                 <h2>First Kiss</h2>
@@ -209,7 +252,7 @@
             </div>
         </div>
 
-        <div class="container right">
+        <div class="container left">
             <div class="content">
                 <h2>Dehradun Trip</h2>
                 <video autoplay loop muted playsinline><source src="sn12.mp4" type="video/mp4"></video>
@@ -217,7 +260,7 @@
             </div>
         </div>
 
-        <div class="container left">
+        <div class="container right">
             <div class="content">
                 <h2>Distance Again</h2>
                 <video autoplay loop muted playsinline><source src="sn13.mp4" type="video/mp4"></video>
@@ -225,7 +268,7 @@
             </div>
         </div>
 
-        <div class="container right">
+        <div class="container left">
             <div class="content">
                 <h2>Forever Yours</h2>
                 <img src="sn14.jpeg">
@@ -262,7 +305,8 @@
         });
 
         document.body.addEventListener('click', () => {
-            document.getElementById('bgMusic').play();
+            const audio = document.getElementById('bgMusic');
+            if (audio.paused) audio.play();
         }, { once: true });
     </script>
 </body>
