@@ -24,15 +24,6 @@
             overflow-x: hidden;
         }
 
-        /* --- MUSIC OVERLAY --- */
-        #music-start {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(245, 245, 220, 0.95);
-            z-index: 9999; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; cursor: pointer;
-        }
-        #music-start h2 { font-family: 'Harmond Bold'; color: var(--pink-1); }
-
         /* --- HEADER --- */
         .counter-section {
             height: 60vh;
@@ -46,7 +37,6 @@
         /* --- TIMELINE --- */
         .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 50px 10px; }
         
-        /* The Line - Lower Z-index so it stays behind cards */
         .timeline::after {
             content: '';
             position: absolute;
@@ -60,49 +50,42 @@
             padding: 15px 30px; position: relative; width: 50%; 
             box-sizing: border-box; opacity: 0; 
             transform: translateY(30px); transition: all 0.6s ease;
-            z-index: 2; /* Keeps cards above the line */
+            z-index: 2;
         }
         .container.show { opacity: 1; transform: translateY(0); }
         .left { left: 0; text-align: right; }
         .right { left: 50%; text-align: left; }
 
-        /* Content Box - Added margin-top to prevent clipping */
         .content {
-            padding: 20px;
+            padding: 25px 20px 20px 20px; /* Extra top padding to fix clipping */
             background: #fff;
             border: 2px solid var(--doodle-brown);
             border-radius: 15px 5px 15px 5px;
             box-shadow: 5px 5px 0px var(--doodle-brown);
             display: inline-block;
-            margin-top: 10px; /* Space from top edge */
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .content img, .content video {
             width: 100%; border-radius: 10px;
-            margin-top: 10px; display: block;
+            margin-top: 15px; display: block;
+            border: 1px solid #eee;
         }
 
-        .date-label { font-size: 0.8rem; font-weight: bold; color: var(--pink-1); display: block; }
-        .content h2 { font-family: 'Harmond Bold'; font-size: 1.2rem; margin: 8px 0; color: var(--pink-1); line-height: 1.2; }
-        .content p { font-size: 0.85rem; margin-top: 10px; font-style: italic; }
+        .date-label { font-size: 0.8rem; font-weight: bold; color: var(--pink-1); display: block; margin-bottom: 5px; }
+        .content h2 { font-family: 'Harmond Bold'; font-size: 1.2rem; margin: 0; color: var(--pink-1); line-height: 1.2; }
+        .content p { font-size: 0.85rem; margin-top: 10px; font-style: italic; color: #666; }
 
         /* --- MOBILE FIXES --- */
         @media screen and (max-width: 600px) {
-            .timeline::after { left: 20px; } /* Move line to the side */
+            .timeline::after { left: 20px; }
             .container { width: 100%; padding-left: 50px; padding-right: 15px; text-align: left !important; }
             .left, .right { left: 0; }
-            .content { width: 100%; box-sizing: border-box; }
         }
     </style>
 </head>
-<body>
-
-    <div id="music-start">
-        <h2>Click to start the story</h2>
-        <p>♫ (with sound)</p>
-    </div>
-
-    <audio id="bgMusic" loop><source src="storysong.mp3" type="audio/mp3"></audio>
+<body onclick="startEverything()"> <audio id="bgMusic" loop preload="auto"><source src="storysong.mp3" type="audio/mp3"></audio>
 
     <section class="counter-section">
         <div class="counter-title">You've been blessing this world for</div>
@@ -118,7 +101,6 @@
                 <p>The world got a lot more beautiful.</p>
             </div>
         </div>
-
         <div class="container right">
             <div class="content">
                 <h2>Different Worlds</h2>
@@ -126,7 +108,6 @@
                 <p>Growing up apart, just waiting for destiny.</p>
             </div>
         </div>
-
         <div class="container left">
             <div class="content">
                 <span class="date-label">July 25, 2021</span>
@@ -135,8 +116,88 @@
                 <p>The day you arrived in my world.</p>
             </div>
         </div>
-
+        <div class="container right">
+            <div class="content">
+                <h2>The Online Spark</h2>
+                <img src="sn4.png">
+                <p>Our story started behind screens in online classes.</p>
+            </div>
         </div>
+        <div class="container left">
+            <div class="content">
+                <span class="date-label">January 20, 2022</span>
+                <h2>Hidden Days</h2>
+                <img src="sn5.jpeg">
+                <p>Same school, same air, but no photos to prove it.</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>School Life</h2>
+                <img src="sn6.png">
+                <p>We were there, together yet separate.</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <h2>Distance Friends</h2>
+                <img src="sn7.png">
+                <p>Miles grew, but so did our conversations.</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <span class="date-label">August 19</span>
+                <h2>The Proposal</h2>
+                <img src="sn8.jpeg">
+                <p>The day I asked, and you said yes.</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <span class="date-label">August 17, 2025</span>
+                <h2>First Meetup</h2>
+                <img src="sn9.jpeg">
+                <p>Finally seeing you in person. Reality was better.</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>Odisha Days</h2>
+                <video autoplay loop muted playsinline><source src="sn10.mp4" type="video/mp4"></video>
+                <p>College took you away, but our hearts stayed close.</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <span class="date-label">January 25, 2026</span>
+                <h2>First Kiss</h2>
+                <video autoplay loop muted playsinline><source src="sn11.mp4" type="video/mp4"></video>
+                <p>A moment I'll keep forever.</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>Dehradun</h2>
+                <video autoplay loop muted playsinline><source src="sn12.mp4" type="video/mp4"></video>
+                <p>The hills, the cold, and you.</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <h2>Long Distance</h2>
+                <video autoplay loop muted playsinline><source src="sn13.mp4" type="video/mp4"></video>
+                <p>Distance is just a test of how far love can travel.</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>Forever</h2>
+                <img src="sn14.jpeg">
+                <p>It's always going to be you. Forever.</p>
+            </div>
+        </div>
+    </div>
 
     <div style="padding: 100px 0; text-align: center;">
         <a href="final.html" style="background: var(--pink-1); color: white; padding: 15px 40px; text-decoration: none; border: 2px solid var(--doodle-brown); box-shadow: 4px 4px 0px var(--doodle-brown);">Next</a>
@@ -144,13 +205,16 @@
 
     <script src="file/jquery.min.js"></script>
     <script>
-        // Start Audio and Hide Overlay
-        $('#music-start').on('click', function() {
-            document.getElementById('bgMusic').play();
-            $(this).fadeOut();
-        });
+        // MUSIC WORKAROUND
+        // This function runs on the very first touch/scroll she makes on the page
+        function startEverything() {
+            const audio = document.getElementById('bgMusic');
+            if (audio.paused) {
+                audio.play();
+            }
+        }
 
-        // Birth Timer
+        // Timer Logic
         const birthDate = new Date(2006, 2, 21);
         function updateTimer() {
             const now = new Date();
@@ -165,6 +229,7 @@
 
         // Scroll Reveal
         $(window).on('scroll', function() {
+            startEverything(); // Trigger music on scroll too
             $('.container').each(function() {
                 if ($(window).scrollTop() + $(window).height() > $(this).offset().top + 50) {
                     $(this).addClass('show');
