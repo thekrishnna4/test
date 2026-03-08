@@ -21,152 +21,95 @@
             color: var(--doodle-brown);
             background-image: radial-gradient(#d1d1b3 0.5px, transparent 0.5px);
             background-size: 20px 20px;
-            overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+            overflow-x: hidden;
         }
+
+        /* --- MUSIC OVERLAY --- */
+        #music-start {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(245, 245, 220, 0.95);
+            z-index: 9999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; cursor: pointer;
+        }
+        #music-start h2 { font-family: 'Harmond Bold'; color: var(--pink-1); }
 
         /* --- HEADER --- */
         .counter-section {
             height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            position: relative;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
         }
-
-        .counter-title { font-family: 'Harmond Bold'; font-size: 1.8rem; margin-bottom: 10px; }
-        #timer { font-family: 'Harmond Bold'; font-size: clamp(1.2rem, 6vw, 2.2rem); color: var(--pink-1); }
-        .doodle-arrow { font-size: 2rem; margin-top: 20px; animation: bounce 2s infinite; }
+        .counter-title { font-family: 'Harmond Bold'; font-size: 1.5rem; margin-bottom: 10px; }
+        #timer { font-family: 'Harmond Bold'; font-size: 1.8rem; color: var(--pink-1); }
 
         /* --- TIMELINE --- */
-        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 50px 20px; }
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 50px 10px; }
+        
+        /* The Line - Lower Z-index so it stays behind cards */
         .timeline::after {
             content: '';
             position: absolute;
-            width: 3px;
-            background: var(--doodle-brown);
+            width: 3px; background: var(--doodle-brown);
             top: 0; bottom: 0; left: 50%;
-            border-radius: 10px;
+            margin-left: -1.5px;
+            z-index: 1; 
         }
 
         .container { 
-            padding: 20px 40px; 
-            position: relative; 
-            width: 50%; 
-            box-sizing: border-box; 
-            opacity: 0; 
-            transform: translateY(30px); 
-            transition: all 0.6s ease; 
+            padding: 15px 30px; position: relative; width: 50%; 
+            box-sizing: border-box; opacity: 0; 
+            transform: translateY(30px); transition: all 0.6s ease;
+            z-index: 2; /* Keeps cards above the line */
         }
         .container.show { opacity: 1; transform: translateY(0); }
         .left { left: 0; text-align: right; }
         .right { left: 50%; text-align: left; }
 
-        /* The dots on the timeline */
-        .container::after { 
-            content: '❤'; 
-            position: absolute; 
-            right: -12px; 
-            top: 25px; 
-            background: var(--page-beige); 
-            color: var(--pink-1); 
-            font-size: 1.2rem; 
-            z-index: 1; 
-        }
-        .right::after { left: -12px; }
-
-        /* Content Box - Casual/Doodle Style */
+        /* Content Box - Added margin-top to prevent clipping */
         .content {
-            padding: 20px; /* INCREASED PADDING to prevent cut-off at the top */
+            padding: 20px;
             background: #fff;
             border: 2px solid var(--doodle-brown);
             border-radius: 15px 5px 15px 5px;
             box-shadow: 5px 5px 0px var(--doodle-brown);
             display: inline-block;
-            max-width: 100%;
+            margin-top: 10px; /* Space from top edge */
         }
 
         .content img, .content video {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #eee;
-            display: block;
+            width: 100%; border-radius: 10px;
+            margin-top: 10px; display: block;
         }
 
-        .content span.date-label { font-size: 0.8rem; font-weight: bold; color: var(--pink-1); letter-spacing: 1px; display: block; margin-bottom: 5px; }
-        .content h2 { font-family: 'Harmond Bold'; font-size: 1.2rem; margin: 5px 0; color: var(--pink-1); }
-        .content p { font-size: 0.85rem; margin: 0; line-height: 1.4; font-style: italic; }
+        .date-label { font-size: 0.8rem; font-weight: bold; color: var(--pink-1); display: block; }
+        .content h2 { font-family: 'Harmond Bold'; font-size: 1.2rem; margin: 8px 0; color: var(--pink-1); line-height: 1.2; }
+        .content p { font-size: 0.85rem; margin-top: 10px; font-style: italic; }
 
-        /* --- BUTTON --- */
-        .footer-nav { padding: 80px 0; }
-        .btn-next {
-            display: inline-block;
-            background: var(--pink-1);
-            color: white;
-            padding: 12px 50px;
-            text-decoration: none;
-            font-weight: bold;
-            border: 2px solid var(--doodle-brown);
-            box-shadow: 4px 4px 0px var(--doodle-brown);
-        }
-
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-        /* --- FIXED MOBILE ALTERNATING LAYOUT --- */
+        /* --- MOBILE FIXES --- */
         @media screen and (max-width: 600px) {
-            .timeline::after { left: 50%; } /* Keep the line centered */
-            .container { 
-                width: 90%; /* Slides take up most of the screen width */
-                padding-left: 10px; 
-                padding-right: 10px; 
-                text-align: left !important; /* Force text to align left on mobile */
-                left: 5% !important; /* Center the slides themselves */
-                margin-bottom: 40px; /* Add space between slides */
-            }
-            .container::after { display: none; } /* Remove the heart dots on the central line for cleaner mobile view */
-            
-            /* Add connecting lines from the center to the slides */
-            .left::before {
-                content: '';
-                position: absolute;
-                width: 45%;
-                height: 2px;
-                background: var(--doodle-brown);
-                top: 35px;
-                left: -10px;
-            }
-            .right::before {
-                content: '';
-                position: absolute;
-                width: 45%;
-                height: 2px;
-                background: var(--doodle-brown);
-                top: 35px;
-                right: -10px;
-            }
-            
-            /* Specific content positioning to prevent overlap/cut-off on mobile */
-            .content { padding: 15px; }
-            .content h2 { font-size: 1.1rem; }
-            .content p { font-size: 0.8rem; }
+            .timeline::after { left: 20px; } /* Move line to the side */
+            .container { width: 100%; padding-left: 50px; padding-right: 15px; text-align: left !important; }
+            .left, .right { left: 0; }
+            .content { width: 100%; box-sizing: border-box; }
         }
     </style>
 </head>
 <body>
+
+    <div id="music-start">
+        <h2>Click to start the story</h2>
+        <p>♫ (with sound)</p>
+    </div>
 
     <audio id="bgMusic" loop><source src="storysong.mp3" type="audio/mp3"></audio>
 
     <section class="counter-section">
         <div class="counter-title">You've been blessing this world for</div>
         <div id="timer">0 DAYS</div>
-        <div class="doodle-arrow">↴</div>
     </section>
 
     <div class="timeline">
-        
         <div class="container left">
             <div class="content">
                 <span class="date-label">March 21, 2006</span>
@@ -180,7 +123,7 @@
             <div class="content">
                 <h2>Different Worlds</h2>
                 <img src="sn2.png">
-                <p>We were in different schools, just waiting for the right time.</p>
+                <p>Growing up apart, just waiting for destiny.</p>
             </div>
         </div>
 
@@ -189,101 +132,25 @@
                 <span class="date-label">July 25, 2021</span>
                 <h2>KV Mathura Cantt</h2>
                 <img src="sn3.png">
-                <p>Destiny finally brought you to my side of the city.</p>
+                <p>The day you arrived in my world.</p>
             </div>
         </div>
 
-        <div class="container right">
-            <div class="content">
-                <h2>The Online Spark</h2>
-                <img src="sn4.png">
-                <p>Our story started behind screens in those online classes.</p>
-            </div>
         </div>
 
-        <div class="container left">
-            <div class="content">
-                <h2>The Hidden Days</h2>
-                <img src="sn6.png">
-                <p>Same school, same air, but zero photos to prove it.</p>
-            </div>
-        </div>
-
-        <div class="container right">
-            <div class="content">
-                <h2>Long Distance Friends</h2>
-                <img src="sn7.png">
-                <p>The miles started to grow, but so did our bond.</p>
-            </div>
-        </div>
-
-        <div class="container left">
-            <div class="content">
-                <span class="date-label">August 19</span>
-                <h2>The Proposal</h2>
-                <img src="sn8.jpeg">
-                <p>When I finally asked, and you made me the happiest guy.</p>
-            </div>
-        </div>
-
-        <div class="container right">
-            <div class="content">
-                <span class="date-label">August 17, 2025</span>
-                <h2>First Meetup</h2>
-                <img src="sn9.jpeg">
-                <p>The distance ended for a moment. Finally, you were real.</p>
-            </div>
-        </div>
-
-        <div class="container left">
-            <div class="content">
-                <h2>Odisha Days</h2>
-                <video autoplay loop muted playsinline><source src="sn10.mp4" type="video/mp4"></video>
-                <p>You left for college, and the long distance began again.</p>
-            </div>
-        </div>
-
-        <div class="container right">
-            <div class="content">
-                <span class="date-label">January 25, 2026</span>
-                <h2>First Kiss</h2>
-                <video autoplay loop muted playsinline><source src="sn11.mp4" type="video/mp4"></video>
-                <p>A moment where time stood completely still.</p>
-            </div>
-        </div>
-
-        <div class="container left">
-            <div class="content">
-                <h2>Dehradun Trip</h2>
-                <video autoplay loop muted playsinline><source src="sn12.mp4" type="video/mp4"></video>
-                <p>Meeting in the hills, making memories we'll never forget.</p>
-            </div>
-        </div>
-
-        <div class="container right">
-            <div class="content">
-                <h2>Distance Again</h2>
-                <video autoplay loop muted playsinline><source src="sn13.mp4" type="video/mp4"></video>
-                <p>Counting days until the next time I can hold you.</p>
-            </div>
-        </div>
-
-        <div class="container left">
-            <div class="content">
-                <h2>Forever Yours</h2>
-                <img src="sn14.jpeg">
-                <p>No matter where life takes us... it's always you.</p>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="footer-nav">
-        <a href="final.html" class="btn-next">Next</a>
+    <div style="padding: 100px 0; text-align: center;">
+        <a href="final.html" style="background: var(--pink-1); color: white; padding: 15px 40px; text-decoration: none; border: 2px solid var(--doodle-brown); box-shadow: 4px 4px 0px var(--doodle-brown);">Next</a>
     </div>
 
     <script src="file/jquery.min.js"></script>
     <script>
+        // Start Audio and Hide Overlay
+        $('#music-start').on('click', function() {
+            document.getElementById('bgMusic').play();
+            $(this).fadeOut();
+        });
+
+        // Birth Timer
         const birthDate = new Date(2006, 2, 21);
         function updateTimer() {
             const now = new Date();
@@ -296,18 +163,14 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
+        // Scroll Reveal
         $(window).on('scroll', function() {
             $('.container').each(function() {
-                if ($(window).scrollTop() + $(window).height() > $(this).offset().top + 100) {
+                if ($(window).scrollTop() + $(window).height() > $(this).offset().top + 50) {
                     $(this).addClass('show');
                 }
             });
         });
-
-        document.body.addEventListener('click', () => {
-            const audio = document.getElementById('bgMusic');
-            if (audio.paused) audio.play();
-        }, { once: true });
     </script>
 </body>
 </html>
