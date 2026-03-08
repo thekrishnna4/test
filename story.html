@@ -57,7 +57,7 @@
         .right { left: 50%; text-align: left; }
 
         .content {
-            padding: 25px 20px 20px 20px; /* Extra top padding to fix clipping */
+            padding: 30px 20px 20px 20px; 
             background: #fff;
             border: 2px solid var(--doodle-brown);
             border-radius: 15px 5px 15px 5px;
@@ -82,10 +82,15 @@
             .timeline::after { left: 20px; }
             .container { width: 100%; padding-left: 50px; padding-right: 15px; text-align: left !important; }
             .left, .right { left: 0; }
+            .content { padding-top: 35px; } /* Even more room for mobile titles */
         }
     </style>
 </head>
-<body onclick="startEverything()"> <audio id="bgMusic" loop preload="auto"><source src="storysong.mp3" type="audio/mp3"></audio>
+<body>
+
+    <audio id="bgMusic" autoplay loop playsinline preload="auto">
+        <source src="storysong.mp3" type="audio/mp3">
+    </audio>
 
     <section class="counter-section">
         <div class="counter-title">You've been blessing this world for</div>
@@ -127,7 +132,7 @@
             <div class="content">
                 <span class="date-label">January 20, 2022</span>
                 <h2>Hidden Days</h2>
-                <img src="sn5.jpeg">
+                <img src="sn5.png">
                 <p>Same school, same air, but no photos to prove it.</p>
             </div>
         </div>
@@ -205,16 +210,24 @@
 
     <script src="file/jquery.min.js"></script>
     <script>
-        // MUSIC WORKAROUND
-        // This function runs on the very first touch/scroll she makes on the page
-        function startEverything() {
+        // FORCED AUTOPLAY LOGIC
+        window.addEventListener('load', function() {
             const audio = document.getElementById('bgMusic');
-            if (audio.paused) {
-                audio.play();
-            }
-        }
+            
+            // Try playing immediately
+            let playPromise = audio.play();
 
-        // Timer Logic
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Autoplay started!
+                }).catch(error => {
+                    // If blocked, play as soon as they scroll or touch
+                    window.addEventListener('touchstart', () => { audio.play(); }, {once: true});
+                    window.addEventListener('scroll', () => { audio.play(); }, {once: true});
+                });
+            }
+        });
+
         const birthDate = new Date(2006, 2, 21);
         function updateTimer() {
             const now = new Date();
@@ -227,9 +240,7 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // Scroll Reveal
         $(window).on('scroll', function() {
-            startEverything(); // Trigger music on scroll too
             $('.container').each(function() {
                 if ($(window).scrollTop() + $(window).height() > $(this).offset().top + 50) {
                     $(this).addClass('show');
