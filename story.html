@@ -79,7 +79,12 @@
         .right .content { transform: rotate(3deg); }
 
         .content img, .content video {
-            width: 100%; margin-top: 15px; display: block; border: 1px solid #eee;
+            width: 100%; 
+    height: 250px; /* Give it a fixed height for a consistent polaroid look */
+    object-fit: cover; /* This is the pro-tip: it crops photos to fit perfectly without stretching */
+    margin-top: 15px; 
+    display: block; 
+    border: 1px solid #eee;
         }
 
         .date-label { font-size: 0.8rem; font-weight: bold; color: var(--pink-1); display: block; margin-bottom: 5px; }
@@ -227,41 +232,47 @@
     </div>
 
     <script src="file/jquery.min.js"></script>
-    <script>
-        // DOODLE GENERATOR
-        const symbols = ['❤', '★', '✨', '☁', '✿'];
-        const container = document.getElementById('doodle-container');
-        for (let i = 0; i < 15; i++) {
-            const d = document.createElement('div');
-            d.className = 'doodle';
-            d.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
-            d.style.left = Math.random() * 90 + 'vw';
-            d.style.animationDuration = (Math.random() * 5 + 7) + 's';
-            d.style.animationDelay = (Math.random() * 5) + 's';
-            container.appendChild(d);
-        }
+<script>
+    const audio = document.getElementById('bgMusic');
 
-        // TIMER
-        const birthDate = new Date(2006, 2, 21);
-        function updateTimer() {
-            const diff = new Date() - birthDate;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const mins = Math.floor((diff / (1000 * 60)) % 60);
-            document.getElementById('timer').innerHTML = `${days} DAYS, ${hours} HOURS & ${mins} MINS`;
-        }
-        setInterval(updateTimer, 1000); updateTimer();
-
-        // SCROLL REVEAL & AUDIO
-        const audio = document.getElementById('bgMusic');
-        $(window).on('scroll', function() {
-            if (audio.paused) audio.play();
-            $('.container').each(function() {
-                if ($(window).scrollTop() + $(window).height() > $(this).offset().top + 50) {
-                    $(this).addClass('show');
-                }
-            });
+    // Function to attempt play
+    function playAudio() {
+        audio.play().then(() => {
+            // Once it starts, stop listening for these events
+            window.removeEventListener('touchstart', playAudio);
+            window.removeEventListener('scroll', playAudio);
+            window.removeEventListener('click', playAudio);
+        }).catch(error => {
+            console.log("Browser is waiting for interaction...");
         });
-    </script>
+    }
+
+    // listeners to "catch" the first interaction on mobile
+    window.addEventListener('load', playAudio);
+    window.addEventListener('touchstart', playAudio, { once: true });
+    window.addEventListener('scroll', playAudio, { once: true });
+    window.addEventListener('click', playAudio, { once: true });
+
+    // --- BIRTH TIMER ---
+    const birthDate = new Date(2006, 2, 21);
+    function updateTimer() {
+        const diff = new Date() - birthDate;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / (1000 * 60)) % 60);
+        document.getElementById('timer').innerHTML = `${days} DAYS, ${hours} HOURS & ${mins} MINS`;
+    }
+    setInterval(updateTimer, 1000); 
+    updateTimer();
+
+    // --- SCROLL REVEAL ---
+    $(window).on('scroll', function() {
+        $('.container').each(function() {
+            if ($(window).scrollTop() + $(window).height() > $(this).offset().top + 50) {
+                $(this).addClass('show');
+            }
+        });
+    });
+</script>
 </body>
 </html>
