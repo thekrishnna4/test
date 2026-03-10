@@ -24,26 +24,36 @@
             overflow-x: hidden;
         }
 
+        /* --- IDEA 1: FLOATING DOODLES --- */
+        .bg-doodles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+        .doodle {
+            position: absolute; color: var(--pink-1); opacity: 0.3;
+            font-size: 1.5rem; animation: float 10s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(110vh) rotate(0deg); }
+            100% { transform: translateY(-10vh) rotate(360deg); }
+        }
+
         /* --- HEADER --- */
         .counter-section {
             height: 60vh;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             text-align: center; padding: 20px;
+            position: relative; z-index: 2;
         }
         .counter-title { font-family: 'Harmond Bold'; font-size: 1.5rem; margin-bottom: 10px; }
         #timer { font-family: 'Harmond Bold'; font-size: 1.8rem; color: var(--pink-1); }
 
         /* --- TIMELINE --- */
-        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 50px 10px; }
-        
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 50px 10px; z-index: 2; }
         .timeline::after {
-            content: '';
-            position: absolute;
-            width: 3px; background: var(--doodle-brown);
-            top: 0; bottom: 0; left: 50%;
-            margin-left: -1.5px;
-            z-index: 1; 
+            content: ''; position: absolute; width: 3px; background: var(--doodle-brown);
+            top: 0; bottom: 0; left: 50%; margin-left: -1.5px; z-index: 1; 
         }
 
         .container { 
@@ -56,37 +66,48 @@
         .left { left: 0; text-align: right; }
         .right { left: 50%; text-align: left; }
 
+        /* --- IDEA 3: POLAROID TILT --- */
         .content {
             padding: 35px 20px 20px 20px; 
             background: #fff;
             border: 2px solid var(--doodle-brown);
-            border-radius: 15px 5px 15px 5px;
+            border-radius: 2px; /* Sharper edges like a real photo */
             box-shadow: 5px 5px 0px var(--doodle-brown);
-            display: inline-block;
-            width: 100%;
-            box-sizing: border-box;
+            display: inline-block; width: 100%; box-sizing: border-box;
+            transition: transform 0.3s ease;
         }
+        .left .content { transform: rotate(-2deg); }
+        .right .content { transform: rotate(2deg); }
+        .content:hover { transform: rotate(0deg) scale(1.02) !important; z-index: 10; }
 
         .content img, .content video {
-            width: 100%; border-radius: 10px;
-            margin-top: 15px; display: block;
-            border: 1px solid #eee;
+            width: 100%; border-radius: 0; /* Square like a polaroid */
+            margin-top: 15px; display: block; border: 1px solid #eee;
         }
 
         .date-label { font-size: 0.8rem; font-weight: bold; color: var(--pink-1); display: block; margin-bottom: 5px; }
         .content h2 { font-family: 'Harmond Bold'; font-size: 1.2rem; margin: 0; color: var(--pink-1); line-height: 1.2; }
         .content p { font-size: 0.85rem; margin-top: 10px; font-style: italic; color: #666; }
 
-        /* --- MOBILE FIXES --- */
+        /* --- FOOTER --- */
+        .footer-nav { padding: 100px 0; text-align: center; position: relative; z-index: 5; }
+        .btn-next {
+            background: var(--pink-1); color: white; padding: 15px 40px; 
+            text-decoration: none; border: 2px solid var(--doodle-brown); 
+            box-shadow: 4px 4px 0px var(--doodle-brown);
+        }
+
         @media screen and (max-width: 600px) {
             .timeline::after { left: 20px; }
             .container { width: 100%; padding-left: 50px; padding-right: 15px; text-align: left !important; }
             .left, .right { left: 0; }
-            .content { padding-top: 40px; } 
+            .content { padding-top: 40px; transform: rotate(0deg) !important; } /* Straighten on mobile for easier reading */
         }
     </style>
 </head>
 <body>
+
+    <div class="bg-doodles" id="doodle-container"></div>
 
     <audio id="bgMusic" autoplay loop playsinline preload="auto">
         <source src="storysong.mp3" type="audio/mp3">
@@ -113,88 +134,7 @@
                 <p>Different schools, different lives, just waiting for destiny.</p>
             </div>
         </div>
-        <div class="container left">
-            <div class="content">
-                <span class="date-label">July 25, 2021</span>
-                <h2>KV Mathura Cantt</h2>
-                <img src="sn3.png">
-                <p>The moment you stepped into my world.</p>
-            </div>
-        </div>
-        <div class="container right">
-            <div class="content">
-                <h2>Online Classes</h2>
-                <img src="sn4.png">
-                <p>When "log-in" became the highlight of my day.</p>
-            </div>
-        </div>
-        <div class="container left">
-            <div class="content">
-                <span class="date-label">January 20, 2022</span>
-                <h2>Best Friends</h2>
-                <img src="sn5.png">
-                <p>The foundation of everything. You became my person.</p>
-            </div>
-        </div>
-        <div class="container right">
-            <div class="content">
-                <h2>The Hidden School Days</h2>
-                <img src="sn6.png">
-                <p>Same school, yet zero photos to prove we were there.</p>
-            </div>
-        </div>
-        <div class="container left">
-            <div class="content">
-                <h2>The Distance Begins</h2>
-                <img src="sn7.png">
-                <p>The miles started to grow, but our friendship didn't waver.</p>
-            </div>
-        </div>
-        <div class="container right">
-            <div class="content">
-                <span class="date-label">August 19</span>
-                <h2>The Proposal</h2>
-                <img src="sn8.png">
-                <p>The day I formally asked, and you made me the luckiest.</p>
-            </div>
-        </div>
-        <div class="container left">
-            <div class="content">
-                <span class="date-label">August 17, 2025</span>
-                <h2>First Meetup</h2>
-                <img src="sn9.png">
-                <p>Finally holding you after all that time away.</p>
-            </div>
-        </div>
-        <div class="container right">
-            <div class="content">
-                <h2>The Odisha Chapter</h2>
-                <video autoplay loop muted playsinline><source src="sn10.mp4" type="video/mp4"></video>
-                <p>Off to college, and the distance tried to test us again.</p>
-            </div>
-        </div>
-        <div class="container left">
-            <div class="content">
-                <span class="date-label">January 25, 2026</span>
-                <h2>First Kiss</h2>
-                <video autoplay loop muted playsinline><source src="sn11.mp4" type="video/mp4"></video>
-                <p>A memory I keep locked in my heart.</p>
-            </div>
-        </div>
-        <div class="container right">
-            <div class="content">
-                <h2>Dehradun</h2>
-                <video autoplay loop muted playsinline><source src="sn12.mp4" type="video/mp4"></video>
-                <p>Making memories in the hills together.</p>
-            </div>
-        </div>
-        <div class="container left">
-            <div class="content">
-                <h2>Waiting Again</h2>
-                <video autoplay loop muted playsinline><source src="sn13.mp4" type="video/mp4"></video>
-                <p>Long distance again, but always worth the wait.</p>
-            </div>
-        </div>
+
         <div class="container right">
             <div class="content">
                 <h2>Forever</h2>
@@ -204,26 +144,38 @@
         </div>
     </div>
 
-    <div style="padding: 100px 0; text-align: center;">
-        <a href="final.html" style="background: var(--pink-1); color: white; padding: 15px 40px; text-decoration: none; border: 2px solid var(--doodle-brown); box-shadow: 4px 4px 0px var(--doodle-brown);">Next</a>
+    <div class="footer-nav">
+        <a href="final.html" class="btn-next">Next</a>
     </div>
 
     <script src="file/jquery.min.js"></script>
     <script>
-        // FORCED AUTOPLAY LOGIC
+        // CREATE FLOATING DOODLES
+        const symbols = ['❤', '★', '☀', '☁', '✿', '✨'];
+        const container = document.getElementById('doodle-container');
+        for (let i = 0; i < 20; i++) {
+            const doodle = document.createElement('div');
+            doodle.className = 'doodle';
+            doodle.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            doodle.style.left = Math.random() * 100 + 'vw';
+            doodle.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            doodle.style.animationDelay = (Math.random() * 10) + 's';
+            container.appendChild(doodle);
+        }
+
+        // AUDIO AUTO-PLAY FIX
         window.addEventListener('load', function() {
             const audio = document.getElementById('bgMusic');
             let playPromise = audio.play();
-
             if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                }).catch(error => {
+                playPromise.catch(() => {
                     window.addEventListener('touchstart', () => { audio.play(); }, {once: true});
                     window.addEventListener('scroll', () => { audio.play(); }, {once: true});
                 });
             }
         });
 
+        // BIRTH TIMER
         const birthDate = new Date(2006, 2, 21);
         function updateTimer() {
             const now = new Date();
@@ -236,6 +188,7 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
+        // SCROLL REVEAL
         $(window).on('scroll', function() {
             $('.container').each(function() {
                 if ($(window).scrollTop() + $(window).height() > $(this).offset().top + 50) {
