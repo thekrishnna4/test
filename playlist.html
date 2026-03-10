@@ -10,9 +10,11 @@
         @font-face { font-family: 'Absans Regular'; src: url('Absans Regular.otf'); }
 
         :root {
+            /* YOUR THEME COLORS */
             --page-beige: #F5F5DC;
             --pink-accent: #FF6B9D;
             --doodle-brown: #5D4037;
+            --glass: rgba(255, 255, 255, 0.5); /* Lighter glass for beige theme */
         }
 
         body {
@@ -21,91 +23,103 @@
             font-family: 'Absans Regular', sans-serif;
             margin: 0; padding: 0;
             overflow-x: hidden;
+            /* Simple Grid background to match other pages */
             background-image: radial-gradient(#d1d1b3 0.5px, transparent 0.5px);
             background-size: 20px 20px;
         }
 
-        /* --- HEADER --- */
-        .header { padding: 50px 20px 30px; text-align: left; border-bottom: 2px solid var(--doodle-brown); }
+        /* --- HEADER (Beige Theme) --- */
+        .header {
+            padding: 50px 20px 30px;
+            text-align: left;
+            border-bottom: 2px solid var(--doodle-brown);
+        }
         .header h1 { font-family: 'Harmond Bold'; font-size: 2.2rem; margin: 0; color: var(--pink-accent); }
         .header p { opacity: 0.8; font-size: 0.9rem; margin: 8px 0; }
         .header .magic-text { font-size: 0.8rem; font-weight: bold; color: #888; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- TRACK LIST --- */
+        /* --- TRACK LIST (Beige/Doodle style) --- */
         .track-list { padding: 15px; }
         .track-item {
             display: flex; align-items: center;
             padding: 12px; margin-bottom: 12px;
-            border-radius: 12px; background: #fff;
+            border-radius: 12px;
+            background: #fff;
             border: 2px solid var(--doodle-brown);
             box-shadow: 4px 4px 0px var(--doodle-brown);
-            cursor: pointer; transition: all 0.2s ease;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
         .track-item:active { scale: 0.97; box-shadow: 1px 1px 0px var(--doodle-brown); }
         .thumb { width: 55px; height: 55px; border-radius: 6px; margin-right: 15px; object-fit: cover; border: 1px solid #eee; }
-        .info h3 { font-size: 1.1rem; margin: 0; }
+        .info h3 { font-size: 1.1rem; margin: 0; color: var(--doodle-brown); }
         .info p { font-size: 0.85rem; opacity: 0.7; margin: 4px 0 0 0; font-style: italic; }
 
         /* --- BLURRED PLAYER OVERLAY --- */
         #player-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(245, 245, 220, 0.7); z-index: 1000;
-            display: none; flex-direction: column;
-            backdrop-filter: blur(25px);
-            padding: 20px; box-sizing: border-box;
-            overflow-y: auto; /* Ensure scrolling if content is too long */
+            background: rgba(245, 245, 220, 0.7); /* Beige Tint */
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            backdrop-filter: blur(25px); /* Strong Blur */
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        .player-top-row { display: flex; align-items: center; margin-top: 40px; margin-bottom: 20px; width: 100%; }
-        .vinyl-wrap { width: 60px; height: 60px; margin-right: 15px; }
+        /* Top Mini Player Row */
+        .player-top-row {
+            display: flex; align-items: center;
+            margin-top: 40px; margin-bottom: 20px;
+            width: 100%;
+        }
+
+        /* Vinyl Styling (Small, Top Left) */
+        .vinyl-wrap {
+            width: 60px; height: 60px; position: relative;
+            margin-right: 15px;
+        }
         .record {
             width: 100%; height: 100%; background: #222;
             border-radius: 50%; border: 3px solid #444;
             display: flex; align-items: center; justify-content: center;
             animation: spin 6s linear infinite;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         .record-label { width: 25px; height: 25px; border-radius: 50%; object-fit: cover; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .player-title { font-family: 'Harmond Bold'; font-size: 1.4rem; color: var(--pink-accent); }
 
-        /* --- NO CROPPING FIX (CSS) --- */
-        .swiper { width: 100%; height: 50vh; margin-bottom: 15px; }
-        .swiper-slide { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        /* Song Title next to Vinyl */
+        .player-title { font-family: 'Harmond Bold'; font-size: 1.4rem; color: var(--pink-accent); flex: 1; text-align: left; }
+
+        /* Photo Gallery (Full width) */
+        .swiper { width: 100%; height: 40vh; margin-bottom: 20px; }
+        .swiper-slide { width: 85%; height: 100%; }
         .swiper-slide img {
-            max-width: 100%; /* Prevents horizontal crop */
-            max-height: 100%; /* Prevents vertical crop */
-            width: auto; height: auto; /* Reverts fixed stretching */
-            object-fit: contain; /* The ultimate fix for no-cropping */
-            border-radius: 15px; border: 4px solid #fff;
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: 15px;
+            border: 4px solid #fff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        /* Handwritten Note */
+        /* Handwritten Note (Glassmorphism) */
         .note-container {
-            width: 100%; padding: 20px; margin-bottom: 20px;
+            width: 100%; padding: 20px;
             background: rgba(255, 255, 255, 0.7);
-            border-radius: 15px; border: 2px solid var(--doodle-brown);
+            border-radius: 15px;
+            border: 2px solid var(--doodle-brown);
             box-shadow: 4px 4px 0px var(--doodle-brown);
-            text-align: center; box-sizing: border-box;
+            text-align: center;
+            box-sizing: border-box;
         }
         .note-container p { font-size: 0.95rem; line-height: 1.5; font-style: italic; color: var(--doodle-brown); margin: 0; }
 
         /* Close Icon */
-        .close-icon { position: absolute; top: 25px; right: 20px; font-size: 2rem; color: var(--doodle-brown); cursor: pointer; z-index: 1001; }
-
-        /* --- THE NEW FINAL.HTML BUTTON --- */
-        .btn-final {
-            background: var(--pink-accent); color: white;
-            padding: 12px 30px; font-weight: bold;
-            text-decoration: none; border-radius: 10px;
-            border: 2px solid var(--doodle-brown);
-            box-shadow: 3px 3px 0px var(--doodle-brown);
-            font-size: 0.9rem; transition: 0.2s;
-            margin: 0 auto 30px auto; /* Centers the button and adds bottom margin */
-            display: inline-block;
+        .close-icon {
+            position: absolute; top: 25px; right: 20px;
+            font-size: 2rem; color: var(--doodle-brown); cursor: pointer;
+            z-index: 1001;
         }
-        .btn-final:active { scale: 0.97; box-shadow: 1px 1px 0px var(--doodle-brown); }
-
     </style>
 </head>
 <body>
@@ -124,14 +138,18 @@
                 <p>Sunidhi Chauhan</p>
             </div>
         </div>
-    </div>
+        </div>
 
     <div id="player-overlay">
         <div class="close-icon" onclick="exitPlayer()">✕</div>
         
         <div class="player-top-row">
-            <div class="vinyl-wrap"><div class="record"><img id="player-banner" src="" class="record-label"></div></div>
-            <div id="player-song-title" class="player-title">Song Title</div>
+            <div class="vinyl-wrap">
+                <div class="record">
+                    <img id="player-banner" src="snehify/s1b1.png" class="record-label">
+                </div>
+            </div>
+            <div id="player-song-title" class="player-title">Lae Dooba</div>
         </div>
 
         <div class="swiper mySwiper">
@@ -141,10 +159,6 @@
 
         <div class="note-container">
             <p id="player-text"></p>
-        </div>
-
-        <div style="text-align: center;">
-            <a href="final.html" class="btn-final">The Last Surprise</a>
         </div>
 
         <audio id="audio-engine"></audio>
@@ -168,11 +182,14 @@
 
         function launchPlayer(id) {
             const data = library[id];
+            
+            // Setup Text & Audio
             player.src = data.mp3;
             document.getElementById('player-banner').src = data.banner;
             document.getElementById('player-song-title').innerText = data.title;
             document.getElementById('player-text').innerText = data.note;
 
+            // Load JPGs
             const wall = document.getElementById('photo-wall');
             wall.innerHTML = '';
             data.gallery.forEach(imgUrl => {
@@ -182,14 +199,13 @@
             overlay.style.display = 'flex';
             player.play();
 
-            // Updated Swiper (No Coverflow, Centers Active Image)
+            // Initialize Swiper (Coverflow for phone)
             if(swiperInstance) swiperInstance.destroy();
             swiperInstance = new Swiper(".mySwiper", {
+                effect: "coverflow",
                 centeredSlides: true,
-                slidesPerView: 1, /* Only 1 full photo at a time */
-                spaceBetween: 10, /* small gap between slides */
-                grabCursor: true,
-                loop: true, /* infinite swipe */
+                slidesPerView: "auto",
+                coverflowEffect: { rotate: 20, stretch: 0, depth: 100, modifier: 1, slideShadows: true }
             });
         }
 
