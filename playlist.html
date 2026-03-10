@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneh-ify</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        @font-face { font-family: 'Harmond Bold'; src: url('Harmond bold.otf'); }
+        @font-face { font-family: 'Absans Regular'; src: url('Absans Regular.otf'); }
+
+        :root {
+            --spotify-black: #121212;
+            --pink-accent: #FF6B9D;
+            --glass: rgba(255, 255, 255, 0.12);
+        }
+
+        body {
+            background-color: var(--spotify-black);
+            color: white;
+            font-family: 'Absans Regular', sans-serif;
+            margin: 0; padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- LIST VIEW --- */
+        .header {
+            padding: 50px 20px 30px;
+            background: linear-gradient(to bottom, #5a189a, var(--spotify-black));
+        }
+        .header h1 { font-family: 'Harmond Bold'; font-size: 2.2rem; margin: 0; }
+        .header p { opacity: 0.7; font-size: 0.9rem; margin-top: 8px; }
+
+        .track-list { padding: 15px; }
+        .track-item {
+            display: flex; align-items: center;
+            padding: 10px; margin-bottom: 10px;
+            border-radius: 8px; background: rgba(255,255,255,0.05);
+        }
+        .track-item:active { background: rgba(255,255,255,0.15); scale: 0.98; transition: 0.2s; }
+        .thumb { width: 55px; height: 55px; border-radius: 4px; margin-right: 15px; }
+        .info h3 { font-size: 1rem; margin: 0; color: #fff; }
+        .info p { font-size: 0.8rem; opacity: 0.6; margin: 4px 0 0 0; }
+
+        /* --- POPUP PLAYER --- */
+        #player-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 1000;
+            display: none; flex-direction: column; align-items: center;
+            justify-content: center; backdrop-filter: blur(20px);
+        }
+
+        /* Vinyl Styling */
+        .vinyl-wrap {
+            width: 180px; height: 180px; position: relative;
+            margin-top: 20px;
+        }
+        .record {
+            width: 100%; height: 100%; background: #000;
+            border-radius: 50%; border: 4px solid #222;
+            display: flex; align-items: center; justify-content: center;
+            animation: spin 6s linear infinite;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+        .record-label { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Photo Gallery */
+        .swiper { width: 100%; padding-top: 30px; padding-bottom: 30px; }
+        .swiper-slide { width: 280px; height: 350px; }
+        .swiper-slide img {
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: 12px; border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        /* Handwritten Note */
+        .note-container {
+            width: 85%; padding: 20px;
+            background: var(--glass); border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-top: 10px; text-align: center;
+        }
+        .note-container p { font-size: 0.95rem; line-height: 1.5; font-style: italic; color: var(--pink-accent); }
+
+        .close-icon {
+            position: absolute; top: 30px; right: 25px;
+            font-size: 1.8rem; color: #fff; opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Sneh-ify</h1>
+        <p>A playlist for my favorite person.</p>
+    </div>
+
+    <div class="track-list">
+        <div class="track-item" onclick="launchPlayer(1)">
+            <img src="snehify/s1b1.png" class="thumb">
+            <div class="info">
+                <h3>Lae Dooba</h3>
+                <p>Sunidhi Chauhan</p>
+            </div>
+        </div>
+        </div>
+
+    <div id="player-overlay">
+        <div class="close-icon" onclick="exitPlayer()">✕</div>
+        
+        <div class="vinyl-wrap">
+            <div class="record">
+                <img id="player-banner" src="" class="record-label">
+            </div>
+        </div>
+
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper" id="photo-wall">
+                </div>
+        </div>
+
+        <div class="note-container">
+            <p id="player-text"></p>
+        </div>
+
+        <audio id="audio-engine"></audio>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        const library = {
+            1: {
+                title: "Lae Dooba",
+                banner: "snehify/s1b1.png",
+                mp3: "snehify/Laedooba.mp3",
+                // Photos are now .JPG as requested
+                gallery: ["snehify/s1p1.JPG", "snehify/s1p2.JPG", "snehify/s1p3.JPG", "snehify/s1p4.JPG", "snehify/s1p5.JPG"],
+                note: "sach me mainu ishq tera lae dooba snehaaa"
+            }
+        };
+
+        const overlay = document.getElementById('player-overlay');
+        const player = document.getElementById('audio-engine');
+        let swiperInstance = null;
+
+        function launchPlayer(id) {
+            const data = library[id];
+            
+            // 1. Setup Audio & Text
+            player.src = data.mp3;
+            document.getElementById('player-banner').src = data.banner;
+            document.getElementById('player-text').innerText = data.note;
+
+            // 2. Load .JPG Gallery
+            const wall = document.getElementById('photo-wall');
+            wall.innerHTML = '';
+            data.gallery.forEach(imgUrl => {
+                wall.innerHTML += `<div class="swiper-slide"><img src="${imgUrl}"></div>`;
+            });
+
+            // 3. Show UI & Play
+            overlay.style.display = 'flex';
+            player.play();
+
+            // 4. Init Swiper Coverflow
+            if(swiperInstance) swiperInstance.destroy();
+            swiperInstance = new Swiper(".mySwiper", {
+                effect: "coverflow",
+                centeredSlides: true,
+                slidesPerView: "auto",
+                coverflowEffect: {
+                    rotate: 20,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true,
+                }
+            });
+        }
+
+        function exitPlayer() {
+            overlay.style.display = 'none';
+            player.pause();
+        }
+    </script>
+</body>
+</html>
