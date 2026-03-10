@@ -10,73 +10,116 @@
         @font-face { font-family: 'Absans Regular'; src: url('Absans Regular.otf'); }
 
         :root {
-            --spotify-black: #121212;
+            /* YOUR THEME COLORS */
+            --page-beige: #F5F5DC;
             --pink-accent: #FF6B9D;
-            --glass: rgba(255, 255, 255, 0.12);
+            --doodle-brown: #5D4037;
+            --glass: rgba(255, 255, 255, 0.5); /* Lighter glass for beige theme */
         }
 
         body {
-            background-color: var(--spotify-black);
-            color: white;
+            background-color: var(--page-beige);
+            color: var(--doodle-brown);
             font-family: 'Absans Regular', sans-serif;
             margin: 0; padding: 0;
             overflow-x: hidden;
+            /* Simple Grid background to match other pages */
+            background-image: radial-gradient(#d1d1b3 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
         }
 
-        /* Header */
+        /* --- HEADER (Beige Theme) --- */
         .header {
             padding: 50px 20px 30px;
-            background: linear-gradient(to bottom, #5a189a, var(--spotify-black));
+            text-align: left;
+            border-bottom: 2px solid var(--doodle-brown);
         }
-        .header h1 { font-family: 'Harmond Bold'; font-size: 2.2rem; margin: 0; }
-        .header p { opacity: 0.7; font-size: 0.9rem; margin-top: 8px; }
+        .header h1 { font-family: 'Harmond Bold'; font-size: 2.2rem; margin: 0; color: var(--pink-accent); }
+        .header p { opacity: 0.8; font-size: 0.9rem; margin: 8px 0; }
+        .header .magic-text { font-size: 0.8rem; font-weight: bold; color: #888; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Track List */
+        /* --- TRACK LIST (Beige/Doodle style) --- */
         .track-list { padding: 15px; }
         .track-item {
             display: flex; align-items: center;
-            padding: 10px; margin-bottom: 10px;
-            border-radius: 8px; background: rgba(255,255,255,0.05);
+            padding: 12px; margin-bottom: 12px;
+            border-radius: 12px;
+            background: #fff;
+            border: 2px solid var(--doodle-brown);
+            box-shadow: 4px 4px 0px var(--doodle-brown);
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        .track-item:active { background: rgba(255,255,255,0.15); transform: scale(0.98); }
-        .thumb { width: 55px; height: 55px; border-radius: 4px; margin-right: 15px; object-fit: cover; }
-        .info h3 { font-size: 1rem; margin: 0; color: #fff; }
-        .info p { font-size: 0.8rem; opacity: 0.6; margin: 4px 0 0 0; }
+        .track-item:active { scale: 0.97; box-shadow: 1px 1px 0px var(--doodle-brown); }
+        .thumb { width: 55px; height: 55px; border-radius: 6px; margin-right: 15px; object-fit: cover; border: 1px solid #eee; }
+        .info h3 { font-size: 1.1rem; margin: 0; color: var(--doodle-brown); }
+        .info p { font-size: 0.85rem; opacity: 0.7; margin: 4px 0 0 0; font-style: italic; }
 
-        /* Pop-up Player */
+        /* --- BLURRED PLAYER OVERLAY --- */
         #player-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 1000;
-            display: none; flex-direction: column; align-items: center;
-            justify-content: center; backdrop-filter: blur(20px);
+            background: rgba(245, 245, 220, 0.7); /* Beige Tint */
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            backdrop-filter: blur(25px); /* Strong Blur */
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        .vinyl-wrap { width: 180px; height: 180px; margin-top: 20px; }
+        /* Top Mini Player Row */
+        .player-top-row {
+            display: flex; align-items: center;
+            margin-top: 40px; margin-bottom: 20px;
+            width: 100%;
+        }
+
+        /* Vinyl Styling (Small, Top Left) */
+        .vinyl-wrap {
+            width: 60px; height: 60px; position: relative;
+            margin-right: 15px;
+        }
         .record {
-            width: 100%; height: 100%; background: #000;
-            border-radius: 50%; border: 4px solid #222;
+            width: 100%; height: 100%; background: #222;
+            border-radius: 50%; border: 3px solid #444;
             display: flex; align-items: center; justify-content: center;
             animation: spin 6s linear infinite;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        .record-label { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; }
+        .record-label { width: 25px; height: 25px; border-radius: 50%; object-fit: cover; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .swiper { width: 100%; padding: 30px 0; }
-        .swiper-slide { width: 280px; height: 350px; }
+        /* Song Title next to Vinyl */
+        .player-title { font-family: 'Harmond Bold'; font-size: 1.4rem; color: var(--pink-accent); flex: 1; text-align: left; }
+
+        /* Photo Gallery (Full width) */
+        .swiper { width: 100%; height: 40vh; margin-bottom: 20px; }
+        .swiper-slide { width: 85%; height: 100%; }
         .swiper-slide img {
             width: 100%; height: 100%; object-fit: cover;
-            border-radius: 12px; border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            border: 4px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
+        /* Handwritten Note (Glassmorphism) */
         .note-container {
-            width: 85%; padding: 20px;
-            background: var(--glass); border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-            margin-top: 10px; text-align: center;
+            width: 100%; padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            border: 2px solid var(--doodle-brown);
+            box-shadow: 4px 4px 0px var(--doodle-brown);
+            text-align: center;
+            box-sizing: border-box;
         }
-        .note-container p { font-size: 0.95rem; font-style: italic; color: var(--pink-accent); margin: 0; }
+        .note-container p { font-size: 0.95rem; line-height: 1.5; font-style: italic; color: var(--doodle-brown); margin: 0; }
 
-        .close-icon { position: absolute; top: 30px; right: 25px; font-size: 1.8rem; color: #fff; cursor: pointer; }
+        /* Close Icon */
+        .close-icon {
+            position: absolute; top: 25px; right: 20px;
+            font-size: 2rem; color: var(--doodle-brown); cursor: pointer;
+            z-index: 1001;
+        }
     </style>
 </head>
 <body>
@@ -84,6 +127,7 @@
     <div class="header">
         <h1>Sneh-ify</h1>
         <p>A playlist for my favorite person.</p>
+        <span class="magic-text">Tap the songs to see the magic↴</span>
     </div>
 
     <div class="track-list">
@@ -94,23 +138,29 @@
                 <p>Sunidhi Chauhan</p>
             </div>
         </div>
-    </div>
+        </div>
 
     <div id="player-overlay">
         <div class="close-icon" onclick="exitPlayer()">✕</div>
-        <div class="vinyl-wrap">
-            <div class="record">
-                <img id="player-banner" src="" class="record-label">
+        
+        <div class="player-top-row">
+            <div class="vinyl-wrap">
+                <div class="record">
+                    <img id="player-banner" src="snehify/s1b1.png" class="record-label">
+                </div>
             </div>
+            <div id="player-song-title" class="player-title">Lae Dooba</div>
         </div>
 
         <div class="swiper mySwiper">
-            <div class="swiper-wrapper" id="photo-wall"></div>
+            <div class="swiper-wrapper" id="photo-wall">
+                </div>
         </div>
 
         <div class="note-container">
             <p id="player-text"></p>
         </div>
+
         <audio id="audio-engine"></audio>
     </div>
 
@@ -121,7 +171,6 @@
                 title: "Lae Dooba",
                 banner: "snehify/s1b1.png",
                 mp3: "snehify/laedooba.mp3",
-                // EXACT Casing from your GitHub Screenshot (.JPG)
                 gallery: ["snehify/s1p1.JPG", "snehify/s1p2.JPG", "snehify/s1p3.JPG", "snehify/s1p4.JPG", "snehify/s1p5.JPG"],
                 note: "sach me mainu ishq tera lae dooba snehaaa"
             }
@@ -133,10 +182,14 @@
 
         function launchPlayer(id) {
             const data = library[id];
+            
+            // Setup Text & Audio
             player.src = data.mp3;
             document.getElementById('player-banner').src = data.banner;
+            document.getElementById('player-song-title').innerText = data.title;
             document.getElementById('player-text').innerText = data.note;
 
+            // Load JPGs
             const wall = document.getElementById('photo-wall');
             wall.innerHTML = '';
             data.gallery.forEach(imgUrl => {
@@ -144,8 +197,9 @@
             });
 
             overlay.style.display = 'flex';
-            player.play().catch(e => console.log("Audio play blocked"));
+            player.play();
 
+            // Initialize Swiper (Coverflow for phone)
             if(swiperInstance) swiperInstance.destroy();
             swiperInstance = new Swiper(".mySwiper", {
                 effect: "coverflow",
