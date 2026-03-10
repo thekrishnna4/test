@@ -24,14 +24,14 @@
             overflow-x: hidden;
         }
 
-        /* --- IDEA 1: FLOATING DOODLES --- */
+        /* --- FLOATING DOODLES --- */
         .bg-doodles {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0; overflow: hidden;
+            pointer-events: none; z-index: 0;
         }
         .doodle {
-            position: absolute; color: var(--pink-1); opacity: 0.3;
-            font-size: 1.5rem; animation: float 10s infinite linear;
+            position: absolute; color: var(--pink-1); opacity: 0.2;
+            font-size: 1.5rem; animation: float 12s infinite linear;
         }
         @keyframes float {
             0% { transform: translateY(110vh) rotate(0deg); }
@@ -59,59 +59,56 @@
         .container { 
             padding: 15px 30px; position: relative; width: 50%; 
             box-sizing: border-box; opacity: 0; 
-            transform: translateY(30px); transition: all 0.6s ease;
+            transform: translateY(30px); transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 2;
         }
         .container.show { opacity: 1; transform: translateY(0); }
         .left { left: 0; text-align: right; }
         .right { left: 50%; text-align: left; }
 
-        /* --- IDEA 3: POLAROID TILT --- */
+        /* --- POLAROID TILT (Works on Mobile) --- */
         .content {
             padding: 35px 20px 20px 20px; 
             background: #fff;
             border: 2px solid var(--doodle-brown);
-            border-radius: 2px; /* Sharper edges like a real photo */
             box-shadow: 5px 5px 0px var(--doodle-brown);
             display: inline-block; width: 100%; box-sizing: border-box;
-            transition: transform 0.3s ease;
         }
-        .left .content { transform: rotate(-2deg); }
-        .right .content { transform: rotate(2deg); }
-        .content:hover { transform: rotate(0deg) scale(1.02) !important; z-index: 10; }
+        /* Permanent slight tilt for that aesthetic look */
+        .left .content { transform: rotate(-3deg); }
+        .right .content { transform: rotate(3deg); }
 
         .content img, .content video {
-            width: 100%; border-radius: 0; /* Square like a polaroid */
-            margin-top: 15px; display: block; border: 1px solid #eee;
+            width: 100%; margin-top: 15px; display: block; border: 1px solid #eee;
         }
 
         .date-label { font-size: 0.8rem; font-weight: bold; color: var(--pink-1); display: block; margin-bottom: 5px; }
-        .content h2 { font-family: 'Harmond Bold'; font-size: 1.2rem; margin: 0; color: var(--pink-1); line-height: 1.2; }
+        .content h2 { font-family: 'Harmond Bold'; font-size: 1.1rem; margin: 0; color: var(--pink-1); line-height: 1.2; }
         .content p { font-size: 0.85rem; margin-top: 10px; font-style: italic; color: #666; }
 
         /* --- FOOTER --- */
-        .footer-nav { padding: 100px 0; text-align: center; position: relative; z-index: 5; }
+        .footer-nav { padding: 80px 0; text-align: center; position: relative; z-index: 5; }
         .btn-next {
-            background: var(--pink-1); color: white; padding: 15px 40px; 
+            background: var(--pink-1); color: white; padding: 15px 50px; 
             text-decoration: none; border: 2px solid var(--doodle-brown); 
-            box-shadow: 4px 4px 0px var(--doodle-brown);
+            box-shadow: 4px 4px 0px var(--doodle-brown); font-weight: bold;
         }
 
         @media screen and (max-width: 600px) {
             .timeline::after { left: 20px; }
-            .container { width: 100%; padding-left: 50px; padding-right: 15px; text-align: left !important; }
+            .container { width: 100%; padding-left: 50px; padding-right: 20px; text-align: left !important; }
             .left, .right { left: 0; }
-            .content { padding-top: 40px; transform: rotate(0deg) !important; } /* Straighten on mobile for easier reading */
+            /* Keep tilt subtle on mobile so it doesn't hit screen edges */
+            .left .content { transform: rotate(-1.5deg); }
+            .right .content { transform: rotate(1.5deg); }
+            .content { padding-top: 40px; }
         }
     </style>
 </head>
 <body>
 
     <div class="bg-doodles" id="doodle-container"></div>
-
-    <audio id="bgMusic" autoplay loop playsinline preload="auto">
-        <source src="storysong.mp3" type="audio/mp3">
-    </audio>
+    <audio id="bgMusic" autoplay loop playsinline preload="auto"><source src="storysong.mp3" type="audio/mp3"></audio>
 
     <section class="counter-section">
         <div class="counter-title">You've been blessing this world for</div>
@@ -131,15 +128,96 @@
             <div class="content">
                 <h2>Different Worlds</h2>
                 <img src="sn2.png">
-                <p>Different schools, different lives, just waiting for destiny.</p>
+                <p>Growing up apart, just waiting for destiny.</p>
             </div>
         </div>
-
+        <div class="container left">
+            <div class="content">
+                <span class="date-label">July 25, 2021</span>
+                <h2>KV Mathura Cantt</h2>
+                <img src="sn3.png">
+                <p>The day you arrived in my world.</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>Online Classes</h2>
+                <img src="sn4.png">
+                <p>Our story started behind screens in online classes.</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <span class="date-label">January 20, 2022</span>
+                <h2>Best Friends</h2>
+                <img src="sn5.png">
+                <p>The foundation of everything. You became my person.</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>Hidden Days</h2>
+                <img src="sn6.png">
+                <p>Same school, same air, but zero photos together.</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <h2>Distance Friends</h2>
+                <img src="sn7.png">
+                <p>Miles grew, but so did our conversations.</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <span class="date-label">August 19</span>
+                <h2>Formally Proposed</h2>
+                <img src="sn8.png">
+                <p>The day I asked, and you made me the luckiest.</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <span class="date-label">August 17, 2025</span>
+                <h2>First Meetup</h2>
+                <img src="sn9.png">
+                <p>Finally holding you after all that time away.</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>Odisha College</h2>
+                <video autoplay loop muted playsinline><source src="sn10.mp4" type="video/mp4"></video>
+                <p>Distance tried to test us again, but it failed.</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <span class="date-label">January 25, 2026</span>
+                <h2>First Kiss</h2>
+                <video autoplay loop muted playsinline><source src="sn11.mp4" type="video/mp4"></video>
+                <p>A moment I'll keep forever.</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>Dehradun</h2>
+                <video autoplay loop muted playsinline><source src="sn12.mp4" type="video/mp4"></video>
+                <p>Meeting in the hills, making memories together.</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <h2>Waiting Again</h2>
+                <video autoplay loop muted playsinline><source src="sn13.mp4" type="video/mp4"></video>
+                <p>Long distance again, but always worth the wait.</p>
+            </div>
+        </div>
         <div class="container right">
             <div class="content">
                 <h2>Forever</h2>
                 <img src="sn14.png">
-                <p>Through every mile and every moment... it's you.</p>
+                <p>It's always going to be you. Forever.</p>
             </div>
         </div>
     </div>
@@ -150,46 +228,34 @@
 
     <script src="file/jquery.min.js"></script>
     <script>
-        // CREATE FLOATING DOODLES
-        const symbols = ['❤', '★', '☀', '☁', '✿', '✨'];
+        // DOODLE GENERATOR
+        const symbols = ['❤', '★', '✨', '☁', '✿'];
         const container = document.getElementById('doodle-container');
-        for (let i = 0; i < 20; i++) {
-            const doodle = document.createElement('div');
-            doodle.className = 'doodle';
-            doodle.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
-            doodle.style.left = Math.random() * 100 + 'vw';
-            doodle.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            doodle.style.animationDelay = (Math.random() * 10) + 's';
-            container.appendChild(doodle);
+        for (let i = 0; i < 15; i++) {
+            const d = document.createElement('div');
+            d.className = 'doodle';
+            d.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            d.style.left = Math.random() * 90 + 'vw';
+            d.style.animationDuration = (Math.random() * 5 + 7) + 's';
+            d.style.animationDelay = (Math.random() * 5) + 's';
+            container.appendChild(d);
         }
 
-        // AUDIO AUTO-PLAY FIX
-        window.addEventListener('load', function() {
-            const audio = document.getElementById('bgMusic');
-            let playPromise = audio.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    window.addEventListener('touchstart', () => { audio.play(); }, {once: true});
-                    window.addEventListener('scroll', () => { audio.play(); }, {once: true});
-                });
-            }
-        });
-
-        // BIRTH TIMER
+        // TIMER
         const birthDate = new Date(2006, 2, 21);
         function updateTimer() {
-            const now = new Date();
-            const diff = now - birthDate;
+            const diff = new Date() - birthDate;
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
             const mins = Math.floor((diff / (1000 * 60)) % 60);
-            document.getElementById('timer').innerHTML = days + " DAYS, " + hours + " HOURS & " + mins + " MINS";
+            document.getElementById('timer').innerHTML = `${days} DAYS, ${hours} HOURS & ${mins} MINS`;
         }
-        setInterval(updateTimer, 1000);
-        updateTimer();
+        setInterval(updateTimer, 1000); updateTimer();
 
-        // SCROLL REVEAL
+        // SCROLL REVEAL & AUDIO
+        const audio = document.getElementById('bgMusic');
         $(window).on('scroll', function() {
+            if (audio.paused) audio.play();
             $('.container').each(function() {
                 if ($(window).scrollTop() + $(window).height() > $(this).offset().top + 50) {
                     $(this).addClass('show');
