@@ -143,7 +143,7 @@
             const song = library[id];
             listContainer.innerHTML += `
                 <div class="track-item" onclick="launchPlayer(${id})">
-                    <img src="snehify/${song.banner}" class="thumb">
+                    <img src="${song.banner}" class="thumb">
                     <div class="info"><h3>${song.title}</h3><p>Sneha's Special</p></div>
                 </div>`;
         });
@@ -154,15 +154,16 @@
 
         function launchPlayer(id) {
             const data = library[id];
-            player.src = `snehify/${data.mp3}`;
-            document.getElementById('player-banner').src = `snehify/${data.banner}`;
+            player.src = `${data.mp3}`;
+            document.getElementById('player-banner').src = `${data.banner}`;
             document.getElementById('player-song-title').innerText = data.title;
             document.getElementById('player-text').innerText = data.note;
 
             const wall = document.getElementById('photo-wall');
             wall.innerHTML = '';
             for(let i=1; i<=5; i++) {
-                wall.innerHTML += `<div class="swiper-slide"><img src="snehify/s${id}p${i}.JPG"></div>`;
+                // Now looking for s1p1.JPG etc in root directory
+                wall.innerHTML += `<div class="swiper-slide"><img src="s${id}p${i}.JPG"></div>`;
             }
 
             overlay.style.display = 'flex';
