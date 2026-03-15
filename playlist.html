@@ -25,13 +25,11 @@
             background-size: 20px 20px;
         }
 
-        /* Header */
         .header { padding: 50px 20px 30px; text-align: left; border-bottom: 2px solid var(--doodle-brown); }
         .header h1 { font-family: 'Harmond Bold'; font-size: 2.2rem; margin: 0; color: var(--pink-accent); }
         .header p { opacity: 0.8; font-size: 0.9rem; margin: 8px 0; }
         .header .magic-text { font-size: 0.8rem; font-weight: bold; color: #888; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Track List */
         .track-list { padding: 15px; }
         .track-item {
             display: flex; align-items: center;
@@ -46,7 +44,6 @@
         .info h3 { font-size: 1.1rem; margin: 0; }
         .info p { font-size: 0.85rem; opacity: 0.7; margin: 4px 0 0 0; font-style: italic; }
 
-        /* Player Overlay */
         #player-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(245, 245, 220, 0.85); z-index: 1000;
@@ -68,7 +65,6 @@
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .player-title { font-family: 'Harmond Bold'; font-size: 1.4rem; color: var(--pink-accent); }
 
-        /* Swiper */
         .swiper { width: 100%; height: 45vh; margin-bottom: 15px; }
         .swiper-slide { width: 75%; height: 100%; }
         .swiper-slide img {
@@ -124,17 +120,17 @@
     <script>
         const library = {
             1: { title: "Lae Dooba", banner: "s1b1.png", mp3: "laedooba.mp3", note: "sach me mainu ishq tera lae dooba snehaaa" },
-            2: { title: "Rishte Naate", banner: "s2b2.png", mp3: "rishtenaate.mp3", note: "Tu mere liye mera ghar hai sneha saare rishte naato se upar" },
-            3: { title: "Do You Know", banner: "s3b3.png", mp3: "doyouknow.mp3", note: "Do you know mai tainu kinna pyaar karda?" },
-            4: { title: "Tu Chaiye", banner: "s4b4.png", mp3: "tuchaiye.mp3", note: "Sirf tu chaiye sneha" },
-            5: { title: "Mera Yaar", banner: "s5b5.png", mp3: "merayaar.mp3", note: "mai mandir maszid kyun hi jaun tu hi mere liye meri bhagwaan hai" },
-            6: { title: "Tujh Me Rab Dikhta Hai", banner: "s6b6.png", mp3: "tujhmerabdikhtahai.mp3", note: "Tujh me rab dikhta hai mai kya karu" },
-            7: { title: "In Dino", banner: "s7b7.png", mp3: "indino.mp3", note: "tujh ko chupa kar mai rakh lu kahi sabse dooooooor" },
-            8: { title: "Khat", banner: "s8b8.png", mp3: "khat.mp3", note: "tere liye mandir jau bhagwan me naam maan kar bhi bhagwaan se tere liye pray karta hu" },
-            9: { title: "Meri Banogi Kya", banner: "s9b9.png", mp3: "meribanogikya.mp3", note: "meri banogi kya meri rahogi kya ?" },
-            10: { title: "I Love You", banner: "s10b10.png", mp3: "iloveyou.mp3", note: "i love you sneha" },
-            11: { title: "Humsafar", banner: "s11b11.png", mp3: "humsafar.mp3", note: "kya meri humsafar banegi sneha?" },
-            12: { title: "Marjaayen", banner: "s12b12.png", mp3: "marjaayen.mp3", note: "ahhhh !!!" }
+            2: { title: "Rishte Naate", banner: "s2b1.png", mp3: "rishtenaate.mp3", note: "Tu mere liye mera ghar hai sneha saare rishte naato se upar" },
+            3: { title: "Do You Know", banner: "s3b1.png", mp3: "doyouknow.mp3", note: "Do you know mai tainu kinna pyaar karda?" },
+            4: { title: "Tu Chaiye", banner: "s4b1.png", mp3: "tuchaiye.mp3", note: "Sirf tu chaiye sneha" },
+            5: { title: "Mera Yaar", banner: "s5b1.png", mp3: "merayaar.mp3", note: "mai mandir maszid kyun hi jaun tu hi mere liye meri bhagwaan hai" },
+            6: { title: "Tujh Me Rab Dikhta Hai", banner: "s6b1.png", mp3: "tujhmerabdikhtahai.mp3", note: "Tujh me rab dikhta hai mai kya karu" },
+            7: { title: "In Dino", banner: "s7b1.png", mp3: "indino.mp3", note: "tujh ko chupa kar mai rakh lu kahi sabse dooooooor" },
+            8: { title: "Khat", banner: "s8b1.png", mp3: "khat.mp3", note: "tere liye mandir jau bhagwan me naam maan kar bhi bhagwaan se tere liye pray karta hu" },
+            9: { title: "Meri Banogi Kya", banner: "s9b1.png", mp3: "meribanogikya.mp3", note: "meri banogi kya meri rahogi kya ?" },
+            10: { title: "I Love You", banner: "s10b1.png", mp3: "iloveyou.mp3", note: "i love you sneha" },
+            11: { title: "Humsafar", banner: "s11b1.png", mp3: "humsafar.mp3", note: "kya meri humsafar banegi sneha?" },
+            12: { title: "Marjaayen", banner: "s12b1.png", mp3: "marjaayen.mp3", note: "ahhhh !!!" }
         };
 
         const listContainer = document.getElementById('main-track-list');
@@ -161,8 +157,8 @@
             const wall = document.getElementById('photo-wall');
             wall.innerHTML = '';
             for(let i=1; i<=5; i++) {
-                // IMPORTANT: Exact Case Matching (s1p1.JPG)
-                wall.innerHTML += `<div class="swiper-slide"><img src="./s${id}p${i}.JPG"></div>`;
+                // FIXED: Using lowercase .jpg to match your repository screenshots
+                wall.innerHTML += `<div class="swiper-slide"><img src="./s${id}p${i}.jpg"></div>`;
             }
 
             overlay.style.display = 'flex';
