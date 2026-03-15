@@ -25,13 +25,13 @@
             background-size: 20px 20px;
         }
 
-        /* --- HEADER --- */
+        /* Header */
         .header { padding: 50px 20px 30px; text-align: left; border-bottom: 2px solid var(--doodle-brown); }
         .header h1 { font-family: 'Harmond Bold'; font-size: 2.2rem; margin: 0; color: var(--pink-accent); }
         .header p { opacity: 0.8; font-size: 0.9rem; margin: 8px 0; }
         .header .magic-text { font-size: 0.8rem; font-weight: bold; color: #888; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- TRACK LIST --- */
+        /* Track List */
         .track-list { padding: 15px; }
         .track-item {
             display: flex; align-items: center;
@@ -46,10 +46,10 @@
         .info h3 { font-size: 1.1rem; margin: 0; }
         .info p { font-size: 0.85rem; opacity: 0.7; margin: 4px 0 0 0; font-style: italic; }
 
-        /* --- PLAYER OVERLAY --- */
+        /* Player Overlay */
         #player-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(245, 245, 220, 0.8); z-index: 1000;
+            background: rgba(245, 245, 220, 0.85); z-index: 1000;
             display: none; flex-direction: column;
             backdrop-filter: blur(25px);
             padding: 20px; box-sizing: border-box;
@@ -68,7 +68,7 @@
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .player-title { font-family: 'Harmond Bold'; font-size: 1.4rem; color: var(--pink-accent); }
 
-        /* --- SWIPER POLAROID --- */
+        /* Swiper */
         .swiper { width: 100%; height: 45vh; margin-bottom: 15px; }
         .swiper-slide { width: 75%; height: 100%; }
         .swiper-slide img {
@@ -82,7 +82,7 @@
             background: rgba(255, 255, 255, 0.7);
             border-radius: 15px; border: 2px solid var(--doodle-brown);
             box-shadow: 4px 4px 0px var(--doodle-brown);
-            text-align: center; box-sizing: border-box;
+            text-align: center;
         }
         .note-container p { font-size: 0.95rem; line-height: 1.5; font-style: italic; color: var(--doodle-brown); margin: 0; }
         .close-icon { position: absolute; top: 25px; right: 20px; font-size: 2rem; color: var(--doodle-brown); cursor: pointer; }
@@ -103,8 +103,7 @@
         <span class="magic-text">Tap the songs to see the magic↴</span>
     </div>
 
-    <div class="track-list" id="main-track-list">
-        </div>
+    <div class="track-list" id="main-track-list"></div>
 
     <a href="final.html" class="btn-main-final">The Last Surprise</a>
 
@@ -143,7 +142,7 @@
             const song = library[id];
             listContainer.innerHTML += `
                 <div class="track-item" onclick="launchPlayer(${id})">
-                    <img src="${song.banner}" class="thumb">
+                    <img src="./${song.banner}" class="thumb">
                     <div class="info"><h3>${song.title}</h3><p>Sneha's Special</p></div>
                 </div>`;
         });
@@ -154,16 +153,16 @@
 
         function launchPlayer(id) {
             const data = library[id];
-            player.src = `${data.mp3}`;
-            document.getElementById('player-banner').src = `${data.banner}`;
+            player.src = `./${data.mp3}`;
+            document.getElementById('player-banner').src = `./${data.banner}`;
             document.getElementById('player-song-title').innerText = data.title;
             document.getElementById('player-text').innerText = data.note;
 
             const wall = document.getElementById('photo-wall');
             wall.innerHTML = '';
             for(let i=1; i<=5; i++) {
-                // Now looking for s1p1.JPG etc in root directory
-                wall.innerHTML += `<div class="swiper-slide"><img src="s${id}p${i}.JPG"></div>`;
+                // IMPORTANT: Exact Case Matching (s1p1.JPG)
+                wall.innerHTML += `<div class="swiper-slide"><img src="./s${id}p${i}.JPG"></div>`;
             }
 
             overlay.style.display = 'flex';
