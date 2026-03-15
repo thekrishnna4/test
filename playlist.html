@@ -136,10 +136,12 @@
         const listContainer = document.getElementById('main-track-list');
         Object.keys(library).forEach(id => {
             const song = library[id];
-            // Pointing to ROOT for banner images
+            // If it's Song 1, look in snehify/ folder. Else, look in root.
+            const bannerPath = (id == 1) ? `./snehify/${song.banner}` : `./${song.banner}`;
+            
             listContainer.innerHTML += `
                 <div class="track-item" onclick="launchPlayer(${id})">
-                    <img src="./${song.banner}" class="thumb">
+                    <img src="${bannerPath}" class="thumb">
                     <div class="info"><h3>${song.title}</h3><p>Sneha's Special</p></div>
                 </div>`;
         });
@@ -150,18 +152,20 @@
 
         function launchPlayer(id) {
             const data = library[id];
-            // Pointing to snehify/ folder for MP3
             player.src = `./snehify/${data.mp3}`;
-            // Pointing to ROOT for banner
-            document.getElementById('player-banner').src = `./${data.banner}`;
+            
+            // Photo Extension logic: s1 photos use .JPG, others use .jpg
+            const photoExt = (id == 1) ? 'JPG' : 'jpg';
+            const imgBasePath = (id == 1) ? './snehify/' : './';
+
+            document.getElementById('player-banner').src = `${imgBasePath}${data.banner}`;
             document.getElementById('player-song-title').innerText = data.title;
             document.getElementById('player-text').innerText = data.note;
 
             const wall = document.getElementById('photo-wall');
             wall.innerHTML = '';
             for(let i=1; i<=5; i++) {
-                // Pointing to ROOT for JPG photos
-                wall.innerHTML += `<div class="swiper-slide"><img src="./s${id}p${i}.jpg"></div>`;
+                wall.innerHTML += `<div class="swiper-slide"><img src="${imgBasePath}s${id}p${i}.${photoExt}"></div>`;
             }
 
             overlay.style.display = 'flex';
