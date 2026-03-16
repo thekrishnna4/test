@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sneh-ify</title>
+    <title>Sneh-ify | Memories</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         @font-face { font-family: 'Harmond Bold'; src: url('Harmond bold.otf'); }
         @font-face { font-family: 'Absans Regular'; src: url('Absans Regular.otf'); }
-        /* Handwriting font for notes */
         @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
 
         :root {
             --page-beige: #F5F5DC;
             --pink-accent: #FF6B9D;
             --doodle-brown: #5D4037;
-            --glass: rgba(255, 255, 255, 0.4);
+            --glass: rgba(255, 255, 255, 0.45);
         }
 
         body {
@@ -24,119 +23,98 @@
             font-family: 'Absans Regular', sans-serif;
             margin: 0; padding: 0;
             overflow-x: hidden;
-            /* Paper texture effect */
             background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
         }
 
-        /* Floating Doodles Background */
-        .doodle-bg {
+        /* --- Richer Background Elements --- */
+        .bg-elements {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: -1; opacity: 0.15;
-            font-size: 2rem;
+            pointer-events: none; z-index: -1;
         }
-        .doodle { position: absolute; animation: float 6s infinite ease-in-out; }
+        .bg-item { position: absolute; opacity: 0.15; filter: grayscale(20%); animation: float 8s infinite ease-in-out; }
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
+            50% { transform: translateY(-30px) rotate(15deg); }
         }
 
-        .header { padding: 60px 20px 30px; text-align: left; border-bottom: 2px dashed var(--doodle-brown); }
-        .header h1 { font-family: 'Harmond Bold'; font-size: 2.5rem; margin: 0; color: var(--pink-accent); text-shadow: 2px 2px 0px #fff; }
+        .header { padding: 60px 20px 30px; text-align: left; border-bottom: 2px dashed var(--doodle-brown); position: relative; }
+        .header h1 { font-family: 'Harmond Bold'; font-size: 2.8rem; margin: 0; color: var(--pink-accent); }
         
-        .track-list { padding: 15px; }
+        .track-list { padding: 20px; position: relative; z-index: 1; }
         .track-item {
             display: flex; align-items: center;
-            padding: 15px; margin-bottom: 18px;
-            border-radius: 15px; background: #fff;
-            border: 2.5px solid var(--doodle-brown);
+            padding: 15px; margin-bottom: 20px;
+            border-radius: 18px; background: #fff;
+            border: 2px solid var(--doodle-brown);
             box-shadow: 6px 6px 0px var(--doodle-brown);
-            cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        /* Tap/Hover Effect */
-        .track-item:hover { transform: scale(1.02) rotate(-1deg); box-shadow: 8px 8px 0px var(--pink-accent); }
-        .track-item:active { transform: scale(0.95); box-shadow: 2px 2px 0px var(--doodle-brown); }
+        .track-item:hover { transform: translateY(-5px) rotate(1deg); box-shadow: 10px 10px 0px var(--pink-accent); }
 
-        .thumb { width: 60px; height: 60px; border-radius: 10px; margin-right: 15px; object-fit: cover; border: 2px solid var(--doodle-brown); }
-        .info h3 { font-size: 1.2rem; margin: 0; color: #333; }
-        .info p { font-size: 0.85rem; opacity: 0.6; margin: 5px 0 0; }
-
-        /* Glassmorphism Player */
+        .thumb { width: 65px; height: 65px; border-radius: 12px; margin-right: 15px; object-fit: cover; border: 2px solid var(--doodle-brown); }
+        
+        /* --- Player Styling --- */
         #player-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--glass); z-index: 1000;
             display: none; flex-direction: column;
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             padding: 20px; box-sizing: border-box;
-            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .player-top-row { display: flex; align-items: center; margin-top: 50px; margin-bottom: 25px; }
+        .player-top-row { display: flex; align-items: center; margin-top: 40px; margin-bottom: 20px; }
         .record {
-            width: 65px; height: 65px; background: #222;
-            border-radius: 50%; border: 4px solid #444;
+            width: 70px; height: 70px; background: #111;
+            border-radius: 50%; border: 4px solid #333;
             display: flex; align-items: center; justify-content: center;
-            animation: spin 8s linear infinite;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            animation: spin 10s linear infinite;
         }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .record-label { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
         
-        .player-title { font-family: 'Harmond Bold'; font-size: 1.6rem; color: var(--pink-accent); margin-left: 15px; }
-
-        .swiper { width: 100%; height: 48vh; margin-bottom: 20px; }
+        /* --- Swiper Fix (Prevents Cropping) --- */
+        .swiper { width: 100%; height: 50vh; margin-bottom: 20px; }
+        .swiper-slide { display: flex; justify-content: center; align-items: center; }
         .swiper-slide img {
-            width: 100%; height: 100%; object-fit: cover;
-            border-radius: 20px; border: 6px solid #fff;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            max-width: 100%; max-height: 100%;
+            object-fit: contain; /* Shows full photo without cropping */
+            border-radius: 15px; border: 8px solid #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: #fff; /* Paper border effect */
         }
 
-        /* Handwriting Note Box */
         .note-container {
             width: 100%; padding: 25px;
-            background: #fff; border-radius: 20px;
+            background: #fff; border-radius: 25px;
             border: 2px solid var(--doodle-brown);
-            box-shadow: 5px 5px 0px var(--doodle-brown);
-            text-align: center; position: relative;
+            box-shadow: 6px 6px 0px var(--doodle-brown);
+            text-align: center;
         }
-        .note-container p { 
-            font-family: 'Caveat', cursive; 
-            font-size: 1.4rem; line-height: 1.4; color: var(--doodle-brown); margin: 0; 
-        }
+        .note-container p { font-family: 'Caveat', cursive; font-size: 1.5rem; color: var(--doodle-brown); margin: 0; }
 
-        .close-icon { position: absolute; top: 25px; right: 25px; font-size: 2.2rem; cursor: pointer; z-index: 1001; }
-
-        .heart-particle {
-            position: fixed; pointer-events: none;
-            animation: burst 1s ease-out forwards;
-            z-index: 2000;
-        }
-        @keyframes burst {
-            0% { transform: scale(0); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; }
-        }
-
+        .close-icon { position: absolute; top: 25px; right: 25px; font-size: 2.5rem; cursor: pointer; color: var(--doodle-brown); }
         .btn-main-final {
-            background: var(--pink-accent); color: white; padding: 15px 45px; font-weight: bold;
+            background: var(--pink-accent); color: white; padding: 18px 40px; font-weight: bold;
             text-decoration: none; border-radius: 50px; border: 2.5px solid var(--doodle-brown);
             box-shadow: 6px 6px 0px var(--doodle-brown); font-size: 1.1rem;
-            display: block; width: fit-content; margin: 50px auto;
-            transition: 0.3s;
+            display: block; width: fit-content; margin: 40px auto;
         }
-        .btn-main-final:hover { transform: translateY(-5px); box-shadow: 8px 8px 0px var(--doodle-brown); }
     </style>
 </head>
 <body>
 
-    <div class="doodle-bg">
-        <div class="doodle" style="top:10%; left:10%;">✨</div>
-        <div class="doodle" style="top:20%; right:15%; animation-delay: 1s;">🌸</div>
-        <div class="doodle" style="bottom:30%; left:5%; animation-delay: 2s;">☁️</div>
-        <div class="doodle" style="bottom:15%; right:10%; animation-delay: 1.5s;">💖</div>
+    <div class="bg-elements">
+        <span class="bg-item" style="top:5%; left:5%; font-size: 4rem;">🎨</span>
+        <span class="bg-item" style="top:15%; right:10%; animation-delay: 1s; font-size: 3rem;">🎵</span>
+        <span class="bg-item" style="bottom:20%; left:12%; animation-delay: 2s; font-size: 5rem;">🧸</span>
+        <span class="bg-item" style="bottom:10%; right:5%; animation-delay: 1.5s; font-size: 4rem;">💌</span>
+        <span class="bg-item" style="top:40%; left:2%; font-size: 2.5rem;">🦋</span>
+        <span class="bg-item" style="top:60%; right:2%; font-size: 3.5rem;">⭐</span>
     </div>
 
     <div class="header">
         <h1>Sneh-ify</h1>
-        <p>A scrapbook of songs & memories.</p>
+        <p>Because you're my favorite playlist.</p>
     </div>
 
     <div class="track-list" id="main-track-list"></div>
@@ -147,13 +125,13 @@
         <div class="close-icon" onclick="exitPlayer()">✕</div>
         <div class="player-top-row">
             <div class="record"><img id="player-banner" src="" class="record-label"></div>
-            <div id="player-song-title" class="player-title"></div>
+            <div id="player-song-title" class="player-title" style="margin-left:15px; font-family:'Harmond Bold'; font-size:1.4rem;"></div>
         </div>
         <div class="swiper mySwiper">
             <div class="swiper-wrapper" id="photo-wall"></div>
         </div>
         <div class="note-container"><p id="player-text"></p></div>
-        <audio id="audio-engine" loop></audio> 
+        <audio id="audio-engine" loop></audio>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -176,29 +154,13 @@
         const listContainer = document.getElementById('main-track-list');
         Object.keys(library).forEach(id => {
             const song = library[id];
-            // Folder check for Song 1 banner
             const bannerPath = (id == 1) ? `./snehify/${song.banner}` : `./${song.banner}`;
             listContainer.innerHTML += `
-                <div class="track-item" onclick="createHearts(event); launchPlayer(${id})">
+                <div class="track-item" onclick="launchPlayer(${id})">
                     <img src="${bannerPath}" class="thumb">
-                    <div class="info"><h3>${song.title}</h3><p>Tap to listen</p></div>
+                    <div class="info"><h3>${song.title}</h3><p>A memory in a melody</p></div>
                 </div>`;
         });
-
-        // Heart Burst Animation Logic
-        function createHearts(e) {
-            for(let i=0; i<8; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'heart-particle';
-                heart.innerHTML = '❤️';
-                heart.style.left = e.clientX + 'px';
-                heart.style.top = e.clientY + 'px';
-                heart.style.setProperty('--tx', (Math.random()-0.5)*200 + 'px');
-                heart.style.setProperty('--ty', (Math.random()-0.5)*200 + 'px');
-                document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 1000);
-            }
-        }
 
         const overlay = document.getElementById('player-overlay');
         const player = document.getElementById('audio-engine');
@@ -208,6 +170,7 @@
             const data = library[id];
             player.src = `./snehify/${data.mp3}`;
             
+            // Checking extensions carefully
             const photoExt = (id == 1) ? 'JPG' : 'jpg';
             const imgBasePath = (id == 1) ? './snehify/' : './';
 
@@ -218,7 +181,11 @@
             const wall = document.getElementById('photo-wall');
             wall.innerHTML = '';
             for(let i=1; i<=5; i++) {
-                wall.innerHTML += `<div class="swiper-slide"><img src="${imgBasePath}s${id}p${i}.${photoExt}"></div>`;
+                // If a photo is missing, this handles the error gracefully
+                wall.innerHTML += `
+                    <div class="swiper-slide">
+                        <img src="${imgBasePath}s${id}p${i}.${photoExt}" onerror="this.src='cake.jpg'">
+                    </div>`;
             }
 
             overlay.style.display = 'flex';
@@ -226,8 +193,10 @@
 
             if(swiperInstance) swiperInstance.destroy();
             swiperInstance = new Swiper(".mySwiper", {
-                effect: "coverflow", centeredSlides: true, slidesPerView: "auto", loop: true,
-                coverflowEffect: { rotate: 20, stretch: 0, depth: 100, modifier: 1, slideShadows: true }
+                effect: "cards", // Better for varying photo sizes
+                grabCursor: true,
+                loop: true,
+                cardsEffect: { rotate: true, perSlideRotate: 2, slideShadows: false }
             });
         }
 
