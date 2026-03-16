@@ -8,11 +8,14 @@
     <style>
         @font-face { font-family: 'Harmond Bold'; src: url('Harmond bold.otf'); }
         @font-face { font-family: 'Absans Regular'; src: url('Absans Regular.otf'); }
+        /* Handwriting font for notes */
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
 
         :root {
             --page-beige: #F5F5DC;
             --pink-accent: #FF6B9D;
             --doodle-brown: #5D4037;
+            --glass: rgba(255, 255, 255, 0.4);
         }
 
         body {
@@ -21,99 +24,136 @@
             font-family: 'Absans Regular', sans-serif;
             margin: 0; padding: 0;
             overflow-x: hidden;
-            background-image: radial-gradient(#d1d1b3 0.5px, transparent 0.5px);
-            background-size: 20px 20px;
+            /* Paper texture effect */
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
         }
 
-        .header { padding: 50px 20px 30px; text-align: left; border-bottom: 2px solid var(--doodle-brown); }
-        .header h1 { font-family: 'Harmond Bold'; font-size: 2.2rem; margin: 0; color: var(--pink-accent); }
-        .header p { opacity: 0.8; font-size: 0.9rem; margin: 8px 0; }
-        .header .magic-text { font-size: 0.8rem; font-weight: bold; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        /* Floating Doodles Background */
+        .doodle-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1; opacity: 0.15;
+            font-size: 2rem;
+        }
+        .doodle { position: absolute; animation: float 6s infinite ease-in-out; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
 
+        .header { padding: 60px 20px 30px; text-align: left; border-bottom: 2px dashed var(--doodle-brown); }
+        .header h1 { font-family: 'Harmond Bold'; font-size: 2.5rem; margin: 0; color: var(--pink-accent); text-shadow: 2px 2px 0px #fff; }
+        
         .track-list { padding: 15px; }
         .track-item {
             display: flex; align-items: center;
-            padding: 12px; margin-bottom: 12px;
-            border-radius: 12px; background: #fff;
-            border: 2px solid var(--doodle-brown);
-            box-shadow: 4px 4px 0px var(--doodle-brown);
-            cursor: pointer; transition: all 0.2s ease;
+            padding: 15px; margin-bottom: 18px;
+            border-radius: 15px; background: #fff;
+            border: 2.5px solid var(--doodle-brown);
+            box-shadow: 6px 6px 0px var(--doodle-brown);
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .track-item:active { scale: 0.97; box-shadow: 1px 1px 0px var(--doodle-brown); }
-        .thumb { width: 55px; height: 55px; border-radius: 6px; margin-right: 15px; object-fit: cover; border: 1px solid #eee; }
-        .info h3 { font-size: 1.1rem; margin: 0; }
-        .info p { font-size: 0.85rem; opacity: 0.7; margin: 4px 0 0 0; font-style: italic; }
+        /* Tap/Hover Effect */
+        .track-item:hover { transform: scale(1.02) rotate(-1deg); box-shadow: 8px 8px 0px var(--pink-accent); }
+        .track-item:active { transform: scale(0.95); box-shadow: 2px 2px 0px var(--doodle-brown); }
 
+        .thumb { width: 60px; height: 60px; border-radius: 10px; margin-right: 15px; object-fit: cover; border: 2px solid var(--doodle-brown); }
+        .info h3 { font-size: 1.2rem; margin: 0; color: #333; }
+        .info p { font-size: 0.85rem; opacity: 0.6; margin: 5px 0 0; }
+
+        /* Glassmorphism Player */
         #player-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(245, 245, 220, 0.85); z-index: 1000;
+            background: var(--glass); z-index: 1000;
             display: none; flex-direction: column;
-            backdrop-filter: blur(25px);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             padding: 20px; box-sizing: border-box;
-            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .player-top-row { display: flex; align-items: center; margin-top: 40px; margin-bottom: 20px; }
-        .vinyl-wrap { width: 60px; height: 60px; margin-right: 15px; }
+        .player-top-row { display: flex; align-items: center; margin-top: 50px; margin-bottom: 25px; }
         .record {
-            width: 100%; height: 100%; background: #222;
-            border-radius: 50%; border: 3px solid #444;
+            width: 65px; height: 65px; background: #222;
+            border-radius: 50%; border: 4px solid #444;
             display: flex; align-items: center; justify-content: center;
-            animation: spin 6s linear infinite;
+            animation: spin 8s linear infinite;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
         }
-        .record-label { width: 25px; height: 25px; border-radius: 50%; object-fit: cover; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .player-title { font-family: 'Harmond Bold'; font-size: 1.4rem; color: var(--pink-accent); }
+        .record-label { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+        
+        .player-title { font-family: 'Harmond Bold'; font-size: 1.6rem; color: var(--pink-accent); margin-left: 15px; }
 
-        .swiper { width: 100%; height: 45vh; margin-bottom: 15px; }
-        .swiper-slide { width: 75%; height: 100%; }
+        .swiper { width: 100%; height: 48vh; margin-bottom: 20px; }
         .swiper-slide img {
             width: 100%; height: 100%; object-fit: cover;
-            border-radius: 15px; border: 4px solid #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-radius: 20px; border: 6px solid #fff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
 
+        /* Handwriting Note Box */
         .note-container {
-            width: 100%; padding: 20px; margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 15px; border: 2px solid var(--doodle-brown);
-            box-shadow: 4px 4px 0px var(--doodle-brown);
-            text-align: center;
+            width: 100%; padding: 25px;
+            background: #fff; border-radius: 20px;
+            border: 2px solid var(--doodle-brown);
+            box-shadow: 5px 5px 0px var(--doodle-brown);
+            text-align: center; position: relative;
         }
-        .note-container p { font-size: 0.95rem; line-height: 1.5; font-style: italic; color: var(--doodle-brown); margin: 0; }
-        .close-icon { position: absolute; top: 25px; right: 20px; font-size: 2rem; color: var(--doodle-brown); cursor: pointer; }
+        .note-container p { 
+            font-family: 'Caveat', cursive; 
+            font-size: 1.4rem; line-height: 1.4; color: var(--doodle-brown); margin: 0; 
+        }
+
+        .close-icon { position: absolute; top: 25px; right: 25px; font-size: 2.2rem; cursor: pointer; z-index: 1001; }
+
+        .heart-particle {
+            position: fixed; pointer-events: none;
+            animation: burst 1s ease-out forwards;
+            z-index: 2000;
+        }
+        @keyframes burst {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; }
+        }
 
         .btn-main-final {
-            background: var(--pink-accent); color: white; padding: 15px 40px; font-weight: bold;
-            text-decoration: none; border-radius: 10px; border: 2px solid var(--doodle-brown);
-            box-shadow: 4px 4px 0px var(--doodle-brown); font-size: 1rem;
-            display: block; width: fit-content; margin: 40px auto;
+            background: var(--pink-accent); color: white; padding: 15px 45px; font-weight: bold;
+            text-decoration: none; border-radius: 50px; border: 2.5px solid var(--doodle-brown);
+            box-shadow: 6px 6px 0px var(--doodle-brown); font-size: 1.1rem;
+            display: block; width: fit-content; margin: 50px auto;
+            transition: 0.3s;
         }
+        .btn-main-final:hover { transform: translateY(-5px); box-shadow: 8px 8px 0px var(--doodle-brown); }
     </style>
 </head>
 <body>
 
+    <div class="doodle-bg">
+        <div class="doodle" style="top:10%; left:10%;">✨</div>
+        <div class="doodle" style="top:20%; right:15%; animation-delay: 1s;">🌸</div>
+        <div class="doodle" style="bottom:30%; left:5%; animation-delay: 2s;">☁️</div>
+        <div class="doodle" style="bottom:15%; right:10%; animation-delay: 1.5s;">💖</div>
+    </div>
+
     <div class="header">
         <h1>Sneh-ify</h1>
-        <p>A playlist for my favorite person.</p>
-        <span class="magic-text">Tap the songs to see the magic↴</span>
+        <p>A scrapbook of songs & memories.</p>
     </div>
 
     <div class="track-list" id="main-track-list"></div>
 
-    <a href="final.html" class="btn-main-final">The Last Surprise</a>
+    <a href="final.html" class="btn-main-final">The Last Surprise ➜</a>
 
     <div id="player-overlay">
         <div class="close-icon" onclick="exitPlayer()">✕</div>
         <div class="player-top-row">
-            <div class="vinyl-wrap"><div class="record"><img id="player-banner" src="" class="record-label"></div></div>
+            <div class="record"><img id="player-banner" src="" class="record-label"></div>
             <div id="player-song-title" class="player-title"></div>
         </div>
         <div class="swiper mySwiper">
             <div class="swiper-wrapper" id="photo-wall"></div>
         </div>
         <div class="note-container"><p id="player-text"></p></div>
-        <audio id="audio-engine"></audio>
+        <audio id="audio-engine" loop></audio> 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -136,15 +176,29 @@
         const listContainer = document.getElementById('main-track-list');
         Object.keys(library).forEach(id => {
             const song = library[id];
-            // If it's Song 1, look in snehify/ folder. Else, look in root.
+            // Folder check for Song 1 banner
             const bannerPath = (id == 1) ? `./snehify/${song.banner}` : `./${song.banner}`;
-            
             listContainer.innerHTML += `
-                <div class="track-item" onclick="launchPlayer(${id})">
+                <div class="track-item" onclick="createHearts(event); launchPlayer(${id})">
                     <img src="${bannerPath}" class="thumb">
-                    <div class="info"><h3>${song.title}</h3><p>Sneha's Special</p></div>
+                    <div class="info"><h3>${song.title}</h3><p>Tap to listen</p></div>
                 </div>`;
         });
+
+        // Heart Burst Animation Logic
+        function createHearts(e) {
+            for(let i=0; i<8; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle';
+                heart.innerHTML = '❤️';
+                heart.style.left = e.clientX + 'px';
+                heart.style.top = e.clientY + 'px';
+                heart.style.setProperty('--tx', (Math.random()-0.5)*200 + 'px');
+                heart.style.setProperty('--ty', (Math.random()-0.5)*200 + 'px');
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1000);
+            }
+        }
 
         const overlay = document.getElementById('player-overlay');
         const player = document.getElementById('audio-engine');
@@ -154,7 +208,6 @@
             const data = library[id];
             player.src = `./snehify/${data.mp3}`;
             
-            // Photo Extension logic: s1 photos use .JPG, others use .jpg
             const photoExt = (id == 1) ? 'JPG' : 'jpg';
             const imgBasePath = (id == 1) ? './snehify/' : './';
 
@@ -174,7 +227,7 @@
             if(swiperInstance) swiperInstance.destroy();
             swiperInstance = new Swiper(".mySwiper", {
                 effect: "coverflow", centeredSlides: true, slidesPerView: "auto", loop: true,
-                coverflowEffect: { rotate: 15, stretch: 0, depth: 80, modifier: 1, slideShadows: true }
+                coverflowEffect: { rotate: 20, stretch: 0, depth: 100, modifier: 1, slideShadows: true }
             });
         }
 
