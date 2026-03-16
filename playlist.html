@@ -26,19 +26,19 @@
             background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
         }
 
-        /* --- More Background Elements --- */
+        /* --- Rich Sticker Background --- */
         .bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: -1;
         }
-        .sticker { position: absolute; opacity: 0.12; animation: float 10s infinite ease-in-out; }
+        .sticker { position: absolute; opacity: 0.15; animation: float 12s infinite ease-in-out; }
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-40px) rotate(20deg); }
+            50% { transform: translateY(-35px) rotate(15deg); }
         }
 
         .header { padding: 60px 20px 30px; border-bottom: 2px dashed var(--doodle-brown); }
-        .header h1 { font-family: 'Harmond Bold'; font-size: 2.8rem; color: var(--pink-accent); margin: 0; }
+        .header h1 { font-family: 'Harmond Bold'; font-size: 2.8rem; color: var(--pink-accent); margin: 0; text-shadow: 2px 2px 0px #fff; }
         
         .track-list { padding: 20px; }
         .track-item {
@@ -53,67 +53,66 @@
 
         .thumb { width: 65px; height: 65px; border-radius: 12px; margin-right: 15px; object-fit: cover; border: 2px solid var(--doodle-brown); }
 
-        /* --- Optimized Glass Player --- */
+        /* --- Glass Player Overlay --- */
         #player-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--glass); z-index: 1000;
             display: none; flex-direction: column;
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             padding: 20px; box-sizing: border-box;
         }
 
-        .record {
+        .record-spin {
             width: 70px; height: 70px; background: #111;
             border-radius: 50%; border: 4px solid #333;
             display: flex; align-items: center; justify-content: center;
-            animation: spin 10s linear infinite;
+            animation: spin 8s linear infinite;
         }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .record-label { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
-
-        /* --- Swiper Anti-Lag Config --- */
-        .swiper { width: 100%; height: 50vh; margin-bottom: 20px; }
-        .swiper-slide { display: flex; justify-content: center; align-items: center; background: transparent; }
+        
+        .swiper { width: 100%; height: 50vh; margin-top: 10px; margin-bottom: 20px; }
+        .swiper-slide { display: flex; justify-content: center; align-items: center; }
         .swiper-slide img {
             max-width: 90%; max-height: 100%;
             object-fit: contain;
-            border-radius: 10px; border: 10px solid #fff;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border-radius: 5px; border: 12px solid #fff;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
             background: #fff;
         }
 
         .note-container {
             width: 100%; padding: 25px;
             background: #fff; border-radius: 20px;
-            border: 2px solid var(--doodle-brown);
+            border: 2.5px solid var(--doodle-brown);
             box-shadow: 6px 6px 0px var(--doodle-brown);
             text-align: center;
         }
-        .note-container p { font-family: 'Caveat', cursive; font-size: 1.5rem; color: var(--doodle-brown); margin: 0; }
+        .note-container p { font-family: 'Caveat', cursive; font-size: 1.6rem; color: var(--doodle-brown); margin: 0; }
 
         .close-icon { position: absolute; top: 25px; right: 25px; font-size: 2.5rem; cursor: pointer; color: var(--doodle-brown); z-index: 1001; }
+        
         .btn-main-final {
-            background: var(--pink-accent); color: white; padding: 18px 40px; font-weight: bold;
+            background: var(--pink-accent); color: white; padding: 18px 45px; font-weight: bold;
             text-decoration: none; border-radius: 50px; border: 2.5px solid var(--doodle-brown);
-            box-shadow: 6px 6px 0px var(--doodle-brown); display: block; width: fit-content; margin: 40px auto;
+            box-shadow: 8px 8px 0px var(--doodle-brown); display: block; width: fit-content; margin: 40px auto;
         }
     </style>
 </head>
 <body>
 
     <div class="bg-layer">
-        <span class="sticker" style="top:5%; left:5%; font-size: 4rem;">🖼️</span>
-        <span class="sticker" style="top:15%; right:8%; font-size: 3rem; animation-delay: 1s;">✨</span>
-        <span class="sticker" style="top:40%; left:2%; font-size: 2.5rem; animation-delay: 3s;">🦋</span>
-        <span class="sticker" style="bottom:25%; left:10%; font-size: 5rem; animation-delay: 2s;">🧸</span>
-        <span class="sticker" style="bottom:10%; right:10%; font-size: 4rem; animation-delay: 1.5s;">🌷</span>
-        <span class="sticker" style="bottom:45%; right:5%; font-size: 3rem; animation-delay: 4s;">⭐</span>
-        <span class="sticker" style="top:70%; left:5%; font-size: 3.5rem; animation-delay: 2.5s;">🎈</span>
+        <span class="sticker" style="top:5%; left:10%; font-size: 4rem;">🦋</span>
+        <span class="sticker" style="top:25%; right:5%; font-size: 3rem; animation-delay: 2s;">🎈</span>
+        <span class="sticker" style="bottom:15%; left:5%; font-size: 5rem; animation-delay: 1s;">🧸</span>
+        <span class="sticker" style="bottom:20%; right:12%; font-size: 4rem; animation-delay: 3s;">🌸</span>
+        <span class="sticker" style="top:50%; right:2%; font-size: 2.5rem; animation-delay: 4s;">✨</span>
+        <span class="sticker" style="top:70%; left:8%; font-size: 3.5rem;">💌</span>
+        <span class="sticker" style="bottom:40%; left:2%; font-size: 3rem;">🌈</span>
     </div>
 
     <div class="header">
         <h1>Sneh-ify</h1>
-        <p>A collection of us.</p>
+        <p>Your life, in songs.</p>
     </div>
 
     <div class="track-list" id="main-track-list"></div>
@@ -122,9 +121,9 @@
 
     <div id="player-overlay">
         <div class="close-icon" onclick="exitPlayer()">✕</div>
-        <div class="player-top-row" style="display:flex; align-items:center; margin-top:40px; margin-bottom:20px;">
-            <div class="record"><img id="player-banner" src="" class="record-label"></div>
-            <div id="player-song-title" class="player-title" style="margin-left:15px; font-family:'Harmond Bold'; font-size:1.5rem; color:var(--pink-accent);"></div>
+        <div style="display:flex; align-items:center; margin-top:40px; margin-bottom:15px;">
+            <div class="record-spin"><img id="player-banner" src="" style="width:30px; height:30px; border-radius:50%; object-fit:cover;"></div>
+            <div id="player-song-title" style="margin-left:15px; font-family:'Harmond Bold'; font-size:1.6rem; color:var(--pink-accent);"></div>
         </div>
         <div class="swiper mySwiper">
             <div class="swiper-wrapper" id="photo-wall"></div>
@@ -153,11 +152,12 @@
         const listContainer = document.getElementById('main-track-list');
         Object.keys(library).forEach(id => {
             const song = library[id];
+            // Path check: Song 1 is in /snehify/, Song 2 is in /
             const bannerPath = (id == 1) ? `./snehify/${song.banner}` : `./${song.banner}`;
             listContainer.innerHTML += `
                 <div class="track-item" onclick="launchPlayer(${id})">
                     <img src="${bannerPath}" class="thumb">
-                    <div class="info"><h3>${song.title}</h3><p>Tap to play memories</p></div>
+                    <div class="info"><h3>${song.title}</h3><p>Click to see us</p></div>
                 </div>`;
         });
 
@@ -169,7 +169,8 @@
             const data = library[id];
             player.src = `./snehify/${data.mp3}`;
             
-            const photoExt = (id == 1) ? 'JPG' : 'jpg';
+            // Critical Path & Extension logic
+            const photoExt = (id == 1) ? 'JPG' : 'jpg'; 
             const imgBasePath = (id == 1) ? './snehify/' : './';
 
             document.getElementById('player-banner').src = `${imgBasePath}${data.banner}`;
@@ -179,24 +180,24 @@
             const wall = document.getElementById('photo-wall');
             wall.innerHTML = '';
             for(let i=1; i<=5; i++) {
-                // FIXED Rishte Naate (ID 2) to ensure it pulls correctly from ROOT with .jpg
+                // Using standard src instead of data-src for faster verification
                 wall.innerHTML += `
                     <div class="swiper-slide">
-                        <img data-src="${imgBasePath}s${id}p${i}.${photoExt}" class="swiper-lazy">
-                        <div class="swiper-lazy-preloader"></div>
+                        <img src="${imgBasePath}s${id}p${i}.${photoExt}">
                     </div>`;
             }
 
             overlay.style.display = 'flex';
             player.play();
 
-            if(swiperInstance) swiperInstance.destroy();
+            if(swiperInstance) swiperInstance.destroy(true, true);
             swiperInstance = new Swiper(".mySwiper", {
                 effect: "cards",
-                lazy: { loadPrevNext: true },
                 grabCursor: true,
                 loop: true,
-                cardsEffect: { perSlideRotate: 2, slideShadows: false }
+                cardsEffect: { perSlideRotate: 2, slideShadows: false },
+                observer: true,
+                observeParents: true
             });
         }
 
