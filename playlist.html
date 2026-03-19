@@ -26,22 +26,24 @@
             background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
         }
 
-        /* --- Background Elements --- */
+        /* --- Background Floating Elements --- */
         .bg-elements { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
-        .bg-item { position: absolute; opacity: 0.15; animation: float 8s infinite ease-in-out; }
-        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(15deg); } }
+        .bg-item { position: absolute; opacity: 0.15; animation: float 10s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(10deg); } }
 
         .header { padding: 60px 20px 30px; border-bottom: 2px dashed var(--doodle-brown); }
         .header h1 { font-family: 'Harmond Bold'; font-size: 2.8rem; color: var(--pink-accent); margin: 0; }
         
         .track-list { padding: 20px; }
         .track-item {
-            display: flex; align-items: center; padding: 15px; margin-bottom: 20px;
-            border-radius: 18px; background: #fff; border: 2px solid var(--doodle-brown);
-            box-shadow: 6px 6px 0px var(--doodle-brown); cursor: pointer;
+            padding: 25px; margin-bottom: 20px;
+            border-radius: 25px; background: #fff; border: 2.5px solid var(--doodle-brown);
+            box-shadow: 8px 8px 0px var(--doodle-brown); cursor: pointer;
+            font-weight: bold; font-size: 1.2rem; transition: 0.2s;
         }
+        .track-item:active { transform: scale(0.98); box-shadow: 4px 4px 0px var(--doodle-brown); }
 
-        /* --- Original Player Layout --- */
+        /* --- RESTORED: Original Player Overlay --- */
         #player-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--glass); z-index: 1000; display: none; flex-direction: column;
@@ -49,60 +51,60 @@
             padding: 20px; box-sizing: border-box;
         }
 
-        .player-top-row { display: flex; align-items: center; margin-top: 40px; margin-bottom: 20px; }
-        .record {
-            width: 70px; height: 70px; background: #111; border-radius: 50%;
+        .player-header { display: flex; align-items: center; margin-top: 40px; margin-bottom: 15px; }
+        .mini-record {
+            width: 60px; height: 60px; background: #111; border-radius: 50%;
             border: 4px solid #333; display: flex; align-items: center; justify-content: center;
-            animation: spin 10s linear infinite;
+            animation: spin 8s linear infinite;
         }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
-        /* --- Swiper Dimension Fix --- */
-        .swiper { width: 100%; height: 50vh; margin-bottom: 20px; }
+        /* --- RESTORED: Large Card Dimensions --- */
+        .swiper { width: 100%; height: 50vh; margin: 10px 0 25px 0; }
         .swiper-slide { display: flex; justify-content: center; align-items: center; }
         .swiper-slide img {
-            max-width: 95%; max-height: 100%; object-fit: contain;
-            border-radius: 10px; border: 8px solid #fff;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); background: #fff;
+            max-width: 92%; max-height: 100%; object-fit: contain;
+            border-radius: 12px; border: 10px solid #fff;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); background: #fff;
         }
 
         .note-container {
-            width: 100%; padding: 25px; background: #fff; border-radius: 25px;
-            border: 2px solid var(--doodle-brown); box-shadow: 6px 6px 0px var(--doodle-brown);
-            text-align: center;
+            width: 100%; padding: 30px 20px; background: #fff; border-radius: 30px;
+            border: 2.5px solid var(--doodle-brown); box-shadow: 8px 8px 0px var(--doodle-brown);
+            text-align: center; margin-top: auto; margin-bottom: 20px;
         }
-        .note-container p { font-family: 'Caveat', cursive; font-size: 1.5rem; color: var(--doodle-brown); margin: 0; }
+        .note-container p { font-family: 'Caveat', cursive; font-size: 1.6rem; color: var(--doodle-brown); margin: 0; line-height: 1.3; }
 
-        .close-icon { position: absolute; top: 25px; right: 25px; font-size: 2.5rem; cursor: pointer; }
+        .close-icon { position: absolute; top: 25px; right: 25px; font-size: 2.8rem; cursor: pointer; color: var(--doodle-brown); z-index: 1001; }
+        
         .btn-main-final {
-            background: var(--pink-accent); color: white; padding: 18px 40px; font-weight: bold;
+            background: var(--pink-accent); color: white; padding: 18px 45px; font-weight: bold;
             text-decoration: none; border-radius: 50px; border: 2.5px solid var(--doodle-brown);
-            box-shadow: 6px 6px 0px var(--doodle-brown); display: block; width: fit-content; margin: 40px auto;
+            box-shadow: 8px 8px 0px var(--doodle-brown); display: block; width: fit-content; margin: 40px auto;
         }
     </style>
 </head>
 <body>
 
     <div class="bg-elements">
-        <span class="bg-item" style="top:5%; left:5%; font-size: 3rem;">🌸</span>
-        <span class="bg-item" style="top:15%; right:10%; font-size: 2.5rem;">✨</span>
-        <span class="bg-item" style="bottom:20%; left:12%; font-size: 4rem;">🧸</span>
-        <span class="bg-item" style="bottom:10%; right:5%; font-size: 3rem;">🦋</span>
-        <span class="bg-item" style="top:40%; left:2%; font-size: 2rem;">🍭</span>
-        <span class="bg-item" style="bottom:45%; right:2%; font-size: 2.5rem;">⭐</span>
+        <span class="bg-item" style="top:5%; left:8%; font-size: 3.5rem;">🌸</span>
+        <span class="bg-item" style="top:25%; right:5%; font-size: 2.5rem; animation-delay: 2s;">✨</span>
+        <span class="bg-item" style="bottom:15%; left:10%; font-size: 4rem; animation-delay: 1s;">🧸</span>
+        <span class="bg-item" style="bottom:30%; right:12%; font-size: 3rem; animation-delay: 4s;">🦋</span>
+        <span class="bg-item" style="top:50%; left:2%; font-size: 3rem;">🌟</span>
     </div>
 
     <div class="header"><h1>Sneh-ify</h1></div>
 
-    <div class="track-list" id="main-track-list"></div>
+    <div class="track-list" id="track-list"></div>
 
     <a href="final.html" class="btn-main-final">The Last Surprise ➜</a>
 
     <div id="player-overlay">
         <div class="close-icon" onclick="exitPlayer()">✕</div>
-        <div class="player-top-row">
-            <div class="record"><img id="player-banner" src="" style="width:30px; height:30px; border-radius:50%; object-fit:cover;"></div>
-            <div id="player-song-title" style="margin-left:15px; font-family:'Harmond Bold'; font-size:1.4rem;"></div>
+        <div class="player-header">
+            <div class="mini-record"><img id="player-banner" src="" style="width:25px; height:25px; border-radius:50%; object-fit:cover;"></div>
+            <div id="player-song-title" style="margin-left:15px; font-family:'Harmond Bold'; font-size:1.6rem; color:var(--pink-accent);"></div>
         </div>
         <div class="swiper mySwiper">
             <div class="swiper-wrapper" id="photo-wall"></div>
@@ -128,15 +130,9 @@
             12: { title: "Marjaayen", banner: "s12b1.png", mp3: "marjaayen.mp3", note: "ahhhh !!!" }
         };
 
-        const listContainer = document.getElementById('main-track-list');
+        const list = document.getElementById('track-list');
         Object.keys(library).forEach(id => {
-            const song = library[id];
-            // Path Correction: s1b1.png is in snehify/, others are in root
-            const bannerPath = (id == 1) ? `./snehify/${song.banner}` : `./${song.banner}`;
-            listContainer.innerHTML += `
-                <div class="track-item" onclick="launchPlayer(${id})">
-                    <div style="font-weight:bold;">${song.title}</div>
-                </div>`;
+            list.innerHTML += `<div class="track-item" onclick="launchPlayer(${id})">${library[id].title}</div>`;
         });
 
         const overlay = document.getElementById('player-overlay');
@@ -147,7 +143,7 @@
             const data = library[id];
             player.src = `./snehify/${data.mp3}`;
             
-            // Path & Extension Fix: s1 uses .JPG in /snehify/, others use .jpg in root
+            // PATH FIX: Song 1 is in snehify/ with .JPG, others in root with .jpg
             const photoExt = (id == 1) ? 'JPG' : 'jpg';
             const imgBasePath = (id == 1) ? './snehify/' : './';
 
@@ -165,13 +161,14 @@
             player.play();
 
             if(swiperInstance) swiperInstance.destroy(true, true);
-            // Swiper Optimized: High performance mode to prevent lag
+            // Swiper RESTORED: Cards effect with speed optimizations
             swiperInstance = new Swiper(".mySwiper", {
-                loop: true,
+                effect: "cards",
                 grabCursor: true,
+                loop: true,
+                cardsEffect: { perSlideRotate: 2, slideShadows: false },
                 observer: true, 
-                observeParents: true,
-                preloadImages: true
+                observeParents: true
             });
         }
 
