@@ -26,74 +26,79 @@
         }
 
         /* --- Envelope Container --- */
-        .envelope-wrapper {
-            position: relative; cursor: pointer;
-            transition: transform 0.3s ease;
+        #envelope-wrapper {
+            position: relative; width: 300px; height: 200px; cursor: pointer;
+            transform-style: preserve-3d; transition: transform 0.3s ease, top 0.6s ease;
         }
-        .envelope-wrapper:hover { transform: scale(1.05); }
+        #envelope-wrapper:hover { transform: scale(1.03); }
 
         .envelope {
-            position: relative; width: 300px; height: 200px;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: #fff; border: 3px solid var(--doodle-brown);
             box-shadow: 10px 10px 0px var(--doodle-brown);
-            display: flex; justify-content: center; align-items: center;
+            z-index: 2; overflow: hidden; /* Important for the flap line */
         }
 
-        /* The flap of the envelope */
-        .envelope::before {
-            content: ""; position: absolute; top: 0;
-            z-index: 2; border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-top: 100px solid #fff;
-            transform-origin: top; transition: all 0.5s ease;
+        /* The flap line (the edge of the flap shown when sealed) */
+        .envelope::after {
+            content: ""; position: absolute; top: -10px; left: 0;
+            width: 100%; height: 100px;
+            background: #fff; border-bottom: 2px solid var(--doodle-brown);
+            z-index: 3; transition: transform 0.6s ease;
         }
 
-        .envelope.open::before { transform: rotateX(180deg); z-index: 0; }
+        .envelope.open::after { transform: translateY(-100px); }
+
+        /* --- The Rotating Flap --- */
+        .flap {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border-left: 150px solid transparent; border-right: 150px solid transparent;
+            border-top: 100px solid #ddd; /* Use a slightly darker color for shadow */
+            transform-origin: top; z-index: 5; transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .envelope.open + .flap { transform: rotateX(180deg); z-index: 1; }
 
         .heart-seal {
-            position: absolute; z-index: 3; font-size: 2.5rem;
-            transition: opacity 0.3s ease;
+            position: absolute; top: 80px; left: 130px;
+            z-index: 10; font-size: 2.5rem; transition: 0.3s;
         }
-        .envelope.open .heart-seal { opacity: 0; }
+        .envelope.open ~ .heart-seal { opacity: 0; transform: scale(0); }
 
-        /* --- The Actual Letter --- */
+        /* "Tap to Open" Hint Text */
+        .tap-hint {
+            position: absolute; top: -35px; left: 0; width: 100%;
+            text-align: center; color: var(--pink-accent); font-weight: bold;
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
+            opacity: 1; transition: 0.4s ease;
+        }
+        .envelope.open ~ .tap-hint { opacity: 0; transform: translateY(-10px); }
+
+        /* --- The Letter (Now hidden behind the envelope) --- */
         .letter-content {
-            position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            width: 85%; max-width: 400px; max-height: 70vh;
-            background: white; border: 3px solid var(--doodle-brown);
-            padding: 40px 30px; border-radius: 5px;
-            box-shadow: 15px 15px 0px var(--pink-accent);
-            z-index: 10; opacity: 0; pointer-events: none;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow-y: auto;
+            position: absolute; top: 5%; left: 5%; width: 90%; height: 90%;
+            background: #fff; border: 2px solid var(--doodle-brown);
+            padding: 20px; box-sizing: border-box;
+            opacity: 0; z-index: 1; transition: all 0.6s 0.2s ease;
+            overflow-y: auto; text-align: left;
         }
+        .envelope.open ~ .letter-content { opacity: 1; z-index: 6; transform: translateY(-10px); }
 
-        .envelope.open + .letter-content {
-            opacity: 1; transform: translate(-50%, -50%) scale(1);
-            pointer-events: all;
-        }
+        .letter-text { font-family: 'Caveat', cursive; font-size: 1.4rem; color: var(--doodle-brown); line-height: 1.5; }
+        .letter-text h2 { font-family: 'Harmond Bold'; color: var(--pink-accent); margin: 0 0 15px 0; }
+        .letter-text p { margin: 0 0 12px 0; }
 
-        .letter-text {
-            font-family: 'Caveat', cursive; font-size: 1.5rem;
-            color: var(--doodle-brown); line-height: 1.6; text-align: left;
-        }
-
-        .letter-text h2 { font-family: 'Harmond Bold'; color: var(--pink-accent); margin-bottom: 20px; }
-
-        /* Floating Hearts Background */
+        /* Floating Hearts */
         .floating-hearts { position: fixed; width: 100%; height: 100%; pointer-events: none; }
-        .heart { position: absolute; color: var(--pink-accent); opacity: 0.6; animation: rise 4s infinite linear; }
-
+        .heart { position: absolute; color: var(--pink-accent); opacity: 0.6; animation: rise 5s infinite linear; }
         @keyframes rise {
             0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
         .back-btn {
-            position: absolute; bottom: 20px; font-family: 'Absans Regular';
-            text-decoration: none; color: var(--doodle-brown); font-weight: bold;
-            font-size: 0.9rem; border-bottom: 2px solid var(--pink-accent);
+            position: absolute; bottom: 20px; text-decoration: none; color: var(--doodle-brown);
+            font-weight: bold; font-size: 0.9rem; border-bottom: 2px solid var(--pink-accent);
         }
     </style>
 </head>
@@ -101,20 +106,20 @@
 
     <div class="floating-hearts" id="heart-box"></div>
 
-    <div class="envelope-wrapper" onclick="openLetter()">
-        <div class="envelope" id="env">
-            <div class="heart-seal">💌</div>
-        </div>
-    </div>
-
-    <div class="letter-content">
-        <div class="letter-text">
-            <h2>My Dearest Sneha,</h2>
-            <p>From the classrooms of Mathura Cantt to every playlist we've shared, being with you is the best part of my life.</p>
-            <p>Distance might separate us for now, but these songs and memories are a reminder that you are always home to me.</p>
-            <p>I hope this surprise made you smile as much as you make me smile every single day.</p>
-            <p>Happy Birthday, my favorite person. ❤️</p>
-            <p style="text-align: right; margin-top: 30px;">— Forever yours</p>
+    <div id="envelope-wrapper" onclick="openLetter()">
+        <div class="envelope" id="env"></div>
+        <div class="flap"></div>
+        <div class="heart-seal">💌</div>
+        <div class="tap-hint">Tap to Open</div>
+        <div class="letter-content" id="letter">
+            <div class="letter-text">
+                <h2>My Dearest Sneha,</h2>
+                <p>From the classrooms of Mathura Cantt to every playlist we've shared, being with you is the best part of my life.</p>
+                <p>Distance might separate us for now, but these songs and memories are a reminder that you are always home to me.</p>
+                <p>I hope this surprise made you smile as much as you make me smile every single day.</p>
+                <p>Happy Birthday, my favorite person. ❤️</p>
+                <p style="text-align: right; margin-top: 30px;">— Forever yours</p>
+            </div>
         </div>
     </div>
 
@@ -123,9 +128,12 @@
     <script>
         function openLetter() {
             document.getElementById('env').classList.add('open');
+            // Slight delay before allowing the letter to take up more space
+            setTimeout(() => {
+                document.getElementById('envelope-wrapper').style.transform = "translateY(-50px) scale(1.1)";
+            }, 600);
         }
 
-        // Generate floating hearts
         const heartBox = document.getElementById('heart-box');
         const emojis = ['❤️', '💖', '🌸', '✨'];
         
@@ -134,12 +142,11 @@
             heart.classList.add('heart');
             heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
             heart.style.fontSize = (Math.random() * 1 + 1) + 'rem';
             heartBox.appendChild(heart);
-
-            setTimeout(() => { heart.remove(); }, 4000);
-        }, 500);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }, 600);
     </script>
 </body>
 </html>
