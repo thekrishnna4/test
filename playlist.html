@@ -188,32 +188,33 @@
         let swiperInstance = null;
 
         function launchPlayer(id) {
-            const data = library[id];
-            player.src = `./snehify/${data.mp3}`;
-            
-            // Photo Extension logic: s1 photos use .JPG, others use .jpg
-            const photoExt = (id == 1) ? 'JPG' : 'jpg';
-            const imgBasePath = (id == 1) ? './snehify/' : './';
+    const data = library[id];
+    player.src = `./snehify/${data.mp3}`; 
+    
+    // Fix: Song 1 is in snehify/ with .JPG. Others are in root with .jpg
+    const photoExt = (id == 1) ? 'JPG' : 'jpg';
+    const imgBasePath = (id == 1) ? './snehify/' : './';
 
-            document.getElementById('player-banner').src = `${imgBasePath}${data.banner}`;
-            document.getElementById('player-song-title').innerText = data.title;
-            document.getElementById('player-text').innerText = data.note;
+    document.getElementById('player-banner').src = `${imgBasePath}${data.banner}`;
+    document.getElementById('player-song-title').innerText = data.title;
+    document.getElementById('player-text').innerText = data.note;
 
-            const wall = document.getElementById('photo-wall');
-            wall.innerHTML = '';
-            for(let i=1; i<=5; i++) {
-                wall.innerHTML += `<div class="swiper-slide"><img src="${imgBasePath}s${id}p${i}.${photoExt}"></div>`;
-            }
+    const wall = document.getElementById('photo-wall');
+    wall.innerHTML = '';
+    // This loop now uses the corrected path and extension
+    for(let i=1; i<=5; i++) {
+        wall.innerHTML += `<div class="swiper-slide"><img src="${imgBasePath}s${id}p${i}.${photoExt}"></div>`;
+    }
 
-            overlay.style.display = 'flex';
-            player.play();
+    overlay.style.display = 'flex';
+    player.play();
 
-            if(swiperInstance) swiperInstance.destroy();
-            swiperInstance = new Swiper(".mySwiper", {
-                effect: "coverflow", centeredSlides: true, slidesPerView: "auto", loop: true,
-                coverflowEffect: { rotate: 15, stretch: 0, depth: 80, modifier: 1, slideShadows: true }
-            });
-        }
+    if(swiperInstance) swiperInstance.destroy();
+    swiperInstance = new Swiper(".mySwiper", {
+        effect: "coverflow", centeredSlides: true, slidesPerView: "auto", loop: true,
+        coverflowEffect: { rotate: 15, stretch: 0, depth: 80, modifier: 1, slideShadows: true }
+    });
+}
 
         function exitPlayer() { overlay.style.display = 'none'; player.pause(); }
     </script>
