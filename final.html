@@ -6,104 +6,132 @@
     <title>A Letter for Sneha</title>
     <style>
         @font-face { font-family: 'Harmond Bold'; src: url('Harmond bold.otf'); }
-        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Dancing+Script:wght@600&display=swap');
+        @font-face { font-family: 'Absans Regular'; src: url('Absans Regular.otf'); }
 
         :root {
-            --paper: #fffef0;
-            --envelope: #ffffff;
+            --paper: #ffffff;
             --pink: #FF6B9D;
             --brown: #5D4037;
+            --bg: #F5F5DC;
         }
 
         body {
-            background-color: #F5F5DC;
+            background-color: var(--bg);
             margin: 0; height: 100vh;
             display: flex; justify-content: center; align-items: center;
-            overflow: hidden; /* Stops all scrolling */
-            font-family: sans-serif;
+            overflow: hidden;
+            font-family: 'Absans Regular', sans-serif; /* Minimalist Body Font */
         }
 
-        /* --- THE ENVELOPE --- */
+        /* --- ENVELOPE --- */
         .envelope-wrapper {
-            position: relative; width: 320px; height: 220px;
-            background: var(--envelope); border: 2px solid var(--brown);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            cursor: pointer; z-index: 10; transition: 0.5s;
+            position: relative; width: 280px; height: 180px;
+            background: #fff; border: 2px solid var(--brown);
+            box-shadow: 8px 8px 0px var(--brown);
+            cursor: pointer; transition: 0.4s; z-index: 10;
         }
 
-        /* Realistic Flap */
         .flap {
             position: absolute; top: 0; left: 0; width: 0; height: 0;
-            border-left: 160px solid transparent; border-right: 160px solid transparent;
-            border-top: 110px solid #f0f0f0; border-bottom: 0;
-            transform-origin: top; z-index: 20; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 140px solid transparent; border-right: 140px solid transparent;
+            border-top: 90px solid #f9f9f9; 
+            transform-origin: top; z-index: 20; transition: 0.6s ease;
         }
 
-        /* The "Tap to Open" Hint */
         .hint {
-            position: absolute; top: -40px; width: 100%; text-align: center;
-            color: var(--pink); font-family: 'Harmond Bold'; font-size: 0.8rem;
-            letter-spacing: 2px; animation: bounce 2s infinite;
+            position: absolute; top: -30px; width: 100%; text-align: center;
+            color: var(--pink); font-family: 'Harmond Bold'; font-size: 0.7rem;
+            letter-spacing: 2px;
         }
 
-        /* --- THE LETTER (Stationery Style) --- */
-        .letter {
-            position: absolute; top: 50%; left: 50%; 
-            transform: translate(-50%, -50%) scale(0.4);
-            width: 85vw; height: 80vh; /* Scaled for mobile screen */
-            background: var(--paper); border: 1px solid #e0e0e0;
-            padding: 40px 25px; box-sizing: border-box;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
-            opacity: 0; z-index: 5; transition: 0.7s 0.3s;
-            display: flex; flex-direction: column; justify-content: center;
+        /* --- THE LETTER --- */
+        .letter-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); display: none; 
+            flex-direction: column; align-items: center; justify-content: center;
+            z-index: 100; padding: 20px; box-sizing: border-box;
         }
 
-        /* Handwritten Styles */
-        .dear { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--pink); margin-bottom: 20px; }
+        .letter-paper {
+            width: 100%; max-width: 350px; background: var(--paper);
+            padding: 40px 25px; border: 2px solid var(--brown);
+            box-shadow: 10px 10px 0px var(--pink);
+        }
+
+        .dear { 
+            font-family: 'Harmond Bold'; font-size: 1.8rem; 
+            color: var(--pink); margin-bottom: 20px; 
+        }
+
         .message { 
-            font-family: 'Caveat', cursive; font-size: 1.4rem; 
-            color: var(--brown); line-height: 1.4; margin: 0;
+            font-family: 'Absans Regular', sans-serif; font-size: 1rem; 
+            color: var(--brown); line-height: 1.6; margin: 0;
+            text-align: left; letter-spacing: 0.3px;
         }
-        .from { font-family: 'Dancing Script', cursive; text-align: right; margin-top: 30px; font-size: 1.6rem; color: var(--pink); }
 
-        /* OPEN STATE */
-        .open .flap { transform: rotateX(180deg); z-index: 1; }
-        .open .envelope-wrapper { transform: translateY(120%); opacity: 0; pointer-events: none; }
-        .open .letter { transform: translate(-50%, -50%) scale(1); opacity: 1; z-index: 100; }
-        .open .hint { display: none; }
-
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-
-        .back-link {
-            position: fixed; bottom: 20px; text-decoration: none;
-            color: var(--brown); font-size: 0.8rem; border-bottom: 1px solid var(--pink);
-            z-index: 200;
+        .from { 
+            font-family: 'Harmond Bold'; text-align: right; 
+            margin-top: 30px; font-size: 1.2rem; color: var(--pink); 
         }
+
+        /* --- BUTTONS --- */
+        .controls {
+            margin-top: 40px; display: flex; gap: 20px; align-items: center;
+        }
+
+        .btn-ui {
+            text-decoration: none; color: var(--brown); font-weight: bold;
+            font-size: 0.8rem; border-bottom: 2px solid var(--pink);
+            background: none; border-top: none; border-left: none; border-right: none;
+            cursor: pointer; padding: 5px 0; font-family: 'Absans Regular';
+        }
+
+        /* ANIMATION CLASSES */
+        .open-anim .flap { transform: rotateX(180deg); }
+        .open-anim .envelope-wrapper { transform: scale(0.8); opacity: 0; }
     </style>
 </head>
-<body id="body">
+<body>
 
-    <div class="hint">TAP TO OPEN</div>
-    
-    <div class="envelope-wrapper" onclick="openMe()">
-        <div class="flap"></div>
-        <div style="position:absolute; bottom:10px; right:10px; font-size:2rem;">💌</div>
+    <div id="main-view">
+        <div class="hint">TAP TO OPEN</div>
+        <div class="envelope-wrapper" onclick="openLetter()">
+            <div class="flap"></div>
+            <div style="position:absolute; bottom:10px; right:10px; font-size:1.5rem;">💌</div>
+        </div>
     </div>
 
-    <div class="letter">
-        <div class="dear">Dear Sneha,</div>
-        <p class="message">
-            From our days at Mathura Cantt to the distance we navigate now, you remain my favorite person. This playlist is just a small piece of the love I have for you. <br><br>
-            You are my home, no matter where we are. Happy Birthday, beautiful.
-        </p>
-        <div class="from">— Forever yours</div>
-    </div>
+    <div id="letter-view" class="letter-overlay">
+        <div class="letter-paper">
+            <div class="dear">Dear Sneha,</div>
+            <p class="message">
+                From our days at Mathura Cantt to the long distance we navigate now, you remain my favorite person. This playlist is just a small piece of the love I have for you. 
+                <br><br>
+                You are my home, no matter the distance. Happy Birthday, beautiful.
+            </p>
+            <div class="from">— Forever yours</div>
+        </div>
 
-    <a href="playlist.html" class="back-link">← Back to Songs</a>
+        <div class="controls">
+            <button class="btn-ui" onclick="closeLetter()">✕ Close Letter</button>
+            <a href="playlist.html" class="btn-ui">← Back to Music</a>
+        </div>
+    </div>
 
     <script>
-        function openMe() {
-            document.getElementById('body').classList.add('open');
+        function openLetter() {
+            const main = document.getElementById('main-view');
+            main.classList.add('open-anim');
+            
+            setTimeout(() => {
+                document.getElementById('letter-view').style.display = 'flex';
+            }, 600);
+        }
+
+        function closeLetter() {
+            const main = document.getElementById('main-view');
+            main.classList.remove('open-anim');
+            document.getElementById('letter-view').style.display = 'none';
         }
     </script>
 </body>
