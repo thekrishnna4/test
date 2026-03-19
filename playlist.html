@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sneh-ify | Memories</title>
+    <title>Sneh-ify</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         @font-face { font-family: 'Harmond Bold'; src: url('Harmond bold.otf'); }
         @font-face { font-family: 'Absans Regular'; src: url('Absans Regular.otf'); }
-        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
 
         :root {
             --page-beige: #F5F5DC;
             --pink-accent: #FF6B9D;
             --doodle-brown: #5D4037;
-            --glass: rgba(255, 255, 255, 0.45);
         }
 
         body {
@@ -23,94 +21,99 @@
             font-family: 'Absans Regular', sans-serif;
             margin: 0; padding: 0;
             overflow-x: hidden;
-            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            background-image: radial-gradient(#d1d1b3 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
         }
 
-        /* --- Background Floating Elements --- */
-        .bg-elements { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
-        .bg-item { position: absolute; opacity: 0.15; animation: float 10s infinite ease-in-out; }
-        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(10deg); } }
+        .header { padding: 50px 20px 30px; text-align: left; border-bottom: 2px solid var(--doodle-brown); }
+        .header h1 { font-family: 'Harmond Bold'; font-size: 2.2rem; margin: 0; color: var(--pink-accent); }
+        .header p { opacity: 0.8; font-size: 0.9rem; margin: 8px 0; }
+        .header .magic-text { font-size: 0.8rem; font-weight: bold; color: #888; text-transform: uppercase; letter-spacing: 1px; }
 
-        .header { padding: 60px 20px 30px; border-bottom: 2px dashed var(--doodle-brown); }
-        .header h1 { font-family: 'Harmond Bold'; font-size: 2.8rem; color: var(--pink-accent); margin: 0; }
-        
-        .track-list { padding: 20px; }
+        .track-list { padding: 15px; }
         .track-item {
-            padding: 25px; margin-bottom: 20px;
-            border-radius: 25px; background: #fff; border: 2.5px solid var(--doodle-brown);
-            box-shadow: 8px 8px 0px var(--doodle-brown); cursor: pointer;
-            font-weight: bold; font-size: 1.2rem; transition: 0.2s;
+            display: flex; align-items: center;
+            padding: 12px; margin-bottom: 12px;
+            border-radius: 12px; background: #fff;
+            border: 2px solid var(--doodle-brown);
+            box-shadow: 4px 4px 0px var(--doodle-brown);
+            cursor: pointer; transition: all 0.2s ease;
         }
-        .track-item:active { transform: scale(0.98); box-shadow: 4px 4px 0px var(--doodle-brown); }
+        .track-item:active { scale: 0.97; box-shadow: 1px 1px 0px var(--doodle-brown); }
+        .thumb { width: 55px; height: 55px; border-radius: 6px; margin-right: 15px; object-fit: cover; border: 1px solid #eee; }
+        .info h3 { font-size: 1.1rem; margin: 0; }
+        .info p { font-size: 0.85rem; opacity: 0.7; margin: 4px 0 0 0; font-style: italic; }
 
-        /* --- RESTORED: Original Player Overlay --- */
         #player-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--glass); z-index: 1000; display: none; flex-direction: column;
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            background: rgba(245, 245, 220, 0.85); z-index: 1000;
+            display: none; flex-direction: column;
+            backdrop-filter: blur(25px);
             padding: 20px; box-sizing: border-box;
+            overflow-y: auto;
         }
 
-        .player-header { display: flex; align-items: center; margin-top: 40px; margin-bottom: 15px; }
-        .mini-record {
-            width: 60px; height: 60px; background: #111; border-radius: 50%;
-            border: 4px solid #333; display: flex; align-items: center; justify-content: center;
-            animation: spin 8s linear infinite;
+        .player-top-row { display: flex; align-items: center; margin-top: 40px; margin-bottom: 20px; }
+        .vinyl-wrap { width: 60px; height: 60px; margin-right: 15px; }
+        .record {
+            width: 100%; height: 100%; background: #222;
+            border-radius: 50%; border: 3px solid #444;
+            display: flex; align-items: center; justify-content: center;
+            animation: spin 6s linear infinite;
         }
+        .record-label { width: 25px; height: 25px; border-radius: 50%; object-fit: cover; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        
-        /* --- RESTORED: Large Card Dimensions --- */
-        .swiper { width: 100%; height: 50vh; margin: 10px 0 25px 0; }
-        .swiper-slide { display: flex; justify-content: center; align-items: center; }
+        .player-title { font-family: 'Harmond Bold'; font-size: 1.4rem; color: var(--pink-accent); }
+
+        .swiper { width: 100%; height: 45vh; margin-bottom: 15px; }
+        .swiper-slide { width: 75%; height: 100%; }
         .swiper-slide img {
-            max-width: 92%; max-height: 100%; object-fit: contain;
-            border-radius: 12px; border: 10px solid #fff;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2); background: #fff;
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: 15px; border: 4px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .note-container {
-            width: 100%; padding: 30px 20px; background: #fff; border-radius: 30px;
-            border: 2.5px solid var(--doodle-brown); box-shadow: 8px 8px 0px var(--doodle-brown);
-            text-align: center; margin-top: auto; margin-bottom: 20px;
+            width: 100%; padding: 20px; margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px; border: 2px solid var(--doodle-brown);
+            box-shadow: 4px 4px 0px var(--doodle-brown);
+            text-align: center;
         }
-        .note-container p { font-family: 'Caveat', cursive; font-size: 1.6rem; color: var(--doodle-brown); margin: 0; line-height: 1.3; }
+        .note-container p { font-size: 0.95rem; line-height: 1.5; font-style: italic; color: var(--doodle-brown); margin: 0; }
+        .close-icon { position: absolute; top: 25px; right: 20px; font-size: 2rem; color: var(--doodle-brown); cursor: pointer; }
 
-        .close-icon { position: absolute; top: 25px; right: 25px; font-size: 2.8rem; cursor: pointer; color: var(--doodle-brown); z-index: 1001; }
-        
         .btn-main-final {
-            background: var(--pink-accent); color: white; padding: 18px 45px; font-weight: bold;
-            text-decoration: none; border-radius: 50px; border: 2.5px solid var(--doodle-brown);
-            box-shadow: 8px 8px 0px var(--doodle-brown); display: block; width: fit-content; margin: 40px auto;
+            background: var(--pink-accent); color: white; padding: 15px 40px; font-weight: bold;
+            text-decoration: none; border-radius: 10px; border: 2px solid var(--doodle-brown);
+            box-shadow: 4px 4px 0px var(--doodle-brown); font-size: 1rem;
+            display: block; width: fit-content; margin: 40px auto;
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-elements">
-        <span class="bg-item" style="top:5%; left:8%; font-size: 3.5rem;">🌸</span>
-        <span class="bg-item" style="top:25%; right:5%; font-size: 2.5rem; animation-delay: 2s;">✨</span>
-        <span class="bg-item" style="bottom:15%; left:10%; font-size: 4rem; animation-delay: 1s;">🧸</span>
-        <span class="bg-item" style="bottom:30%; right:12%; font-size: 3rem; animation-delay: 4s;">🦋</span>
-        <span class="bg-item" style="top:50%; left:2%; font-size: 3rem;">🌟</span>
+    <div class="header">
+        <h1>Sneh-ify</h1>
+        <p>A playlist for my favorite person.</p>
+        <span class="magic-text">Tap the songs to see the magic↴</span>
     </div>
 
-    <div class="header"><h1>Sneh-ify</h1></div>
+    <div class="track-list" id="main-track-list"></div>
 
-    <div class="track-list" id="track-list"></div>
-
-    <a href="final.html" class="btn-main-final">The Last Surprise ➜</a>
+    <a href="final.html" class="btn-main-final">The Last Surprise</a>
 
     <div id="player-overlay">
         <div class="close-icon" onclick="exitPlayer()">✕</div>
-        <div class="player-header">
-            <div class="mini-record"><img id="player-banner" src="" style="width:25px; height:25px; border-radius:50%; object-fit:cover;"></div>
-            <div id="player-song-title" style="margin-left:15px; font-family:'Harmond Bold'; font-size:1.6rem; color:var(--pink-accent);"></div>
+        <div class="player-top-row">
+            <div class="vinyl-wrap"><div class="record"><img id="player-banner" src="" class="record-label"></div></div>
+            <div id="player-song-title" class="player-title"></div>
         </div>
         <div class="swiper mySwiper">
             <div class="swiper-wrapper" id="photo-wall"></div>
         </div>
         <div class="note-container"><p id="player-text"></p></div>
-        <audio id="audio-engine" loop></audio>
+        <audio id="audio-engine"></audio>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -130,9 +133,17 @@
             12: { title: "Marjaayen", banner: "s12b1.png", mp3: "marjaayen.mp3", note: "ahhhh !!!" }
         };
 
-        const list = document.getElementById('track-list');
+        const listContainer = document.getElementById('main-track-list');
         Object.keys(library).forEach(id => {
-            list.innerHTML += `<div class="track-item" onclick="launchPlayer(${id})">${library[id].title}</div>`;
+            const song = library[id];
+            // If it's Song 1, look in snehify/ folder. Else, look in root.
+            const bannerPath = (id == 1) ? `./snehify/${song.banner}` : `./${song.banner}`;
+            
+            listContainer.innerHTML += `
+                <div class="track-item" onclick="launchPlayer(${id})">
+                    <img src="${bannerPath}" class="thumb">
+                    <div class="info"><h3>${song.title}</h3><p>Sneha's Special</p></div>
+                </div>`;
         });
 
         const overlay = document.getElementById('player-overlay');
@@ -143,7 +154,7 @@
             const data = library[id];
             player.src = `./snehify/${data.mp3}`;
             
-            // PATH FIX: Song 1 is in snehify/ with .JPG, others in root with .jpg
+            // Photo Extension logic: s1 photos use .JPG, others use .jpg
             const photoExt = (id == 1) ? 'JPG' : 'jpg';
             const imgBasePath = (id == 1) ? './snehify/' : './';
 
@@ -160,15 +171,10 @@
             overlay.style.display = 'flex';
             player.play();
 
-            if(swiperInstance) swiperInstance.destroy(true, true);
-            // Swiper RESTORED: Cards effect with speed optimizations
+            if(swiperInstance) swiperInstance.destroy();
             swiperInstance = new Swiper(".mySwiper", {
-                effect: "cards",
-                grabCursor: true,
-                loop: true,
-                cardsEffect: { perSlideRotate: 2, slideShadows: false },
-                observer: true, 
-                observeParents: true
+                effect: "coverflow", centeredSlides: true, slidesPerView: "auto", loop: true,
+                coverflowEffect: { rotate: 15, stretch: 0, depth: 80, modifier: 1, slideShadows: true }
             });
         }
 
