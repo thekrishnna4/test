@@ -14,6 +14,7 @@
             --page-beige: #F5F5DC;
             --pink-accent: #FF6B9D;
             --doodle-brown: #5D4037;
+            --glass: rgba(255, 255, 255, 0.45);
         }
 
         body {
@@ -21,128 +22,160 @@
             color: var(--doodle-brown);
             font-family: 'Absans Regular', sans-serif;
             margin: 0; padding: 0;
+            overflow-x: hidden;
             background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
         }
 
-        /* --- Rich Background --- */
-        .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
-        .sticker { position: absolute; opacity: 0.15; animation: float 10s infinite ease-in-out; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        /* --- Background Elements --- */
+        .bg-elements { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+        .bg-item { position: absolute; opacity: 0.15; animation: float 8s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(15deg); } }
 
-        /* --- List View --- */
-        .header { padding: 40px 20px; border-bottom: 2px dashed var(--doodle-brown); }
+        .header { padding: 60px 20px 30px; border-bottom: 2px dashed var(--doodle-brown); }
+        .header h1 { font-family: 'Harmond Bold'; font-size: 2.8rem; color: var(--pink-accent); margin: 0; }
+        
         .track-list { padding: 20px; }
         .track-item {
-            display: flex; align-items: center; padding: 15px; margin-bottom: 15px;
-            background: #fff; border: 2px solid var(--doodle-brown);
-            border-radius: 15px; box-shadow: 4px 4px 0px var(--doodle-brown);
+            display: flex; align-items: center; padding: 15px; margin-bottom: 20px;
+            border-radius: 18px; background: #fff; border: 2px solid var(--doodle-brown);
+            box-shadow: 6px 6px 0px var(--doodle-brown); cursor: pointer;
         }
 
-        /* --- Player Overlay (Glass) --- */
+        /* --- Original Player Layout --- */
         #player-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(25px);
-            display: none; flex-direction: column; z-index: 1000; padding: 20px;
+            background: var(--glass); z-index: 1000; display: none; flex-direction: column;
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            padding: 20px; box-sizing: border-box;
         }
 
-        /* --- Swiper Fix: Force high performance --- */
-        .swiper { width: 100%; height: 45vh; margin: 20px 0; border-radius: 15px; }
+        .player-top-row { display: flex; align-items: center; margin-top: 40px; margin-bottom: 20px; }
+        .record {
+            width: 70px; height: 70px; background: #111; border-radius: 50%;
+            border: 4px solid #333; display: flex; align-items: center; justify-content: center;
+            animation: spin 10s linear infinite;
+        }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        /* --- Swiper Dimension Fix --- */
+        .swiper { width: 100%; height: 50vh; margin-bottom: 20px; }
         .swiper-slide { display: flex; justify-content: center; align-items: center; }
-        .swiper-slide img { 
-            max-width: 100%; max-height: 100%; object-fit: contain; 
-            border: 10px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+        .swiper-slide img {
+            max-width: 95%; max-height: 100%; object-fit: contain;
+            border-radius: 10px; border: 8px solid #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); background: #fff;
         }
 
-        .note-box { 
-            background: #fff; padding: 20px; border-radius: 15px; 
-            border: 2px solid var(--doodle-brown); font-family: 'Caveat', cursive; 
-            font-size: 1.5rem; text-align: center;
+        .note-container {
+            width: 100%; padding: 25px; background: #fff; border-radius: 25px;
+            border: 2px solid var(--doodle-brown); box-shadow: 6px 6px 0px var(--doodle-brown);
+            text-align: center;
         }
+        .note-container p { font-family: 'Caveat', cursive; font-size: 1.5rem; color: var(--doodle-brown); margin: 0; }
 
-        .close-btn { position: absolute; top: 20px; right: 20px; font-size: 2rem; cursor: pointer; }
+        .close-icon { position: absolute; top: 25px; right: 25px; font-size: 2.5rem; cursor: pointer; }
+        .btn-main-final {
+            background: var(--pink-accent); color: white; padding: 18px 40px; font-weight: bold;
+            text-decoration: none; border-radius: 50px; border: 2.5px solid var(--doodle-brown);
+            box-shadow: 6px 6px 0px var(--doodle-brown); display: block; width: fit-content; margin: 40px auto;
+        }
     </style>
 </head>
 <body>
 
-    <div class="bg-layer">
-        <span class="sticker" style="top:10%; left:5%;">🌸</span>
-        <span class="sticker" style="top:20%; right:10%;">✨</span>
-        <span class="sticker" style="bottom:10%; left:10%;">🧸</span>
-        <span class="sticker" style="bottom:30%; right:5%;">💖</span>
+    <div class="bg-elements">
+        <span class="bg-item" style="top:5%; left:5%; font-size: 3rem;">🌸</span>
+        <span class="bg-item" style="top:15%; right:10%; font-size: 2.5rem;">✨</span>
+        <span class="bg-item" style="bottom:20%; left:12%; font-size: 4rem;">🧸</span>
+        <span class="bg-item" style="bottom:10%; right:5%; font-size: 3rem;">🦋</span>
+        <span class="bg-item" style="top:40%; left:2%; font-size: 2rem;">🍭</span>
+        <span class="bg-item" style="bottom:45%; right:2%; font-size: 2.5rem;">⭐</span>
     </div>
 
-    <div class="header">
-        <h1 style="font-family:'Harmond Bold'; color:var(--pink-accent);">Sneh-ify</h1>
-    </div>
+    <div class="header"><h1>Sneh-ify</h1></div>
 
-    <div class="track-list" id="list"></div>
+    <div class="track-list" id="main-track-list"></div>
+
+    <a href="final.html" class="btn-main-final">The Last Surprise ➜</a>
 
     <div id="player-overlay">
-        <div class="close-btn" onclick="closePlayer()">✕</div>
-        <div style="margin-top:40px; font-family:'Harmond Bold'; font-size:1.5rem;" id="p-title"></div>
-        
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper" id="p-wall"></div>
+        <div class="close-icon" onclick="exitPlayer()">✕</div>
+        <div class="player-top-row">
+            <div class="record"><img id="player-banner" src="" style="width:30px; height:30px; border-radius:50%; object-fit:cover;"></div>
+            <div id="player-song-title" style="margin-left:15px; font-family:'Harmond Bold'; font-size:1.4rem;"></div>
         </div>
-
-        <div class="note-box" id="p-note"></div>
-        <audio id="audio" loop></audio>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper" id="photo-wall"></div>
+        </div>
+        <div class="note-container"><p id="player-text"></p></div>
+        <audio id="audio-engine" loop></audio>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        const songs = {
-            1: { t: "Lae Dooba", m: "laedooba.mp3", n: "sach me mainu ishq tera lae dooba snehaaa" },
-            2: { t: "Rishte Naate", m: "rishtenaate.mp3", n: "Tu mere liye mera ghar hai sneha saare rishte naato se upar" },
-            3: { t: "Do You Know", m: "doyouknow.mp3", n: "Do you know mai tainu kinna pyaar karda?" },
-            // ... add others similarly
+        const library = {
+            1: { title: "Lae Dooba", banner: "s1b1.png", mp3: "laedooba.mp3", note: "sach me mainu ishq tera lae dooba snehaaa" },
+            2: { title: "Rishte Naate", banner: "s2b1.png", mp3: "rishtenaate.mp3", note: "Tu mere liye mera ghar hai sneha saare rishte naato se upar" },
+            3: { title: "Do You Know", banner: "s3b1.png", mp3: "doyouknow.mp3", note: "Do you know mai tainu kinna pyaar karda?" },
+            4: { title: "Tu Chaiye", banner: "s4b1.png", mp3: "tuchaiye.mp3", note: "Sirf tu chaiye sneha" },
+            5: { title: "Mera Yaar", banner: "s5b1.png", mp3: "merayaar.mp3", note: "mai mandir maszid kyun hi jaun tu hi mere liye meri bhagwaan hai" },
+            6: { title: "Tujh Me Rab Dikhta Hai", banner: "s6b1.png", mp3: "tujhmerabdikhtahai.mp3", note: "Tujh me rab dikhta hai mai kya karu" },
+            7: { title: "In Dino", banner: "s7b1.png", mp3: "indino.mp3", note: "tujh ko chupa kar mai rakh lu kahi sabse dooooooor" },
+            8: { title: "Khat", banner: "s8b1.png", mp3: "khat.mp3", note: "tere liye mandir jau bhagwan me naam maan kar bhi bhagwaan se tere liye pray karta hu" },
+            9: { title: "Meri Banogi Kya", banner: "s9b1.png", mp3: "meribanogikya.mp3", note: "meri banogi kya meri rahogi kya ?" },
+            10: { title: "I Love You", banner: "s10b1.png", mp3: "iloveyou.mp3", note: "i love you sneha" },
+            11: { title: "Humsafar", banner: "s11b1.png", mp3: "humsafar.mp3", note: "kya meri humsafar banegi sneha?" },
+            12: { title: "Marjaayen", banner: "s12b1.png", mp3: "marjaayen.mp3", note: "ahhhh !!!" }
         };
 
-        const list = document.getElementById('list');
-        Object.keys(songs).forEach(id => {
-            list.innerHTML += `
-                <div class="track-item" onclick="openPlayer(${id})">
-                    <div style="font-weight:bold;">${songs[id].t}</div>
+        const listContainer = document.getElementById('main-track-list');
+        Object.keys(library).forEach(id => {
+            const song = library[id];
+            // Path Correction: s1b1.png is in snehify/, others are in root
+            const bannerPath = (id == 1) ? `./snehify/${song.banner}` : `./${song.banner}`;
+            listContainer.innerHTML += `
+                <div class="track-item" onclick="launchPlayer(${id})">
+                    <div style="font-weight:bold;">${song.title}</div>
                 </div>`;
         });
 
-        let swiper = null;
+        const overlay = document.getElementById('player-overlay');
+        const player = document.getElementById('audio-engine');
+        let swiperInstance = null;
 
-        function openPlayer(id) {
-            const s = songs[id];
-            const audio = document.getElementById('audio');
-            const wall = document.getElementById('p-wall');
+        function launchPlayer(id) {
+            const data = library[id];
+            player.src = `./snehify/${data.mp3}`;
             
-            // PATH LOGIC FIX: Song 1 is in /snehify/, Song 2 is in /
-            const path = (id == 1) ? './snehify/' : './';
-            const ext = (id == 1) ? 'JPG' : 'jpg';
+            // Path & Extension Fix: s1 uses .JPG in /snehify/, others use .jpg in root
+            const photoExt = (id == 1) ? 'JPG' : 'jpg';
+            const imgBasePath = (id == 1) ? './snehify/' : './';
 
-            document.getElementById('p-title').innerText = s.t;
-            document.getElementById('p-note').innerText = s.n;
-            audio.src = `./snehify/${s.m}`;
+            document.getElementById('player-banner').src = `${imgBasePath}${data.banner}`;
+            document.getElementById('player-song-title').innerText = data.title;
+            document.getElementById('player-text').innerText = data.note;
 
+            const wall = document.getElementById('photo-wall');
             wall.innerHTML = '';
             for(let i=1; i<=5; i++) {
-                wall.innerHTML += `<div class="swiper-slide"><img src="${path}s${id}p${i}.${ext}"></div>`;
+                wall.innerHTML += `<div class="swiper-slide"><img src="${imgBasePath}s${id}p${i}.${photoExt}"></div>`;
             }
 
-            document.getElementById('player-overlay').style.display = 'flex';
-            audio.play();
+            overlay.style.display = 'flex';
+            player.play();
 
-            // SWIPER FIX: Using 'fade' instead of 'cards' to stop lagging
-            if(swiper) swiper.destroy();
-            swiper = new Swiper(".mySwiper", {
-                effect: "fade",
-                fadeEffect: { crossFade: true },
+            if(swiperInstance) swiperInstance.destroy(true, true);
+            // Swiper Optimized: High performance mode to prevent lag
+            swiperInstance = new Swiper(".mySwiper", {
                 loop: true,
-                autoplay: { delay: 3000 },
+                grabCursor: true,
+                observer: true, 
+                observeParents: true,
+                preloadImages: true
             });
         }
 
-        function closePlayer() {
-            document.getElementById('player-overlay').style.display = 'none';
-            document.getElementById('audio').pause();
-        }
+        function exitPlayer() { overlay.style.display = 'none'; player.pause(); }
     </script>
 </body>
 </html>
