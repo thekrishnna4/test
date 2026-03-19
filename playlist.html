@@ -6,6 +6,39 @@
     <title>Sneh-ify</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
+        .btn-main-final {
+    background: var(--pink-accent);
+    color: white;
+    padding: 18px 45px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 15px;
+    border: 3px solid var(--doodle-brown);
+    box-shadow: 6px 6px 0px var(--doodle-brown);
+    font-size: 1.1rem;
+    display: block;
+    width: fit-content;
+    margin: 50px auto;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: buttonPulse 2s infinite; /* Adds the attention-grabbing pulse */
+}
+
+.btn-main-final:hover {
+    transform: scale(1.1) rotate(-2deg);
+    background-color: #ff85af;
+    box-shadow: 8px 8px 0px var(--doodle-brown);
+}
+
+.btn-main-final:active {
+    transform: scale(0.95);
+    box-shadow: 2px 2px 0px var(--doodle-brown);
+}
+
+@keyframes buttonPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
         /* Floating Doodles */
 .doodle-layer {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
