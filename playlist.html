@@ -190,22 +190,23 @@
         function launchPlayer(id) {
     const data = library[id];
     
-    // All MP3s are inside the snehify folder
+    // MP3s are always in the snehify folder
     player.src = `./snehify/${data.mp3}`; 
     
-    // PATH LOGIC: 
-    // Song 1 (Lae Dooba) is in /snehify/ with .JPG
-    // All other songs (including Rishte Naate) are in the root / with .jpg
-    const isSongOne = (id == 1);
-    const photoExt = isSongOne ? 'JPG' : 'jpg';
-    const imgBasePath = isSongOne ? './snehify/' : './';
+    // UPDATED LOGIC:
+    // Song 1 and Song 2 use .JPG
+    // All other songs (3-12) use .jpg
+    const photoExt = (id == 1 || id == 2) ? 'JPG' : 'jpg';
+    
+    // Song 1 is in /snehify/, Song 2 and others are in the root /
+    const imgBasePath = (id == 1) ? './snehify/' : './';
 
-    // Update Banner and Text
+    // Set Banner and Text
     document.getElementById('player-banner').src = `${imgBasePath}${data.banner}`;
     document.getElementById('player-song-title').innerText = data.title;
     document.getElementById('player-text').innerText = data.note;
 
-    // Load Slideshow Photos (s2p1.jpg, s2p2.jpg, etc. for Rishte Naate)
+    // Load Slideshow
     const wall = document.getElementById('photo-wall');
     wall.innerHTML = '';
     for(let i=1; i<=5; i++) {
@@ -218,7 +219,6 @@
     overlay.style.display = 'flex';
     player.play();
 
-    // Re-initialize Swiper
     if(swiperInstance) swiperInstance.destroy();
     swiperInstance = new Swiper(".mySwiper", {
         effect: "coverflow", 
