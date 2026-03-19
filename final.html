@@ -9,95 +9,123 @@
         @font-face { font-family: 'Absans Regular'; src: url('Absans Regular.otf'); }
 
         :root {
-            --paper: #ffffff;
-            --pink: #FF6B9D;
-            --brown: #5D4037;
-            --bg: #F5F5DC;
+            --paper-off-white: #FEFEF0;
+            --pink-accent: #FF6B9D;
+            --doodle-brown: #5D4037;
+            --page-beige: #F5F5DC;
+            --glass: rgba(255, 255, 255, 0.4);
         }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--page-beige);
             margin: 0; height: 100vh;
             display: flex; justify-content: center; align-items: center;
-            overflow: hidden;
-            font-family: 'Absans Regular', sans-serif; /* Minimalist Body Font */
+            overflow: hidden; /* Prevent all scrolling */
+            font-family: 'Absans Regular', sans-serif;
+            background-image: radial-gradient(#d1d1b3 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
         }
 
         /* --- ENVELOPE --- */
+        #main-view {
+            transition: 0.6s ease-in-out;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
         .envelope-wrapper {
             position: relative; width: 280px; height: 180px;
-            background: #fff; border: 2px solid var(--brown);
-            box-shadow: 8px 8px 0px var(--brown);
-            cursor: pointer; transition: 0.4s; z-index: 10;
+            background: #fff; border: 2.5px solid var(--doodle-brown);
+            box-shadow: 6px 6px 0px var(--doodle-brown);
+            cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10;
         }
+        .envelope-wrapper:hover { transform: scale(1.03); box-shadow: 8px 8px 0px var(--doodle-brown); }
 
         .flap {
             position: absolute; top: 0; left: 0; width: 0; height: 0;
             border-left: 140px solid transparent; border-right: 140px solid transparent;
-            border-top: 90px solid #f9f9f9; 
-            transform-origin: top; z-index: 20; transition: 0.6s ease;
+            border-top: 90px solid #f0f0f0; /* Use a slightly darker off-white for contrast */
+            transform-origin: top; z-index: 20; transition: 0.6s ease-out;
         }
 
-        .hint {
-            position: absolute; top: -30px; width: 100%; text-align: center;
-            color: var(--pink); font-family: 'Harmond Bold'; font-size: 0.7rem;
-            letter-spacing: 2px;
+        .hint-text {
+            position: absolute; top: -35px; width: 100%; text-align: center;
+            color: var(--pink-accent); font-family: 'Harmond Bold'; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 2px;
+            animation: pulseHint 2s infinite;
         }
 
-        /* --- THE LETTER --- */
+        @keyframes pulseHint {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        /* --- THE LETTER OVERLAY --- */
         .letter-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); display: none; 
-            flex-direction: column; align-items: center; justify-content: center;
-            z-index: 100; padding: 20px; box-sizing: border-box;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 20px; box-sizing: border-box;
+            background: rgba(245, 245, 220, 0.6); /* Slightly more opaque background to isolate letter */
         }
 
+        /* --- THE LETTER PAPER --- */
         .letter-paper {
-            width: 100%; max-width: 350px; background: var(--paper);
-            padding: 40px 25px; border: 2px solid var(--brown);
-            box-shadow: 10px 10px 0px var(--pink);
+            width: 100%; max-width: 380px;
+            background: var(--paper-off-white);
+            padding: 40px 25px;
+            border-top: 2px solid var(--doodle-brown);
+            border-bottom: 2px solid var(--doodle-brown);
+            
+            /* Add Left and Right Borders for stationery definition */
+            border-left: 2px solid var(--doodle-brown);
+            border-right: 2px solid var(--doodle-brown);
+            
+            box-shadow: 10px 10px 0px var(--pink-accent);
+            position: relative; overflow-y: hidden;
+            opacity: 0; transform: translateY(20px);
+            transition: all 0.6s 0.3s ease-out;
         }
 
-        .dear { 
-            font-family: 'Harmond Bold'; font-size: 1.8rem; 
-            color: var(--pink); margin-bottom: 20px; 
+        /* Red Line Header (Aesthetic Touch) */
+        .letter-paper::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--pink-accent); z-index: 2;
         }
 
-        .message { 
-            font-family: 'Absans Regular', sans-serif; font-size: 1rem; 
-            color: var(--brown); line-height: 1.6; margin: 0;
-            text-align: left; letter-spacing: 0.3px;
-        }
+        /* Text Styling */
+        .dear { font-family: 'Harmond Bold'; font-size: 2rem; color: var(--pink-accent); margin-bottom: 15px; }
+        .message { font-family: 'Absans Regular', sans-serif; font-size: 1rem; color: var(--doodle-brown); line-height: 1.6; text-align: left; letter-spacing: 0.2px; margin: 0; }
+        .from { font-family: 'Harmond Bold'; font-size: 1.2rem; color: var(--pink-accent); text-align: right; margin-top: 35px; }
 
-        .from { 
-            font-family: 'Harmond Bold'; text-align: right; 
-            margin-top: 30px; font-size: 1.2rem; color: var(--pink); 
-        }
-
-        /* --- BUTTONS --- */
-        .controls {
-            margin-top: 40px; display: flex; gap: 20px; align-items: center;
+        /* --- UI CONTROLS --- */
+        .ui-controls {
+            margin-top: 40px; display: flex; gap: 20px; align-items: center; opacity: 0; transition: 0.6s 0.4s ease;
         }
 
         .btn-ui {
-            text-decoration: none; color: var(--brown); font-weight: bold;
-            font-size: 0.8rem; border-bottom: 2px solid var(--pink);
+            text-decoration: none; color: var(--doodle-brown); font-weight: bold;
+            font-size: 0.8rem; border-bottom: 2px solid var(--pink-accent);
             background: none; border-top: none; border-left: none; border-right: none;
-            cursor: pointer; padding: 5px 0; font-family: 'Absans Regular';
+            cursor: pointer; padding: 5px 0; font-family: 'Absans Regular', sans-serif;
+            text-transform: uppercase; letter-spacing: 1px;
         }
+        .btn-ui:active { transform: scale(0.95); opacity: 0.7; }
 
-        /* ANIMATION CLASSES */
+        /* ANIMATION STATES */
         .open-anim .flap { transform: rotateX(180deg); }
-        .open-anim .envelope-wrapper { transform: scale(0.8); opacity: 0; }
+        .open-anim #main-view { opacity: 0; pointer-events: none; }
+        .open-anim .letter-paper { opacity: 1; transform: translateY(0); }
+        .open-anim .ui-controls { opacity: 1; }
     </style>
 </head>
 <body>
 
     <div id="main-view">
-        <div class="hint">TAP TO OPEN</div>
+        <div class="hint-text">TAP TO OPEN</div>
         <div class="envelope-wrapper" onclick="openLetter()">
             <div class="flap"></div>
-            <div style="position:absolute; bottom:10px; right:10px; font-size:1.5rem;">💌</div>
+            <div style="position:absolute; bottom:12px; right:12px; font-size:1.6rem; color: var(--pink-accent);">❤️</div>
         </div>
     </div>
 
@@ -112,26 +140,27 @@
             <div class="from">— Forever yours</div>
         </div>
 
-        <div class="controls">
+        <div class="ui-controls">
             <button class="btn-ui" onclick="closeLetter()">✕ Close Letter</button>
             <a href="playlist.html" class="btn-ui">← Back to Music</a>
         </div>
     </div>
 
     <script>
+        const bodyEl = document.body;
+        const letterView = document.getElementById('letter-view');
+
         function openLetter() {
-            const main = document.getElementById('main-view');
-            main.classList.add('open-anim');
-            
+            bodyEl.classList.add('open-anim');
+            // Slight delay before enabling the letter full screen
             setTimeout(() => {
-                document.getElementById('letter-view').style.display = 'flex';
+                letterView.style.display = 'flex';
             }, 600);
         }
 
         function closeLetter() {
-            const main = document.getElementById('main-view');
-            main.classList.remove('open-anim');
-            document.getElementById('letter-view').style.display = 'none';
+            bodyEl.classList.remove('open-anim');
+            letterView.style.display = 'none';
         }
     </script>
 </body>
